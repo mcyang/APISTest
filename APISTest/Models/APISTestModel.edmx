@@ -44,6 +44,26 @@
           <Property Name="Callsite" Type="nvarchar(max)" />
           <Property Name="Exception" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="ProductGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RDR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RDRNumber" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CustomerTeamID" Type="smallint" Nullable="false" />
+          <Property Name="CustomerTeamCode" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Site" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Teams">
           <Key>
             <PropertyRef Name="ID" />
@@ -57,6 +77,8 @@
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerTeam" EntityType="Self.CustomerTeam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RDR" EntityType="Self.RDR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -88,6 +110,8 @@
           <EntitySet Name="Teams" EntityType="JohnTestModel.Team" />
           <EntitySet Name="CustomerTeams" EntityType="JohnTestModel.CustomerTeam" />
           <EntitySet Name="Customers" EntityType="JohnTestModel.Customer" />
+          <EntitySet Name="ProductGroups" EntityType="JohnTestModel.ProductGroup" />
+          <EntitySet Name="RDRs" EntityType="JohnTestModel.RDR" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -115,6 +139,26 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="ParentID" Type="Int16" Nullable="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RDR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RDRNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="CustomerTeamID" Type="Int16" Nullable="false" />
+          <Property Name="CustomerTeamCode" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Site" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
@@ -171,6 +215,28 @@
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductGroups">
+            <EntityTypeMapping TypeName="JohnTestModel.ProductGroup">
+              <MappingFragment StoreEntitySet="ProductGroup">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RDRs">
+            <EntityTypeMapping TypeName="JohnTestModel.RDR">
+              <MappingFragment StoreEntitySet="RDR">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="CustomerTeamCode" ColumnName="CustomerTeamCode" />
+                <ScalarProperty Name="CustomerTeamID" ColumnName="CustomerTeamID" />
+                <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

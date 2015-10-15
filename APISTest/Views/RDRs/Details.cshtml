@@ -1,0 +1,58 @@
+﻿@model APISTest.Models.RDR
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RDR</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RDRNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RDRNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerTeamID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerTeamID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerTeamCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerTeamCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Site)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDelete)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using APISTest.Models;
+using APISTest.ViewModels;
 
 namespace APISTest.Controllers
 {
@@ -17,9 +18,25 @@ namespace APISTest.Controllers
         private const int pageSize = 10; // 設定分頁一頁10筆資料
 
         // GET: Customers
-        public ActionResult Index(int? page)
+        public ActionResult Index()
         {
-            return View();
+            //int currentPage = page ?? 1; //當前頁
+
+            var data = from cs in db.Customers
+                       join cst in db.CustomerTeams
+                       on cs.ParentID equals cst.ID
+                       orderby cs.ID
+                       select new CustomerViewModel
+                       {
+                           ID = cs.ID,
+                           Code = cs.Code,
+                           Name = cs.Name,
+                           CustomerTeamID = cst.ID,
+                           CustomerTeamCode = cst.Code,
+                           IsDelete = cs.IsDelete
+                       };//db.Customers.OrderBy(m => m.ID); //作分頁前一定要先 OrderBy
+            //var result = data.ToPagedList(currentPage, pageSize);
+            return View(data);
         }
 
         /// <summary>
@@ -30,8 +47,20 @@ namespace APISTest.Controllers
         public ActionResult PagedPartial(int?page)
         {
             int currentPage = page ?? 1; //當前頁
-            //作分頁前一定要先 OrderBy
-            var data = db.Customers.OrderBy(m => m.ID);
+            
+            var data = from cs in db.Customers
+                       join cst in db.CustomerTeams
+                       on cs.ParentID equals cst.ID
+                       orderby cs.ID
+                       select new CustomerViewModel
+                       {
+                           ID = cs.ID,
+                           Code = cs.Code,
+                           Name = cs.Name,
+                           CustomerTeamID = cst.ID,
+                           CustomerTeamCode = cst.Code,
+                           IsDelete = cs.IsDelete
+                       };//db.Customers.OrderBy(m => m.ID); //作分頁前一定要先 OrderBy
             var result = data.ToPagedList(currentPage, pageSize);
             ViewData.Model = result;
 
@@ -57,6 +86,18 @@ namespace APISTest.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
+            List<SelectListItem> list = new List<SelectListItem>(); //建立下拉選單
+
+            foreach (var item in db.CustomerTeams.Where(p => p.IsDelete == false))
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = item.Code,
+                    Value = item.ID.ToString()
+                });
+            }
+
+            ViewData["TeamList"] = list;
             return View();
         }
 
@@ -65,16 +106,27 @@ namespace APISTest.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Code,Name,ParentID,IsDelete")] Customer customer)
+        public ActionResult Create(FormCollection fc)
         {
             if (ModelState.IsValid)
             {
+                Customer customer = new Customer();
+                short teamID = 0;
+                short.TryParse(fc["TeamList"], out teamID);
+
+                bool isDel = false;
+                bool.TryParse(fc["IsDelete"], out isDel);
+
+                customer.Code = fc["Code"];
+                customer.Name = fc["Name"];
+                customer.ParentID = teamID;
+                customer.IsDelete = isDel;
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(customer);
+            return View();
         }
 
         // GET: Customers/Edit/5
@@ -91,6 +143,19 @@ namespace APISTest.Controllers
                 return HttpNotFound();
             }
 
+            List<SelectListItem> list = new List<SelectListItem>(); //建立下拉選單
+
+            foreach (var item in db.CustomerTeams.Where(p => p.IsDelete == false))
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = item.Code,
+                    Value = item.ID.ToString()
+                });
+            }
+
+            ViewData["TeamList"] = list;
+
             return View(customer);
         }
 
@@ -99,15 +164,28 @@ namespace APISTest.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Code,Name,ParentID,IsDelete")] Customer customer)
+        public ActionResult Edit(int id, FormCollection fc)
         {
+            Customer customer = db.Customers.Find(id);
             if (ModelState.IsValid)
             {
+                short teamID = 0;
+                short.TryParse(fc["TeamList"], out teamID);
+
+                bool isDel = false;
+                string str = fc["IsDelete"];
+                bool.TryParse(fc["IsDelete"], out isDel);
+
+                customer.Code = fc["Code"];
+                customer.Name = fc["Name"];
+                customer.ParentID = teamID;
+                customer.IsDelete = isDel;
+
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+            return View("Edit", customer);
         }
 
         // GET: Customers/Delete/5

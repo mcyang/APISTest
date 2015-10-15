@@ -1,11 +1,11 @@
 ﻿@using PagedList
 @using PagedList.Mvc
-@model IPagedList<APISTest.Models.Customer>
-@*@model IEnumerable<APISTest.Models.Customer>*@
+@model IEnumerable<APISTest.ViewModels.CustomerViewModel>
+@*@model IPagedList<APISTest.ViewModels.CustomerViewModel>*@
 
-@section styles{
+@*@section styles{
     <link href="~/Content/PagedList.css" rel="stylesheet" />
-}
+}*@
 
 @{
     ViewBag.Title = "Index";
@@ -17,11 +17,58 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-<div id="CustomerData">
 
-</div>
+<table class="table">
+    <tr>
+        <th>
+            客戶代碼
+            @*@Html.DisplayNameFor(model => model.First().Code)*@
+        </th>
+        <th>
+            客戶名稱
+            @*@Html.DisplayNameFor(model => model.First().Name)*@
+        </th>
+        <th>
+            客戶群
+            @*@Html.DisplayNameFor(model => model.First().ParentID)*@
+        </th>
+        <th>
+            是否刪除
+            @*@Html.DisplayNameFor(model => model.First().IsDelete)*@
+        </th>
+        <th></th>
+    </tr>
 
-@section scripts{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerTeamCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDelete)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*<div id="CustomerData">
+
+</div>*@
+
+@*@section scripts{
     <script type="text/javascript">
 
         $( function () {
@@ -53,4 +100,4 @@
         }
 
     </script>
-}
+}*@

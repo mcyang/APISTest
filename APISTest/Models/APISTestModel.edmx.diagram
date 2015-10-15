@@ -5,10 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5dbdae19a78c4376a3c47503c487c49c" Name="Diagram1">
-        <EntityTypeShape EntityType="JohnTestModel.Log" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JohnTestModel.Team" Width="1.5" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="JohnTestModel.CustomerTeam" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="JohnTestModel.Customer" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="JohnTestModel.Log" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JohnTestModel.Team" Width="1.5" PointX="5.625" PointY="0.75" />
+        <EntityTypeShape EntityType="JohnTestModel.CustomerTeam" Width="1.5" PointX="2.25" PointY="0.75" />
+        <EntityTypeShape EntityType="JohnTestModel.Customer" Width="1.5" PointX="4" PointY="0.75" />
+        <EntityTypeShape EntityType="JohnTestModel.ProductGroup" Width="1.5" PointX="3.75" PointY="3.75" />
+        <EntityTypeShape EntityType="JohnTestModel.RDR" Width="1.5" PointX="0.75" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

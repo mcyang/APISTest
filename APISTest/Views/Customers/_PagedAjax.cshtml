@@ -1,7 +1,7 @@
 ﻿
 @using PagedList
 @using PagedList.Mvc
-@model IPagedList<APISTest.Models.Customer>
+@model IPagedList<APISTest.ViewModels.CustomerViewModel>
 
 @section styles{
     <link href="~/Content/PagedList.css" rel="stylesheet" />
@@ -10,17 +10,17 @@
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Code)
+        <th>客戶代碼
+            @*@Html.DisplayNameFor(model => model.First().Code)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Name)
+        <th>客戶名稱
+            @*@Html.DisplayNameFor(model => model.First().Name)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().ParentID)
+        <th>客戶群
+            @*@Html.DisplayNameFor(model => model.First().ParentID)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().IsDelete)
+        <th>是否刪除
+            @*@Html.DisplayNameFor(model => model.First().IsDelete)*@
         </th>
         <th></th>
     </tr>
