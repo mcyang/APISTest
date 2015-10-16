@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using APISTest.Models;
+using APISTest.ViewModels;
 
 namespace APISTest.Controllers
 {
@@ -82,7 +83,7 @@ namespace APISTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customerTeam).State = EntityState.Modified;
+                db.Entry(customerTeam).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

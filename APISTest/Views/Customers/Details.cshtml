@@ -1,4 +1,4 @@
-﻿@model APISTest.Models.Customer
+﻿@model APISTest.ViewModels.CustomerViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,40 +11,40 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Code)
+            @Html.DisplayNameFor(model => model.customer.Code)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Code)
+            @Html.DisplayFor(model => model.customer.Code)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.customer.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.customer.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ParentID)
+            客戶群
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ParentID)
+            @Html.DisplayFor(model => model.CustomerTeamCode)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsDelete)
+            @Html.DisplayNameFor(model => model.customer.IsDelete)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsDelete)
+            @Html.DisplayFor(model => model.customer.IsDelete)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.customer.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

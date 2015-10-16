@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -192,6 +193,7 @@
     <Compile Include="Areas\Backstage\BackstageAreaRegistration.cs" />
     <Compile Include="Areas\Backstage\Controllers\TestController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerTeamsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -243,7 +245,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tools\EntityTool.cs" />
     <Compile Include="Tools\EnumMapTool.cs" />
+    <Compile Include="ViewModels\RDRViewModel.cs" />
+    <Compile Include="ViewModels\_SortModel.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -360,6 +365,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Backstage\Models\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

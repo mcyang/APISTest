@@ -4,29 +4,29 @@
     ViewBag.Title = "Index";
 }
 
-<h2>RDR表單/Index</h2>
+<h2>RDR管理/Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.RDRNumber)
+        <th>RDR#
+            @*@Html.DisplayNameFor(model => model.RDRNumber)*@
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.CustomerTeamID)
+        </th>*@
+        <th>客戶群
+            @*@Html.DisplayNameFor(model => model.CustomerTeamCode)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerTeamCode)
+        <th>量產地
+            @*@Html.DisplayNameFor(model => model.Site)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Site)
+        <th>是否刪除
+            @*@Html.DisplayNameFor(model => model.IsDelete)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDelete)
-        </th>
-        <th></th>
+        <th>Operation</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -34,9 +34,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.RDRNumber)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.CustomerTeamID)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.CustomerTeamCode)
         </td>

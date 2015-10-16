@@ -43,21 +43,21 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Code)
+                @Html.DisplayFor(modelItem => item.customer.Code)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.customer.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerTeamCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsDelete)
+                @Html.DisplayFor(modelItem => item.customer.IsDelete)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.customer.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.customer.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.customer.ID })
             </td>
         </tr>
     }

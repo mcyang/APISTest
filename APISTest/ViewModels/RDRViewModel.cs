@@ -6,9 +6,9 @@ using APISTest.Models;
 
 namespace APISTest.ViewModels
 {
-    public class CustomerViewModel
+    public class RDRViewModel
     {
-        public Customer  customer {get;set;}
+        public RDR  rdr {get;set;}
         public string CustomerTeamCode { get; set; }
     }
 }

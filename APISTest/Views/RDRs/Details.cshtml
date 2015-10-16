@@ -4,53 +4,102 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>RDR管理/Details</h2>
 
 <div>
     <h4>RDR</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.RDRNumber)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.RDRNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerTeamID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CustomerTeamID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerTeamCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CustomerTeamCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Site)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Site)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDelete)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDelete)
-        </dd>
-
-    </dl>
+    <table class="table-bordered">
+        <tr>
+            <td colspan="6">專案基本資料(<span style="color:red">*欄位必填)</span></td>
+        </tr>
+        <tr>
+            <th class="col-md-2">RDR#</th>
+            <td class="col-md-3">@Html.DisplayFor(model => model.RDRNumber)</td>
+            <th class="col-md-2">客戶群</th>
+            <td class="col-md-3">@Html.DisplayFor(model => model.CustomerTeamCode)</td>
+            <th class="col-md-2">客戶名稱</th>
+            <td class="col-md-3"></td>
+        </tr>
+        <tr>
+            <th>LOB</th>
+            <td></td>
+            <th>量產地</th>
+            <td>@Html.DisplayFor(model => model.Site)</td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>車廠</th>
+            <td></td>
+            <th>車型</th>
+            <td></td>
+            <th>車型預估年銷售量</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>RFQ Date</th>
+            <td></td>
+            <th>報價需求日</th>
+            <td></td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>SOP Date</th>
+            <td></td>
+            <th>EOL Date</th>
+            <td></td>
+            <th>把握度</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>報價類型</th>
+            <td></td>
+            <th>報價方式</th>
+            <td></td>
+            <th>報價貨幣</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>專案名稱</th>
+            <td></td>
+            <th>Module</th>
+            <td></td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>預估年營業額</th>
+            <td></td>
+            <th></th>
+            <td></td>
+            <th></th>
+            <td></td>
+        </tr>
+    </table>
+    <br />
+    @*Module Details 的 Table , 可以考慮移到 partialView 那邊顯示，因為關係到動態生成表格展示*@
+    <table class="table-bordered">
+        <tr>
+            <td colspan="5">Module Details</td>
+            <td colspan="3">預估年產量</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <th></th>
+            <th>RDR#</th>
+            <th>Module</th>
+            <th>產品別</th>
+            <th>交貨地</th>
+            <th>2016</th>
+            <th>2017</th>
+            <th>2018</th>
+            <th>附件</th>
+            <th>備註</th>
+        </tr>
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |

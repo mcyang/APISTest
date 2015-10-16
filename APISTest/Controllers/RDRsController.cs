@@ -14,12 +14,15 @@ namespace APISTest.Controllers
     {
         private JohnTestEntities db = new JohnTestEntities();
 
+        #region 列表頁
         // GET: RDRs
         public ActionResult Index()
         {
             return View(db.RDRs.ToList());
         }
+        #endregion
 
+        #region 明細頁
         // GET: RDRs/Details/5
         public ActionResult Details(int? id)
         {
@@ -34,7 +37,9 @@ namespace APISTest.Controllers
             }
             return View(rDR);
         }
+        #endregion
 
+        #region 新增頁
         // GET: RDRs/Create
         public ActionResult Create()
         {
@@ -57,7 +62,9 @@ namespace APISTest.Controllers
 
             return View(rDR);
         }
+        #endregion
 
+        #region 編輯頁
         // GET: RDRs/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -82,13 +89,15 @@ namespace APISTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(rDR).State = EntityState.Modified;
+                db.Entry(rDR).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(rDR);
         }
+        #endregion
 
+        #region 刪除頁
         // GET: RDRs/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -114,7 +123,9 @@ namespace APISTest.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        #endregion
 
+        #region 回收連線資源
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -122,6 +133,7 @@ namespace APISTest.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+        #endregion
     }
 }

@@ -14,12 +14,16 @@ namespace APISTest.Controllers
     {
         private JohnTestEntities db = new JohnTestEntities();
 
+        #region 列表頁
         // GET: ProductGroups
         public ActionResult Index()
         {
             return View(db.ProductGroups.ToList());
         }
+        #endregion
 
+
+        #region 明細頁
         // GET: ProductGroups/Details/5
         public ActionResult Details(short? id)
         {
@@ -34,12 +38,15 @@ namespace APISTest.Controllers
             }
             return View(productGroup);
         }
+        #endregion
 
+
+        #region 新增頁
         // GET: ProductGroups/Create
         public ActionResult Create()
         {
             return View();
-        }
+        } 
 
         // POST: ProductGroups/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
@@ -57,7 +64,10 @@ namespace APISTest.Controllers
 
             return View(productGroup);
         }
+        #endregion
 
+
+        #region 編輯頁
         // GET: ProductGroups/Edit/5
         public ActionResult Edit(short? id)
         {
@@ -82,13 +92,16 @@ namespace APISTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(productGroup).State = EntityState.Modified;
+                db.Entry(productGroup).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(productGroup);
         }
+        #endregion
 
+
+        #region 刪除頁
         // GET: ProductGroups/Delete/5
         public ActionResult Delete(short? id)
         {
@@ -114,7 +127,9 @@ namespace APISTest.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        #endregion
 
+        #region 回收連線資源
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -122,6 +137,7 @@ namespace APISTest.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+        #endregion
     }
 }
