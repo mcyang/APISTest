@@ -20,5 +20,20 @@ namespace APISTest.Models
         public string CustomerTeamCode { get; set; }
         public string Site { get; set; }
         public bool IsDelete { get; set; }
+        public Nullable<int> CarMakerID { get; set; }
+        public string CarModel { get; set; }
+        public Nullable<int> EstimateSales { get; set; }
+        public Nullable<int> LOBID { get; set; }
+        public Nullable<System.DateTime> RFQDate { get; set; }
+        public Nullable<System.DateTime> AcquisitionDate { get; set; }
+        public Nullable<System.DateTime> SOPDate { get; set; }
+        public Nullable<System.DateTime> EOLDate { get; set; }
+        public string Certainty { get; set; }
+        public string RequestType { get; set; }
+        public string RequestClass { get; set; }
+        public string Currency { get; set; }
+        public string ProjectName { get; set; }
+        public string ModuleName { get; set; }
+        public Nullable<int> EstimateRevenue { get; set; }
     }
 }

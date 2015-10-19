@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="JohnTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarMaker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -63,6 +71,21 @@
           <Property Name="CustomerTeamCode" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="Site" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CarMakerID" Type="int" />
+          <Property Name="CarModel" Type="nvarchar" MaxLength="20" />
+          <Property Name="EstimateSales" Type="int" />
+          <Property Name="LOBID" Type="int" />
+          <Property Name="RFQDate" Type="datetime" />
+          <Property Name="AcquisitionDate" Type="datetime" />
+          <Property Name="SOPDate" Type="datetime" />
+          <Property Name="EOLDate" Type="datetime" />
+          <Property Name="Certainty" Type="char" MaxLength="1" />
+          <Property Name="RequestType" Type="varchar" MaxLength="10" />
+          <Property Name="RequestClass" Type="nchar" MaxLength="5" />
+          <Property Name="Currency" Type="varchar" MaxLength="5" />
+          <Property Name="ProjectName" Type="varchar" MaxLength="20" />
+          <Property Name="ModuleName" Type="varchar" MaxLength="50" />
+          <Property Name="EstimateRevenue" Type="int" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -74,6 +97,7 @@
           <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityContainer Name="JohnTestModelStoreContainer">
+          <EntitySet Name="CarMaker" EntityType="Self.CarMaker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerTeam" EntityType="Self.CustomerTeam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
@@ -112,6 +136,7 @@
           <EntitySet Name="Customers" EntityType="JohnTestModel.Customer" />
           <EntitySet Name="ProductGroups" EntityType="JohnTestModel.ProductGroup" />
           <EntitySet Name="RDRs" EntityType="JohnTestModel.RDR" />
+          <EntitySet Name="CarMakers" EntityType="JohnTestModel.CarMaker" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -159,6 +184,29 @@
           <Property Name="CustomerTeamID" Type="Int16" Nullable="false" />
           <Property Name="CustomerTeamCode" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Name="Site" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CarMakerID" Type="Int32" />
+          <Property Name="CarModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EstimateSales" Type="Int32" />
+          <Property Name="LOBID" Type="Int32" />
+          <Property Name="RFQDate" Type="DateTime" Precision="3" />
+          <Property Name="AcquisitionDate" Type="DateTime" Precision="3" />
+          <Property Name="SOPDate" Type="DateTime" Precision="3" />
+          <Property Name="EOLDate" Type="DateTime" Precision="3" />
+          <Property Name="Certainty" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RequestType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RequestClass" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstimateRevenue" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CarMaker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
@@ -232,11 +280,35 @@
           <EntitySetMapping Name="RDRs">
             <EntityTypeMapping TypeName="JohnTestModel.RDR">
               <MappingFragment StoreEntitySet="RDR">
+                <ScalarProperty Name="EstimateRevenue" ColumnName="EstimateRevenue" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="RequestClass" ColumnName="RequestClass" />
+                <ScalarProperty Name="RequestType" ColumnName="RequestType" />
+                <ScalarProperty Name="Certainty" ColumnName="Certainty" />
+                <ScalarProperty Name="EOLDate" ColumnName="EOLDate" />
+                <ScalarProperty Name="SOPDate" ColumnName="SOPDate" />
+                <ScalarProperty Name="AcquisitionDate" ColumnName="AcquisitionDate" />
+                <ScalarProperty Name="RFQDate" ColumnName="RFQDate" />
+                <ScalarProperty Name="LOBID" ColumnName="LOBID" />
+                <ScalarProperty Name="EstimateSales" ColumnName="EstimateSales" />
+                <ScalarProperty Name="CarModel" ColumnName="CarModel" />
+                <ScalarProperty Name="CarMakerID" ColumnName="CarMakerID" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Site" ColumnName="Site" />
                 <ScalarProperty Name="CustomerTeamCode" ColumnName="CustomerTeamCode" />
                 <ScalarProperty Name="CustomerTeamID" ColumnName="CustomerTeamID" />
                 <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarMakers">
+            <EntityTypeMapping TypeName="JohnTestModel.CarMaker">
+              <MappingFragment StoreEntitySet="CarMaker">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -194,6 +194,7 @@
     <Compile Include="Areas\Backstage\Controllers\TestController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CarMakersController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerTeamsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -221,6 +222,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>APISTestModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarMaker.cs">
+      <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Customer.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
@@ -361,6 +365,10 @@
     <Content Include="Views\RDRs\Details.cshtml" />
     <Content Include="Views\RDRs\Edit.cshtml" />
     <Content Include="Views\RDRs\Index.cshtml" />
+    <Content Include="Views\CarMakers\Create.cshtml" />
+    <Content Include="Views\CarMakers\Delete.cshtml" />
+    <Content Include="Views\CarMakers\Details.cshtml" />
+    <Content Include="Views\CarMakers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

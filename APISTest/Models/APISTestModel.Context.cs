@@ -31,5 +31,6 @@ namespace APISTest.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<ProductGroup> ProductGroups { get; set; }
         public virtual DbSet<RDR> RDRs { get; set; }
+        public virtual DbSet<CarMaker> CarMakers { get; set; }
     }
 }
