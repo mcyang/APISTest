@@ -1,4 +1,5 @@
 ﻿@model APISTest.Models.RDR
+@using APISTest.Helpers
 
 @{
     ViewBag.Title = "Edit";
@@ -9,61 +10,100 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>RDR</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RDRNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RDRNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RDRNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerTeamID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerTeamID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerTeamID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerTeamCode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerTeamCode, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerTeamCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDelete, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDelete)
-                    @Html.ValidationMessageFor(model => model.IsDelete, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+    <table class="table table-hover">
+        <tr>
+            <td colspan="6">專案基本資料(<span style="color:red">*欄位必填)</span></td>
+        </tr>
+        <tr>
+            <th class="col-md-2">RDR#</th>
+            <td class="col-md-3">@Html.DisplayFor(model => model.RDRNumber)</td>
+            <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
+            <td class="col-md-3">@Html.DDL_CustomerTeam("CustomerTeamList", Model.CustomerTeamID)</td>
+            <th class="col-md-2"></th>
+            <td class="col-md-3"></td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>LOB</th>
+            <td class="col-md-3">@Html.DisplayFor(model => model.LOBID)</td>
+            <th class="col-md-2"><span style="color:red">*</span>量產地</th>
+            <td class="col-md-3">@(Html.DDL_FromEnum<APISTest.Models.SiteType>("SiteList",Model.Site,false))</td>
+            <th class="col-md-2"></th>
+            <td class="col-md-3"></td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>車廠</th>
+            <td class="col-md-3">@Html.DDL_CarMaker("CarMakerList", Model.CarMakerID)</td>
+            <th class="col-md-2"><span style="color:red">*</span>車型</th>
+            <td class="col-md-3">@Html.TextBoxFor(model => model.CarModel)</td>
+            <th class="col-md-2"><span style="color:red">*</span>車型預估年銷售量</th>
+            <td class="col-md-3">@Html.TextBoxFor(model => model.EstimateSales)</td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>RFQ Date</th>
+            <td class="col-md-3">
+                @Html.EditorFor(model => model.RFQDate, new
+           {
+               htmlAttributes = new
+               {
+                   @Value = Model.RFQDate.Value.ToString("yyyy/MM/dd"),
+                   @class = "form-control"
+               }
+           })
+            </td>
+            <th class="col-md-2"><span style="color:red">*</span>報價需求日</th>
+            <td class="col-md-3">
+                @Html.EditorFor(model => model.AcquisitionDate, new
+       {
+           htmlAttributes = new
+           {
+               @Value = Model.AcquisitionDate.Value.ToString("yyyy/MM/dd"),
+               @class = "form-control"
+           }
+       })
+            </td>
+            <th class="col-md-2"></th>
+            <td class="col-md-3"></td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>SOP Date</th>
+            <td class="col-md-3">@Html.TextBox("SOPDate", string.Format("{0:yyyy/MM}", Model.SOPDate))</td>
+            <th class="col-md-2"><span style="color:red">*</span>EOL Date</th>
+            <td class="col-md-3">@Html.TextBox("EOLDate", string.Format("{0:yyyy/MM}", Model.EOLDate))</td>
+            <th class="col-md-2"><span style="color:red">*</span>把握度</th>
+            <td class="col-md-3">@(Html.DDL_FromEnum<APISTest.Models.CertaintyType>("CertaintyList", Model.Certainty, false))</td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>報價類型</th>
+            <td class="col-md-3">
+                @(Html.DDL_FromEnum<APISTest.Models.QuotationType>("QuotationList",Model.RequestClass, false))
+            </td>
+            <th class="col-md-2"><span style="color:red">*</span>報價方式</th>
+            <td class="col-md-3">@Html.DisplayFor(model => model.RequestType)</td>
+            <th class="col-md-2"><span style="color:red">*</span>報價貨幣</th>
+            <td class="col-md-3">
+                @(Html.DDL_FromEnum<APISTest.Models.CurrencyType>("CurrencyList","",false))
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
+            <td class="col-md-3">@Html.TextBoxFor(model => model.ProjectName)</td>
+            <th class="col-md-2"><span style="color:red">*</span>Module</th>
+            <td class="col-md-3">
+                <input type="button" class="btn btn-primary" id="ModuleBtn" name="ModuleBtn" title="Add Module" value="Add Module" />
+            </td>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>預估年營業額</th>
+            <td class="col-md-3"></td>
+            <th></th>
+            <td></td>
+            <th></th>
+            <td></td>
+        </tr>
+    </table>
 }
 
 <div>
