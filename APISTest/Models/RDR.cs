@@ -34,6 +34,6 @@ namespace APISTest.Models
         public string Currency { get; set; }
         public string ProjectName { get; set; }
         public string ModuleName { get; set; }
-        public Nullable<int> EstimateRevenue { get; set; }
+        public string EstimateRevenue { get; set; }
     }
 }

@@ -4,8 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Text;
+using System.Web.Routing;
 using APISTest.Models;
 using APISTest.Tools;
+using APISTest.Unity;
 
 namespace APISTest.Helpers
 {
@@ -45,7 +48,7 @@ namespace APISTest.Helpers
                     {
                         Text = desc,
                         Value = Convert.ToInt32(item).ToString(),
-                        Selected = selected.Split(',').Contains(Convert.ToInt32(item).ToString())
+                        Selected = selected == desc //.Split(',').Contains(Convert.ToInt32(item).ToString())
                     });
                 }
             }
@@ -64,6 +67,13 @@ namespace APISTest.Helpers
         /// <returns></returns>
         public static IHtmlString DDL_CustomerTeam(this HtmlHelper helper, string Name, int selected, bool hasAllSelection = false, object htmlAttribute = null)
         {
+            #region 錯誤訊息
+            if (String.IsNullOrEmpty(Name))
+            {
+                throw new ArgumentException("必須給這個下拉選單 DDL_CustomerTeam 一個 Tag Name", "Name");
+            } 
+            #endregion
+
             List<SelectListItem> list = new List<SelectListItem>(); //建立下拉選單
 
             if (hasAllSelection)
@@ -97,6 +107,13 @@ namespace APISTest.Helpers
         /// <returns></returns>
         public static IHtmlString DDL_CarMaker(this HtmlHelper helper, string Name, int? selected, bool hasAllSelection = false, object htmlAttribute = null)
         {
+            #region 錯誤訊息
+            if (String.IsNullOrEmpty(Name))
+            {
+                throw new ArgumentException("必須給這個下拉選單 DDL_CarMaker 一個Tag Name", "Name");
+            }
+            #endregion
+
             //建立下拉選單
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -119,5 +136,29 @@ namespace APISTest.Helpers
             }
             return helper.DropDownList(Name, list, htmlAttribute);
         }
+
+       
+        private static IHtmlString CheckBoxList(HtmlHelper helper, List<SelectListItem> list, string Name, string selected, object htmlAttribute = null)
+        {
+            string attributeList = htmlAttribute.ToAttributeList();
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var i in list)
+            {
+                sb.AppendFormat("<input name=\"{0}\" value=\"{1}\" {2} type=\"checkbox\" {4}/>{3} &nbsp",
+                Name,
+                i.Value,
+                selected.Contains(i.Value) ? "checked=\"checked\"" : "",
+                string.Format("<span>{0}</span>", i.Text),
+                attributeList);
+
+                sb.AppendLine();
+            }
+
+            return new HtmlString(sb.ToString());
+        }
     }
+
+    
 }

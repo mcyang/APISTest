@@ -69,7 +69,7 @@
           <Property Name="RDRNumber" Type="char" MaxLength="20" Nullable="false" />
           <Property Name="CustomerTeamID" Type="smallint" Nullable="false" />
           <Property Name="CustomerTeamCode" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="Site" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Site" Type="varchar" MaxLength="10" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
           <Property Name="CarMakerID" Type="int" />
           <Property Name="CarModel" Type="nvarchar" MaxLength="20" />
@@ -85,7 +85,7 @@
           <Property Name="Currency" Type="varchar" MaxLength="5" />
           <Property Name="ProjectName" Type="varchar" MaxLength="20" />
           <Property Name="ModuleName" Type="varchar" MaxLength="50" />
-          <Property Name="EstimateRevenue" Type="int" />
+          <Property Name="EstimateRevenue" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -135,8 +135,8 @@
           <EntitySet Name="CustomerTeams" EntityType="JohnTestModel.CustomerTeam" />
           <EntitySet Name="Customers" EntityType="JohnTestModel.Customer" />
           <EntitySet Name="ProductGroups" EntityType="JohnTestModel.ProductGroup" />
-          <EntitySet Name="RDRs" EntityType="JohnTestModel.RDR" />
           <EntitySet Name="CarMakers" EntityType="JohnTestModel.CarMaker" />
+          <EntitySet Name="RDRs" EntityType="JohnTestModel.RDR" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -175,6 +175,14 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="CarMaker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="RDR">
           <Key>
             <PropertyRef Name="ID" />
@@ -183,7 +191,7 @@
           <Property Name="RDRNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
           <Property Name="CustomerTeamID" Type="Int16" Nullable="false" />
           <Property Name="CustomerTeamCode" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Site" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Site" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
           <Property Name="CarMakerID" Type="Int32" />
           <Property Name="CarModel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -199,15 +207,7 @@
           <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="ProjectName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstimateRevenue" Type="Int32" />
-        </EntityType>
-        <EntityType Name="CarMaker">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="EstimateRevenue" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -277,6 +277,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CarMakers">
+            <EntityTypeMapping TypeName="JohnTestModel.CarMaker">
+              <MappingFragment StoreEntitySet="CarMaker">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RDRs">
             <EntityTypeMapping TypeName="JohnTestModel.RDR">
               <MappingFragment StoreEntitySet="RDR">
@@ -300,15 +309,6 @@
                 <ScalarProperty Name="CustomerTeamCode" ColumnName="CustomerTeamCode" />
                 <ScalarProperty Name="CustomerTeamID" ColumnName="CustomerTeamID" />
                 <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CarMakers">
-            <EntityTypeMapping TypeName="JohnTestModel.CarMaker">
-              <MappingFragment StoreEntitySet="CarMaker">
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

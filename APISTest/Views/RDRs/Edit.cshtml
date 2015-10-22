@@ -27,7 +27,7 @@
             <th class="col-md-2"><span style="color:red">*</span>LOB</th>
             <td class="col-md-3">@Html.DisplayFor(model => model.LOBID)</td>
             <th class="col-md-2"><span style="color:red">*</span>量產地</th>
-            <td class="col-md-3">@(Html.DDL_FromEnum<APISTest.Models.SiteType>("SiteList",Model.Site,false))</td>
+            <td class="col-md-3">@(Html.DDL_FromEnum<EnumSite>("EnumSiteList",Model.Site, false))</td>
             <th class="col-md-2"></th>
             <td class="col-md-3"></td>
         </tr>
@@ -37,7 +37,9 @@
             <th class="col-md-2"><span style="color:red">*</span>車型</th>
             <td class="col-md-3">@Html.TextBoxFor(model => model.CarModel)</td>
             <th class="col-md-2"><span style="color:red">*</span>車型預估年銷售量</th>
-            <td class="col-md-3">@Html.TextBoxFor(model => model.EstimateSales)</td>
+            <td class="col-md-3">
+            @Html.TextBoxFor(model => model.EstimateSales)
+            </td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>RFQ Date</th>
@@ -71,18 +73,18 @@
             <th class="col-md-2"><span style="color:red">*</span>EOL Date</th>
             <td class="col-md-3">@Html.TextBox("EOLDate", string.Format("{0:yyyy/MM}", Model.EOLDate))</td>
             <th class="col-md-2"><span style="color:red">*</span>把握度</th>
-            <td class="col-md-3">@(Html.DDL_FromEnum<APISTest.Models.CertaintyType>("CertaintyList", Model.Certainty, false))</td>
+            <td class="col-md-3">@(Html.DDL_FromEnum<EnumCertainty>("EnumCertaintyList", Model.Certainty, false))</td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>報價類型</th>
             <td class="col-md-3">
-                @(Html.DDL_FromEnum<APISTest.Models.QuotationType>("QuotationList",Model.RequestClass, false))
+                @(Html.DDL_FromEnum<EnumQuotation>("EnumQuotationList", Model.RequestClass, false))
             </td>
             <th class="col-md-2"><span style="color:red">*</span>報價方式</th>
             <td class="col-md-3">@Html.DisplayFor(model => model.RequestType)</td>
             <th class="col-md-2"><span style="color:red">*</span>報價貨幣</th>
             <td class="col-md-3">
-                @(Html.DDL_FromEnum<APISTest.Models.CurrencyType>("CurrencyList","",false))
+                @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.Currency, false))
             </td>
         </tr>
         <tr>
@@ -97,7 +99,13 @@
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>預估年營業額</th>
-            <td class="col-md-3"></td>
+            <td class="col-md-3" colspan="5">
+                @* 這段還不夠好，最好自訂一個 RadioButtonList 來放，並搭配 Enum 使用 *@
+                @Html.RadioButtonFor(model => model.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
+                @Html.RadioButtonFor(model => model.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
+                @Html.RadioButtonFor(model => model.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
+                @Html.RadioButtonFor(model => model.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
+            </td>
             <th></th>
             <td></td>
             <th></th>

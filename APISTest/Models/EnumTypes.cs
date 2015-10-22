@@ -5,7 +5,7 @@ namespace APISTest.Models
     /// <summary>
     /// 客戶群
     /// </summary>
-    public enum CustomerTeamType
+    public enum EnumCustomerTeam
     {
         /// <summary>AL</summary>
         [Description("AL")]
@@ -31,7 +31,7 @@ namespace APISTest.Models
     /// <summary>
     /// 幣別
     /// </summary>
-    public enum CurrencyType
+    public enum EnumCurrency
     {
         /// <summary>NTD</summary>
         [Description("NTD")]
@@ -45,7 +45,7 @@ namespace APISTest.Models
     /// <summary>
     /// 量產地
     /// </summary>
-    public enum SiteType
+    public enum EnumSite
     {
         /// <summary>高雄LAK</summary>
         [Description("LAK")]
@@ -63,7 +63,7 @@ namespace APISTest.Models
     /// <summary>
     /// 報價類型
     /// </summary>
-    public enum QuotationType
+    public enum EnumQuotation
     {
         /// <summary>正式RFQ</summary>
         [Description("正式RFQ")]
@@ -77,7 +77,7 @@ namespace APISTest.Models
     /// <summary>
     /// 把握度
     /// </summary>
-    public enum CertaintyType
+    public enum EnumCertainty
     {
         /// <summary>H</summary>
         [Description("H")]
@@ -91,4 +91,27 @@ namespace APISTest.Models
         [Description("L")]
         L = 3,
     }
+
+    /// <summary>
+    /// 車型預估年銷售量
+    /// </summary>
+    public enum EnumEstimateRevenue
+    {
+        /// <summary>小於2千萬</summary>
+        [Description("小於2千萬")]
+        Less2K = 1,
+
+        /// <summary>2-5千萬</summary>
+        [Description("2-5千萬")]
+        Between2K5K = 2,
+
+        /// <summary>5千萬-1億</summary>
+        [Description("5千萬-1億")]
+        Between5K1E = 3,
+
+        /// <summary>1億以上</summary>
+        [Description("1億以上")]
+        More1E = 4,
+    }
+    
 }

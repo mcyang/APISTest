@@ -77,6 +77,25 @@ namespace APISTest.Controllers
             {
                 return HttpNotFound();
             }
+
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (Enum item in Enum.GetValues(typeof(EnumEstimateRevenue)))
+            {
+                string desc = APISTest.Tools.EnumMapTool.GetDescription(item); //取得自訂Enum描述
+                if (!string.IsNullOrEmpty(desc))
+                {
+                    list.Add(new SelectListItem
+                    {
+                        Text = desc,
+                        Value = Convert.ToInt32(item).ToString(),
+                        Selected = rDR.EstimateRevenue.Equals(rDR.EstimateRevenue)
+                    });
+                }
+            }
+
+            ViewBag.EnumEstimateRevenueList = list;
+
             return View(rDR);
         }
 

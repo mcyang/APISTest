@@ -251,6 +251,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Tools\EntityTool.cs" />
     <Compile Include="Tools\EnumMapTool.cs" />
+    <Compile Include="Unity\ControlExtentions.cs" />
     <Compile Include="ViewModels\RDRViewModel.cs" />
     <Compile Include="ViewModels\_SortModel.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
