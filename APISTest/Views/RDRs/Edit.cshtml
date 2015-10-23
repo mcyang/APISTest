@@ -1,4 +1,6 @@
-﻿@model APISTest.Models.RDR
+﻿@*@model APISTest.Models.RDR*@
+@model APISTest.ViewModels.RDRViewModel
+
 @using APISTest.Helpers
 
 @{
@@ -17,79 +19,69 @@
         </tr>
         <tr>
             <th class="col-md-2">RDR#</th>
-            <td class="col-md-3">@Html.DisplayFor(model => model.RDRNumber)</td>
+            <td class="col-md-3">@Html.DisplayFor(model => model.rdr.RDRNumber)</td>
             <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
-            <td class="col-md-3">@Html.DDL_CustomerTeam("CustomerTeamList", Model.CustomerTeamID)</td>
+            <td class="col-md-3">@Html.DDL_CustomerTeam("CustomerTeamList", Model.rdr.CustomerTeamID)</td>
             <th class="col-md-2"></th>
             <td class="col-md-3"></td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>LOB</th>
-            <td class="col-md-3">@Html.DisplayFor(model => model.LOBID)</td>
+            <td class="col-md-3">@Html.DisplayFor(model => model.rdr.LOBID)</td>
             <th class="col-md-2"><span style="color:red">*</span>量產地</th>
-            <td class="col-md-3">@(Html.DDL_FromEnum<EnumSite>("EnumSiteList",Model.Site, false))</td>
+            <td class="col-md-3">@(Html.DDL_FromEnum<EnumSite>("EnumSiteList",Model.rdr.Site, false))</td>
             <th class="col-md-2"></th>
             <td class="col-md-3"></td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>車廠</th>
-            <td class="col-md-3">@Html.DDL_CarMaker("CarMakerList", Model.CarMakerID)</td>
+            <td class="col-md-3">@Html.DDL_CarMaker("CarMakerList", Model.rdr.CarMakerID)</td>
             <th class="col-md-2"><span style="color:red">*</span>車型</th>
-            <td class="col-md-3">@Html.TextBoxFor(model => model.CarModel)</td>
+            <td class="col-md-3">@Html.TextBoxFor(model => model.rdr.CarModel)</td>
             <th class="col-md-2"><span style="color:red">*</span>車型預估年銷售量</th>
             <td class="col-md-3">
-            @Html.TextBoxFor(model => model.EstimateSales)
+            @Html.TextBoxFor(model => model.rdr.EstimateSales)
             </td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>RFQ Date</th>
             <td class="col-md-3">
-                @Html.EditorFor(model => model.RFQDate, new
-           {
-               htmlAttributes = new
-               {
-                   @Value = Model.RFQDate.Value.ToString("yyyy/MM/dd"),
-                   @class = "form-control"
-               }
-           })
+                @Html.EditorFor(model => model.RFQDate, new { htmlAttributes = new { @class = "form-control", type = "date" }})
             </td>
             <th class="col-md-2"><span style="color:red">*</span>報價需求日</th>
             <td class="col-md-3">
-                @Html.EditorFor(model => model.AcquisitionDate, new
-       {
-           htmlAttributes = new
-           {
-               @Value = Model.AcquisitionDate.Value.ToString("yyyy/MM/dd"),
-               @class = "form-control"
-           }
-       })
+                @Html.EditorFor(model => model.AcquisitionDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
             </td>
             <th class="col-md-2"></th>
             <td class="col-md-3"></td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>SOP Date</th>
-            <td class="col-md-3">@Html.TextBox("SOPDate", string.Format("{0:yyyy/MM}", Model.SOPDate))</td>
+            <td class="col-md-3">
+                @Html.EditorFor(model => model.SOPDate, new { htmlAttributes = new { @class = "form-control", type = "month" } })
+            </td>
             <th class="col-md-2"><span style="color:red">*</span>EOL Date</th>
-            <td class="col-md-3">@Html.TextBox("EOLDate", string.Format("{0:yyyy/MM}", Model.EOLDate))</td>
+            <td class="col-md-3">
+                @Html.EditorFor(model => model.EOLDate, new { htmlAttributes = new { @class = "form-control", type = "month" } })
+            </td>
             <th class="col-md-2"><span style="color:red">*</span>把握度</th>
-            <td class="col-md-3">@(Html.DDL_FromEnum<EnumCertainty>("EnumCertaintyList", Model.Certainty, false))</td>
+            <td class="col-md-3">@(Html.DDL_FromEnum<EnumCertainty>("EnumCertaintyList", Model.rdr.Certainty, false))</td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>報價類型</th>
             <td class="col-md-3">
-                @(Html.DDL_FromEnum<EnumQuotation>("EnumQuotationList", Model.RequestClass, false))
+                @(Html.DDL_FromEnum<EnumQuotation>("EnumQuotationList", Model.rdr.RequestClass, false))
             </td>
             <th class="col-md-2"><span style="color:red">*</span>報價方式</th>
-            <td class="col-md-3">@Html.DisplayFor(model => model.RequestType)</td>
+            <td class="col-md-3">@Html.DisplayFor(model => model.rdr.RequestType)</td>
             <th class="col-md-2"><span style="color:red">*</span>報價貨幣</th>
             <td class="col-md-3">
-                @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.Currency, false))
+                @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.rdr.Currency, false))
             </td>
         </tr>
         <tr>
             <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
-            <td class="col-md-3">@Html.TextBoxFor(model => model.ProjectName)</td>
+            <td class="col-md-3">@Html.TextBoxFor(model => model.rdr.ProjectName)</td>
             <th class="col-md-2"><span style="color:red">*</span>Module</th>
             <td class="col-md-3">
                 <input type="button" class="btn btn-primary" id="ModuleBtn" name="ModuleBtn" title="Add Module" value="Add Module" />
@@ -101,10 +93,10 @@
             <th class="col-md-2"><span style="color:red">*</span>預估年營業額</th>
             <td class="col-md-3" colspan="5">
                 @* 這段還不夠好，最好自訂一個 RadioButtonList 來放，並搭配 Enum 使用 *@
-                @Html.RadioButtonFor(model => model.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
-                @Html.RadioButtonFor(model => model.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
-                @Html.RadioButtonFor(model => model.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
-                @Html.RadioButtonFor(model => model.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
+                @Html.RadioButtonFor(model => model.rdr.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
+                @Html.RadioButtonFor(model => model.rdr.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
+                @Html.RadioButtonFor(model => model.rdr.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
+                @Html.RadioButtonFor(model => model.rdr.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
             </td>
             <th></th>
             <td></td>
@@ -112,6 +104,90 @@
             <td></td>
         </tr>
     </table>
+
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold">報價需求客戶輸入資料</td>
+        </tr>
+        <tr>
+            <th class="col-md-2">規格</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsSpec, true, new { id = "IsSpec_Y", name = "IsSpec" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsSpec, false, new { id = "IsSpec_N", name = "IsSpec" }) 無
+            </td>
+            <th class="col-md-2">GERBER</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsGERBER, true, new { id = "IsGERBER_Y", name = "IsGERBER" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsGERBER, false, new { id = "IsGERBER_N", name = "IsGERBER" }) 無
+            </td>
+            <th class="col-md-2">線材圖面</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsWireDwg, true, new { id = "IsWireDwg_Y", name = "IsWireDwg" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsWireDwg, false, new { id = "IsWireDwg_N", name = "IsWireDwg" }) 無
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2">SAMPLE</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsSample, true, new { id = "IsSample_Y", name = "IsSample" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsSample, false, new { id = "IsSample_N", name = "IsSample" }) 無
+            </td>
+            <th class="col-md-2">GERBER</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsBOM, true, new { id = "IsBOM_Y", name = "IsBOM" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsBOM, false, new { id = "IsBOM_N", name = "IsBOM" }) 無
+            </td>
+            <th class="col-md-2">線材圖面</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsAssemblyDwg, true, new { id = "IsAssemblyDwg_Y", name = "IsAssemblyDwg" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsAssemblyDwg, false, new { id = "IsAssemblyDwg_N", name = "IsAssemblyDwg" }) 無
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2">DCHART</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsDChart, true, new { id = "IsDChart_Y", name = "IsDChart" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsDChart, false, new { id = "IsDChart_N", name = "IsDChart" }) 無
+            </td>
+            <th class="col-md-2">CKT</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsCKT, true, new { id = "IsCKT_Y", name = "IsCKT" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsCKT, false, new { id = "IsCKT_N", name = "IsCKT" }) 無
+            </td>
+            <th class="col-md-2">2D圖面</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.Is2D, true, new { id = "Is2D_Y", name = "Is2D" }) 有
+                @Html.RadioButtonFor(model => model.rdr.Is2D, false, new { id = "Is2D_N", name = "Is2D" }) 無
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2">製程要求</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsROHS, true, new { id = "IsROHS", name = "IsROHS" }) ROHS
+                @Html.RadioButtonFor(model => model.rdr.IsELV, true, new { id = "IsELV", name = "IsELV" }) ELV
+            </td>
+            <th class="col-md-2">VLS配阻</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.IsVLS, true, new { id = "IsVLS_Y", name = "IsVLS" }) 有
+                @Html.RadioButtonFor(model => model.rdr.IsVLS, false, new { id = "IsVLS_N", name = "IsVLS" }) 無
+            </td>
+            <th class="col-md-2">3D圖面</th>
+            <td class="col-md-2">
+                @Html.RadioButtonFor(model => model.rdr.Is3D, true, new { id = "Is3D_Y", name = "Is3D" }) 有
+                @Html.RadioButtonFor(model => model.rdr.Is3D, false, new { id = "Is3D_N", name = "Is3D" }) 無
+            </td>
+        </tr>
+        <tr>
+            <th>Others</th>
+            <td colspan="5">@Html.TextAreaFor(model=>model.rdr.TxtOthers_1, new { htmlAttributes = new { @class = "form-control", row="6", col="10" }, placeHolder = "補充說明" })</td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
 }
 
 <div>

@@ -86,6 +86,20 @@
           <Property Name="ProjectName" Type="varchar" MaxLength="20" />
           <Property Name="ModuleName" Type="varchar" MaxLength="50" />
           <Property Name="EstimateRevenue" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsSpec" Type="bit" />
+          <Property Name="IsGERBER" Type="bit" />
+          <Property Name="IsWireDwg" Type="bit" />
+          <Property Name="IsSample" Type="bit" />
+          <Property Name="IsBOM" Type="bit" />
+          <Property Name="IsAssemblyDwg" Type="bit" />
+          <Property Name="IsDChart" Type="bit" />
+          <Property Name="IsCKT" Type="bit" />
+          <Property Name="Is2D" Type="bit" />
+          <Property Name="Is3D" Type="bit" />
+          <Property Name="IsROHS" Type="bit" />
+          <Property Name="IsELV" Type="bit" />
+          <Property Name="IsVLS" Type="bit" />
+          <Property Name="TxtOthers_1" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -208,6 +222,20 @@
           <Property Name="ProjectName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EstimateRevenue" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsSpec" Type="Boolean" />
+          <Property Name="IsGERBER" Type="Boolean" />
+          <Property Name="IsWireDwg" Type="Boolean" />
+          <Property Name="IsSample" Type="Boolean" />
+          <Property Name="IsBOM" Type="Boolean" />
+          <Property Name="IsAssemblyDwg" Type="Boolean" />
+          <Property Name="IsDChart" Type="Boolean" />
+          <Property Name="IsCKT" Type="Boolean" />
+          <Property Name="Is2D" Type="Boolean" />
+          <Property Name="Is3D" Type="Boolean" />
+          <Property Name="IsROHS" Type="Boolean" />
+          <Property Name="IsELV" Type="Boolean" />
+          <Property Name="IsVLS" Type="Boolean" />
+          <Property Name="TxtOthers_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -289,6 +317,20 @@
           <EntitySetMapping Name="RDRs">
             <EntityTypeMapping TypeName="JohnTestModel.RDR">
               <MappingFragment StoreEntitySet="RDR">
+                <ScalarProperty Name="TxtOthers_1" ColumnName="TxtOthers_1" />
+                <ScalarProperty Name="IsVLS" ColumnName="IsVLS" />
+                <ScalarProperty Name="IsELV" ColumnName="IsELV" />
+                <ScalarProperty Name="IsROHS" ColumnName="IsROHS" />
+                <ScalarProperty Name="Is3D" ColumnName="Is3D" />
+                <ScalarProperty Name="Is2D" ColumnName="Is2D" />
+                <ScalarProperty Name="IsCKT" ColumnName="IsCKT" />
+                <ScalarProperty Name="IsDChart" ColumnName="IsDChart" />
+                <ScalarProperty Name="IsAssemblyDwg" ColumnName="IsAssemblyDwg" />
+                <ScalarProperty Name="IsBOM" ColumnName="IsBOM" />
+                <ScalarProperty Name="IsSample" ColumnName="IsSample" />
+                <ScalarProperty Name="IsWireDwg" ColumnName="IsWireDwg" />
+                <ScalarProperty Name="IsGERBER" ColumnName="IsGERBER" />
+                <ScalarProperty Name="IsSpec" ColumnName="IsSpec" />
                 <ScalarProperty Name="EstimateRevenue" ColumnName="EstimateRevenue" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />

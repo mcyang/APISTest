@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using APISTest.Models;
+using APISTest.ViewModels;
 
 namespace APISTest.Controllers
 {
@@ -72,31 +73,35 @@ namespace APISTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             RDR rDR = db.RDRs.Find(id);
+            RDRViewModel viewModel = new RDRViewModel();
+            viewModel.rdr = rDR;
+
             if (rDR == null)
             {
                 return HttpNotFound();
             }
 
 
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (Enum item in Enum.GetValues(typeof(EnumEstimateRevenue)))
-            {
-                string desc = APISTest.Tools.EnumMapTool.GetDescription(item); //取得自訂Enum描述
-                if (!string.IsNullOrEmpty(desc))
-                {
-                    list.Add(new SelectListItem
-                    {
-                        Text = desc,
-                        Value = Convert.ToInt32(item).ToString(),
-                        Selected = rDR.EstimateRevenue.Equals(rDR.EstimateRevenue)
-                    });
-                }
-            }
+            //List<SelectListItem> list = new List<SelectListItem>();
+            //foreach (Enum item in Enum.GetValues(typeof(EnumEstimateRevenue)))
+            //{
+            //    string desc = APISTest.Tools.EnumMapTool.GetDescription(item); //取得自訂Enum描述
+            //    if (!string.IsNullOrEmpty(desc))
+            //    {
+            //        list.Add(new SelectListItem
+            //        {
+            //            Text = desc,
+            //            Value = Convert.ToInt32(item).ToString(),
+            //            Selected = rDR.EstimateRevenue.Equals(rDR.EstimateRevenue)
+            //        });
+            //    }
+            //}
 
-            ViewBag.EnumEstimateRevenueList = list;
+            //ViewBag.EnumEstimateRevenueList = list;
 
-            return View(rDR);
+            return View(viewModel);
         }
 
         // POST: RDRs/Edit/5

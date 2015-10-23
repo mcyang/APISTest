@@ -35,5 +35,19 @@ namespace APISTest.Models
         public string ProjectName { get; set; }
         public string ModuleName { get; set; }
         public string EstimateRevenue { get; set; }
+        public Nullable<bool> IsSpec { get; set; }
+        public Nullable<bool> IsGERBER { get; set; }
+        public Nullable<bool> IsWireDwg { get; set; }
+        public Nullable<bool> IsSample { get; set; }
+        public Nullable<bool> IsBOM { get; set; }
+        public Nullable<bool> IsAssemblyDwg { get; set; }
+        public Nullable<bool> IsDChart { get; set; }
+        public Nullable<bool> IsCKT { get; set; }
+        public Nullable<bool> Is2D { get; set; }
+        public Nullable<bool> Is3D { get; set; }
+        public Nullable<bool> IsROHS { get; set; }
+        public Nullable<bool> IsELV { get; set; }
+        public Nullable<bool> IsVLS { get; set; }
+        public string TxtOthers_1 { get; set; }
     }
 }
