@@ -49,5 +49,24 @@ namespace APISTest.Models
         public Nullable<bool> IsELV { get; set; }
         public Nullable<bool> IsVLS { get; set; }
         public string TxtOthers_1 { get; set; }
+        public Nullable<bool> IsMaterialCost { get; set; }
+        public Nullable<bool> IsPackageCost { get; set; }
+        public Nullable<bool> IsProcessCost { get; set; }
+        public Nullable<bool> IsProductHourCost { get; set; }
+        public Nullable<bool> IsTestHourCost { get; set; }
+        public Nullable<bool> IsSamplePrice { get; set; }
+        public Nullable<bool> IsModuleFee { get; set; }
+        public Nullable<bool> IsSampleFee { get; set; }
+        public Nullable<bool> IsHandMoldingFee { get; set; }
+        public Nullable<bool> IsTravelFee { get; set; }
+        public Nullable<bool> IsTestFee { get; set; }
+        public Nullable<bool> IsDevelopFee { get; set; }
+        public Nullable<bool> IsVerifyToolFee { get; set; }
+        public string TxtOthers_2 { get; set; }
+        public Nullable<bool> IsAssignForm { get; set; }
+        public Nullable<bool> IsProposal { get; set; }
+        public Nullable<bool> IsDevPlan { get; set; }
+        public Nullable<bool> IsStepPrice { get; set; }
+        public string TxtOthers_3 { get; set; }
     }
 }

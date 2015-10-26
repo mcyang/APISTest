@@ -13,9 +13,9 @@
 {
     @Html.AntiForgeryToken()
 
-    <table class="table table-hover">
+    <table class="table table-bordered">
         <tr>
-            <td colspan="6">專案基本資料(<span style="color:red">*欄位必填)</span></td>
+            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料(<span style="color:red">*欄位必填)</span></td>
         </tr>
         <tr>
             <th class="col-md-2">RDR#</th>
@@ -98,16 +98,81 @@
                 @Html.RadioButtonFor(model => model.rdr.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
                 @Html.RadioButtonFor(model => model.rdr.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
             </td>
-            <th></th>
-            <td></td>
-            <th></th>
-            <td></td>
+        </tr>
+        <tr>
+            <th rowspan="8">專案類型</th>
+            <td colspan="5">
+                新產品開發案，請附上 Market Research Report (FM04053)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                既有平台開發案 ODM
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                平台延伸機種
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                純軟體開發案
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                純軟體參數調教案
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                內部技術開發案，請附上 Market Research Report (FM04053)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                OEM 代工案
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                量產移轉案
+            </td>
+        </tr>
+        <tr>
+            <th rowspan="4">開發資源需求</th>
+            <td>
+                RD 人力
+            </td>
+            <td  colspan="4">
+
+            </td>
+        </tr>
+        <tr>
+            <td>開發地</td>
+            <td colspan="4">
+
+            </td>
+        </tr>
+        <tr>
+            <td>開發期間</td>
+            <td colspan="4">
+                開始時間: @Html.EditorFor(model => model.RFQDate, new { htmlAttributes = new { @class = "form-control", type = "date", style = "width:200px"} })
+                結束時間: @Html.EditorFor(model => model.RFQDate, new { htmlAttributes = new { @class = "form-control", type = "date", style = "width:200px"} })
+            </td>
+        </tr>
+        <tr>
+            <td>其他需求</td>
+            <td colspan="4">
+                @Html.TextAreaFor(model => model.rdr.TxtOthers_2, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "報價排除項目" })
+            </td>
         </tr>
     </table>
 
     <table class="table table-bordered">
         <tr>
-            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold">報價需求客戶輸入資料</td>
+            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; text-align:center">報價需求客戶輸入資料</td>
         </tr>
         <tr>
             <th class="col-md-2">規格</th>
@@ -132,19 +197,19 @@
                 @Html.RadioButtonFor(model => model.rdr.IsSample, true, new { id = "IsSample_Y", name = "IsSample" }) 有
                 @Html.RadioButtonFor(model => model.rdr.IsSample, false, new { id = "IsSample_N", name = "IsSample" }) 無
             </td>
-            <th class="col-md-2">GERBER</th>
+            <th class="col-md-2">BOM</th>
             <td class="col-md-2">
                 @Html.RadioButtonFor(model => model.rdr.IsBOM, true, new { id = "IsBOM_Y", name = "IsBOM" }) 有
                 @Html.RadioButtonFor(model => model.rdr.IsBOM, false, new { id = "IsBOM_N", name = "IsBOM" }) 無
             </td>
-            <th class="col-md-2">線材圖面</th>
+            <th class="col-md-2">組合圖</th>
             <td class="col-md-2">
                 @Html.RadioButtonFor(model => model.rdr.IsAssemblyDwg, true, new { id = "IsAssemblyDwg_Y", name = "IsAssemblyDwg" }) 有
                 @Html.RadioButtonFor(model => model.rdr.IsAssemblyDwg, false, new { id = "IsAssemblyDwg_N", name = "IsAssemblyDwg" }) 無
             </td>
         </tr>
         <tr>
-            <th class="col-md-2">DCHART</th>
+            <th class="col-md-2">D CHART</th>
             <td class="col-md-2">
                 @Html.RadioButtonFor(model => model.rdr.IsDChart, true, new { id = "IsDChart_Y", name = "IsDChart" }) 有
                 @Html.RadioButtonFor(model => model.rdr.IsDChart, false, new { id = "IsDChart_N", name = "IsDChart" }) 無
@@ -179,17 +244,81 @@
         </tr>
         <tr>
             <th>Others</th>
-            <td colspan="5">@Html.TextAreaFor(model=>model.rdr.TxtOthers_1, new { htmlAttributes = new { @class = "form-control", row="6", col="10" }, placeHolder = "補充說明" })</td>
+            <td colspan="5">@Html.TextAreaFor(model=>model.rdr.TxtOthers_1, new { htmlAttributes = new { @class = "form-control" }, cols=60, rows=3, placeHolder = "補充說明" })</td>
         </tr>
     </table>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-}
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; text-align:center">報價範圍(<span style="color:red">*欄位必填</span>)</td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span> 單體成本 </th>
+            <td>
+                @Html.RadioButtonFor(model => model.rdr.IsMaterialCost, true, new { id = "IsMaterialCost", name = "IsMaterialCost" }) 材料成本
+                @Html.RadioButtonFor(model => model.rdr.IsPackageCost, true, new { id = "IsPackageCost", name = "IsPackageCost" }) 包裝成本
+                @Html.RadioButtonFor(model => model.rdr.IsProcessCost, true, new { id = "IsProcessCost", name = "IsProcessCost" }) 製程材料成本
+                @Html.RadioButtonFor(model => model.rdr.IsProductHourCost, true, new { id = "IsProductHourCost", name = "IsProductHourCost" }) 生產工時成本
+                @Html.RadioButtonFor(model => model.rdr.IsTestHourCost, true, new { id = "IsTestHourCost", name = "IsTestHourCost" }) 測試工時成本
+            </td>
+        </tr>
+        <tr>
+            <th><span style="color:red">*</span> 是否須報樣品價格 </th>
+            <td>
+                @Html.RadioButtonFor(model => model.rdr.IsSamplePrice, false, new { id = "IsSamplePrice_N", name = "IsSamplePrice" }) NO
+                @Html.RadioButtonFor(model => model.rdr.IsSamplePrice, true, new { id = "IsSamplePrice_Y", name = "IsSamplePrice" }) YES
+            </td>
+        </tr>
+        <tr>
+            <th><span style="color:red">*</span> NRE CHARGE </th>
+            <td>
+                @Html.RadioButtonFor(model => model.rdr.IsModuleFee, true, new { id = "IsModuleFee", name = "IsModuleFee" }) 模具費
+                @Html.RadioButtonFor(model => model.rdr.IsSampleFee, true, new { id = "IsSampleFee", name = "IsSampleFee" }) 樣品費
+                @Html.RadioButtonFor(model => model.rdr.IsHandMoldingFee, true, new { id = "IsHandMoldingFee", name = "IsHandMoldingFee" }) 手造模
+                @Html.RadioButtonFor(model => model.rdr.IsTravelFee, true, new { id = "IsTravelFee", name = "IsTravelFee" }) 差旅費
+                @Html.RadioButtonFor(model => model.rdr.IsTestFee, true, new { id = "IsTestFee", name = "IsTestFee" }) 測試驗證費
+                @Html.RadioButtonFor(model => model.rdr.IsDevelopFee, true, new { id = "IsDevelopFee", name = "IsDevelopFee" }) 開發費
+                @Html.RadioButtonFor(model => model.rdr.IsVerifyToolFee, true, new { id = "IsVerifyToolFee", name = "IsVerifyToolFee" }) 製程用檢治工具
+            </td>
+        </tr>
+        <tr>
+            <th>報價排除項目</th>
+            <td>@Html.TextAreaFor(model => model.rdr.TxtOthers_2, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "報價排除項目" })</td>
+        </tr>
+    </table>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; text-align:center">報價特殊需求說明</td>
+        </tr>
+        <tr>
+            <th class="col-md-2">客戶回估文件需求</th>
+            <td>
+                @Html.RadioButtonFor(model => model.rdr.IsAssignForm, true, new { id = "IsAssignForm", name = "IsAssignForm" }) 客戶指定表單
+                @Html.RadioButtonFor(model => model.rdr.IsProposal, true, new { id = "IsProposal", name = "IsProposal" }) 技術提案
+                @Html.RadioButtonFor(model => model.rdr.IsDevPlan, true, new { id = "IsDevPlan", name = "IsDevPlan" }) 開發計畫
+            </td>
+        </tr>
+        <tr>
+            <th>是否須階梯報價</th>
+            <td>
+                @Html.RadioButtonFor(model => model.rdr.IsStepPrice, false, new { id = "IsStepPrice", name = "IsStepPrice" }) NO
+                @Html.RadioButtonFor(model => model.rdr.IsStepPrice, true, new { id = "IsStepPrice", name = "IsStepPrice" }) YES
+            </td>
+        </tr>
+        <tr>
+            <th>Others</th>
+            <td>@Html.TextAreaFor(model => model.rdr.TxtOthers_3, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "補充說明" })</td>
+        </tr>
+    </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>

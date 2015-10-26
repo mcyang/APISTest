@@ -100,6 +100,25 @@
           <Property Name="IsELV" Type="bit" />
           <Property Name="IsVLS" Type="bit" />
           <Property Name="TxtOthers_1" Type="nvarchar(max)" />
+          <Property Name="IsMaterialCost" Type="bit" />
+          <Property Name="IsPackageCost" Type="bit" />
+          <Property Name="IsProcessCost" Type="bit" />
+          <Property Name="IsProductHourCost" Type="bit" />
+          <Property Name="IsTestHourCost" Type="bit" />
+          <Property Name="IsSamplePrice" Type="bit" />
+          <Property Name="IsModuleFee" Type="bit" />
+          <Property Name="IsSampleFee" Type="bit" />
+          <Property Name="IsHandMoldingFee" Type="bit" />
+          <Property Name="IsTravelFee" Type="bit" />
+          <Property Name="IsTestFee" Type="bit" />
+          <Property Name="IsDevelopFee" Type="bit" />
+          <Property Name="IsVerifyToolFee" Type="bit" />
+          <Property Name="TxtOthers_2" Type="nvarchar(max)" />
+          <Property Name="IsAssignForm" Type="bit" />
+          <Property Name="IsProposal" Type="bit" />
+          <Property Name="IsDevPlan" Type="bit" />
+          <Property Name="IsStepPrice" Type="bit" />
+          <Property Name="TxtOthers_3" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -236,6 +255,25 @@
           <Property Name="IsELV" Type="Boolean" />
           <Property Name="IsVLS" Type="Boolean" />
           <Property Name="TxtOthers_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsMaterialCost" Type="Boolean" />
+          <Property Name="IsPackageCost" Type="Boolean" />
+          <Property Name="IsProcessCost" Type="Boolean" />
+          <Property Name="IsProductHourCost" Type="Boolean" />
+          <Property Name="IsTestHourCost" Type="Boolean" />
+          <Property Name="IsSamplePrice" Type="Boolean" />
+          <Property Name="IsModuleFee" Type="Boolean" />
+          <Property Name="IsSampleFee" Type="Boolean" />
+          <Property Name="IsHandMoldingFee" Type="Boolean" />
+          <Property Name="IsTravelFee" Type="Boolean" />
+          <Property Name="IsTestFee" Type="Boolean" />
+          <Property Name="IsDevelopFee" Type="Boolean" />
+          <Property Name="IsVerifyToolFee" Type="Boolean" />
+          <Property Name="TxtOthers_2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsAssignForm" Type="Boolean" />
+          <Property Name="IsProposal" Type="Boolean" />
+          <Property Name="IsDevPlan" Type="Boolean" />
+          <Property Name="IsStepPrice" Type="Boolean" />
+          <Property Name="TxtOthers_3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -317,6 +355,25 @@
           <EntitySetMapping Name="RDRs">
             <EntityTypeMapping TypeName="JohnTestModel.RDR">
               <MappingFragment StoreEntitySet="RDR">
+                <ScalarProperty Name="TxtOthers_3" ColumnName="TxtOthers_3" />
+                <ScalarProperty Name="IsStepPrice" ColumnName="IsStepPrice" />
+                <ScalarProperty Name="IsDevPlan" ColumnName="IsDevPlan" />
+                <ScalarProperty Name="IsProposal" ColumnName="IsProposal" />
+                <ScalarProperty Name="IsAssignForm" ColumnName="IsAssignForm" />
+                <ScalarProperty Name="TxtOthers_2" ColumnName="TxtOthers_2" />
+                <ScalarProperty Name="IsVerifyToolFee" ColumnName="IsVerifyToolFee" />
+                <ScalarProperty Name="IsDevelopFee" ColumnName="IsDevelopFee" />
+                <ScalarProperty Name="IsTestFee" ColumnName="IsTestFee" />
+                <ScalarProperty Name="IsTravelFee" ColumnName="IsTravelFee" />
+                <ScalarProperty Name="IsHandMoldingFee" ColumnName="IsHandMoldingFee" />
+                <ScalarProperty Name="IsSampleFee" ColumnName="IsSampleFee" />
+                <ScalarProperty Name="IsModuleFee" ColumnName="IsModuleFee" />
+                <ScalarProperty Name="IsSamplePrice" ColumnName="IsSamplePrice" />
+                <ScalarProperty Name="IsTestHourCost" ColumnName="IsTestHourCost" />
+                <ScalarProperty Name="IsProductHourCost" ColumnName="IsProductHourCost" />
+                <ScalarProperty Name="IsProcessCost" ColumnName="IsProcessCost" />
+                <ScalarProperty Name="IsPackageCost" ColumnName="IsPackageCost" />
+                <ScalarProperty Name="IsMaterialCost" ColumnName="IsMaterialCost" />
                 <ScalarProperty Name="TxtOthers_1" ColumnName="TxtOthers_1" />
                 <ScalarProperty Name="IsVLS" ColumnName="IsVLS" />
                 <ScalarProperty Name="IsELV" ColumnName="IsELV" />
