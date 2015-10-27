@@ -201,6 +201,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductGroupsController.cs" />
     <Compile Include="Controllers\RDRMainsController.cs" />
+    <Compile Include="Controllers\RDRModulesController.cs" />
     <Compile Include="Controllers\RDRsController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -249,6 +250,9 @@
     <Compile Include="Models\RDRMain.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RDRModule.cs">
+      <DependentUpon>APISTestModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Team.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
@@ -257,6 +261,7 @@
     <Compile Include="Tools\EntityTool.cs" />
     <Compile Include="Tools\EnumMapTool.cs" />
     <Compile Include="Unity\ControlExtentions.cs" />
+    <Compile Include="ViewModels\RDRModuleViewModel.cs" />
     <Compile Include="ViewModels\RDRMainViewModel.cs" />
     <Compile Include="ViewModels\RDRViewModel.cs" />
     <Compile Include="ViewModels\_SortModel.cs" />
@@ -394,6 +399,11 @@
     <Content Include="Views\RDRMains\Details.cshtml" />
     <Content Include="Views\RDRMains\Edit.cshtml" />
     <Content Include="Views\RDRMains\Index.cshtml" />
+    <Content Include="Views\RDRModules\Create.cshtml" />
+    <Content Include="Views\RDRModules\Delete.cshtml" />
+    <Content Include="Views\RDRModules\Details.cshtml" />
+    <Content Include="Views\RDRModules\Edit.cshtml" />
+    <Content Include="Views\RDRModules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

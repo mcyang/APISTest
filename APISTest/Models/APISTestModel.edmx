@@ -145,6 +145,22 @@
           <Property Name="EstimateRevenue" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="RDRModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentID" Type="int" Nullable="false" />
+          <Property Name="RDRNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ModuleName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductGroupID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="EstimateProduct" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Attachment" Type="nvarchar" MaxLength="100" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModuleVersion" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Teams">
           <Key>
             <PropertyRef Name="ID" />
@@ -162,6 +178,7 @@
           <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RDR" EntityType="Self.RDR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RDRMain" EntityType="Self.RDRMain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RDRModule" EntityType="Self.RDRModule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -197,6 +214,7 @@
           <EntitySet Name="CarMakers" EntityType="JohnTestModel.CarMaker" />
           <EntitySet Name="RDRs" EntityType="JohnTestModel.RDR" />
           <EntitySet Name="RDRMains" EntityType="JohnTestModel.RDRMain" />
+          <EntitySet Name="RDRModules" EntityType="JohnTestModel.RDRModule" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -325,6 +343,22 @@
           <Property Name="Currency" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="EstimateRevenue" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="RDRModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="RDRNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModuleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductGroupID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="EstimateProduct" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleVersion" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
@@ -486,6 +520,23 @@
                 <ScalarProperty Name="CustomerTeamCode" ColumnName="CustomerTeamCode" />
                 <ScalarProperty Name="CustomerTeamID" ColumnName="CustomerTeamID" />
                 <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RDRModules">
+            <EntityTypeMapping TypeName="JohnTestModel.RDRModule">
+              <MappingFragment StoreEntitySet="RDRModule">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="ModuleVersion" ColumnName="ModuleVersion" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="EstimateProduct" ColumnName="EstimateProduct" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

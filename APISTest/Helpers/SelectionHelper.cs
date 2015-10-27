@@ -137,7 +137,72 @@ namespace APISTest.Helpers
             return helper.DropDownList(Name, list, htmlAttribute);
         }
 
-       
+        public static IHtmlString DDL_ProductGroup(this HtmlHelper helper, string Name, int selected, bool hasAllSelection = false, object htmlAttribute = null)
+        {
+            #region 錯誤訊息
+            if (String.IsNullOrEmpty(Name))
+            {
+                throw new ArgumentException("必須給這個下拉選單 DDL_CarMaker 一個Tag Name", "Name");
+            }
+            #endregion
+
+            //建立下拉選單
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            if (hasAllSelection)
+            {
+                list.Add(new SelectListItem { Text = "不拘", Value = "" });
+            }
+
+            using (JohnTestEntities ddl_db = new JohnTestEntities())
+            {
+                foreach (var item in ddl_db.ProductGroups.Where(p => p.IsDelete == false))
+                {
+                    list.Add(new SelectListItem()
+                    {
+                        Text = item.Name,
+                        Value = item.ID.ToString(),
+                        Selected = selected == item.ID ? true : false
+                    });
+                }
+            }
+
+            return helper.DropDownList(Name, list, htmlAttribute);
+        }
+
+        public static IHtmlString DDL_Customers(this HtmlHelper helper, string Name,int TeamID , int selected, bool hasAllSelection = false, object htmlAttribute = null)
+        {
+            #region 錯誤訊息
+            if (String.IsNullOrEmpty(Name))
+            {
+                throw new ArgumentException("必須給這個下拉選單 DDL_CarMaker 一個Tag Name", "Name");
+            }
+            #endregion
+
+            //建立下拉選單
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            if (hasAllSelection)
+            {
+                list.Add(new SelectListItem { Text = "不拘", Value = "" });
+            }
+
+            using (JohnTestEntities ddl_db = new JohnTestEntities())
+            {
+                foreach (var item in ddl_db.Customers.Where(p => p.IsDelete == false && p.ParentID == TeamID))
+                {
+                    list.Add(new SelectListItem()
+                    {
+                        Text = item.Name,
+                        Value = item.ID.ToString(),
+                        Selected = selected == item.ID ? true : false
+                    });
+                }
+            }
+
+            return helper.DropDownList(Name, list, htmlAttribute);
+        }
+
         private static IHtmlString CheckBoxList(HtmlHelper helper, List<SelectListItem> list, string Name, string selected, object htmlAttribute = null)
         {
             string attributeList = htmlAttribute.ToAttributeList();
