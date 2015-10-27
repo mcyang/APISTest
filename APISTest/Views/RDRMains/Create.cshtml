@@ -1,0 +1,214 @@
+﻿@*@model APISTest.Models.RDRMain*@
+@model APISTest.ViewModels.RDRMainViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>RDRMain</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <table class="table table-bordered">
+            <tr>
+                <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料(<span style="color:red">*欄位必填)</span></td>
+            </tr>
+            <tr>
+                <th class="col-md-2">RDR#</th>
+                <td class="col-md-3">
+                    <span style="color:red">系統自動編號</span>
+                </td>
+
+                <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
+                <td class="col-md-3">
+                    @Html.DDL_CustomerTeam("CustomerTeamList",0)
+                    @Html.Hidden("ddl_CustomerTeamText")
+                </td>
+
+                <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
+                <td class="col-md-3">@Html.TextBoxFor(model => model.rdrMain.ProjectName)</td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span>LOB</th>
+                <td>@Html.TextBoxFor(model => model.rdrMain.LOBID)</td>
+
+                <th><span style="color:red">*</span>量產地</th>
+                <td>
+                    @(Html.DDL_FromEnum<EnumSite>("EnumSiteList", "", false))
+                    @Html.Hidden("ddl_SiteText")
+                </td>
+
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span>車廠</th>
+                <td>
+                    @Html.DDL_CarMaker("CarMakerList", 0)
+                    @Html.Hidden("ddl_CarMakerText")
+                </td>
+
+                <th><span style="color:red">*</span>車型</th>
+                <td>@Html.TextBoxFor(model => model.rdrMain.CarModel)</td>
+
+                <th><span style="color:red">*</span>車型預估年銷售量</th>
+                <td>
+                    @Html.TextBoxFor(model => model.rdrMain.EstimateSales)
+                </td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span>RFQ Date</th>
+                <td>
+                    @Html.EditorFor(model => model.RFQDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                </td>
+
+                <th><span style="color:red">*</span>報價需求日</th>
+                <td>
+                    @Html.EditorFor(model => model.AcquisitionDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                </td>
+
+                <th></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span>SOP Date</th>
+                <td>
+                    @Html.EditorFor(model => model.SOPDate, new { htmlAttributes = new { @class = "form-control", type = "month" } })
+                </td>
+
+                <th><span style="color:red">*</span>EOL Date</th>
+                <td>
+                    @Html.EditorFor(model => model.EOLDate, new { htmlAttributes = new { @class = "form-control", type = "month" } })
+                </td>
+
+                <th><span style="color:red">*</span>把握度</th>
+                <td>
+                    @(Html.DDL_FromEnum<EnumCertainty>("EnumCertaintyList", "", false))
+                    @Html.Hidden("ddl_CertaintyText")
+                </td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span>報價類型</th>
+                <td>
+                    @(Html.DDL_FromEnum<EnumQuotation>("EnumQuotationList", "", false))
+                    @Html.Hidden("ddl_QuotationText")
+                </td>
+
+                <th><span style="color:red">*</span>報價方式</th>
+                <td>@Html.DisplayFor(model => model.rdrMain.RequestType)</td>
+
+                <th><span style="color:red">*</span>報價貨幣</th>
+                <td>
+                    @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", "", false))
+                    @Html.Hidden("ddl_CurrencyText")
+                </td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><span style="color:red">*</span>預估年營業額</th>
+                <td class="col-md-3" colspan="5">
+                    @* 這段還不夠好，最好自訂一個 RadioButtonList 來放，並搭配 Enum 使用 *@
+                    <div class="revenuelist">
+                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
+                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
+                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
+                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
+                    </div>
+                    @Html.Hidden("EstimateRevenueValue")
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        //CustomerTeamList init Text
+        var team_selectedText = $('#CustomerTeamList option:selected').text();
+        $('#ddl_CustomerTeamText').val(team_selectedText);
+
+        //EnumSiteList init Text
+        var site_selectedText = $('#EnumSiteList option:selected').text();
+        $('#ddl_SiteText').val(site_selectedText);
+
+        //CarMakerList init Text
+        var carmaker_selectedText = $('#CarMakerList option:selected').text();
+        $('#ddl_CarMakerText').val(carmaker_selectedText);
+
+        //EnumCertaintyList init Text
+        var certainty_selectedText = $('#EnumCertaintyList option:selected').text();
+        $('#ddl_CertaintyText').val(certainty_selectedText);
+
+        //EnumQuotationList init Text
+        var quotation_selectedText = $('#EnumQuotationList option:selected').text();
+        $('#ddl_QuotationText').val(quotation_selectedText);
+
+        //EnumCurrencyList init Text
+        var currency_selectedText = $('#EnumCurrencyList option:selected').text();
+        $('#ddl_CurrencyText').val(currency_selectedText);
+
+        //EstimateRevenueList init checked
+        var revenue_checked = $('.revenuelist input[type="radio"]:checked').val();
+        $('#EstimateRevenueValue').val(revenue_checked);
+    });
+
+    //CustomerTeamList choose Text
+    $('#CustomerTeamList').change(function () {
+        var team_selectedText = $('#CustomerTeamList option:selected').text();
+        $('#ddl_CustomerTeamText').val(team_selectedText);
+    });
+
+    //EnumSiteList choose Text
+    $('#EnumSiteList').change(function () {
+        var site_selectedText = $('#EnumSiteList option:selected').text();
+        $('#ddl_SiteText').val(site_selectedText);
+    });
+
+    //CarMakerList choose Text
+    $('#CarMakerList').change(function () {
+        var carmaker_selectedText = $('#CarMakerList option:selected').text();
+        $('#ddl_CarMakerText').val(carmaker_selectedText);
+    });
+
+    //EnumCertaintyList choose Text
+    $('#EnumCertaintyList').change(function () {
+        var certainty_selectedText = $('#EnumCertaintyList option:selected').text();
+        $('#ddl_CertaintyText').val(certainty_selectedText);
+    });
+
+    //EnumQuotationList choose Text
+    $('#EnumQuotationList').change(function () {
+        var quotation_selectedText = $('#EnumQuotationList option:selected').text();
+        $('#ddl_QuotationText').val(quotation_selectedText);
+    });
+
+    //EnumCurrencyList choose Text
+    $('#EnumCurrencyList').change(function () {
+        var currency_selectedText = $('#EnumCurrencyList option:selected').text();
+        $('#ddl_CurrencyText').val(currency_selectedText);
+    });
+
+    //EstimateRevenueList checked
+    $('.revenuelist input[type="radio"]').change(function () {
+        var revenue_checked = $('.revenuelist input[type="radio"]:checked').val();
+        $('#EstimateRevenueValue').val(revenue_checked);
+    });
+</script>

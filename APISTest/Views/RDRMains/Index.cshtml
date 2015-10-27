@@ -1,0 +1,136 @@
+﻿@*@model IEnumerable<APISTest.Models.RDRMain>*@
+@model IEnumerable<APISTest.ViewModels.RDRMainIndexViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>RDR列表頁</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>RDR#
+            @*@Html.DisplayNameFor(model => model.RDRNumber)*@
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.CustomerTeamID)
+        </th>*@
+        <th>客戶群
+            @*@Html.DisplayNameFor(model => model.CustomerTeamCode)*@
+        </th>
+        @*<th>LOB
+            @Html.DisplayNameFor(model => model.LOBID)
+        </th>*@
+        <th>量產地
+            @*@Html.DisplayNameFor(model => model.Site)*@
+        </th>
+        <th>車廠
+            @*@Html.DisplayNameFor(model => model.CarMakerID)*@
+        </th>
+        <th>車型
+            @*@Html.DisplayNameFor(model => model.CarModel)*@
+        </th>
+        <th>預估年銷售量
+            @*@Html.DisplayNameFor(model => model.EstimateSales)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RFQDate)
+        </th>
+        <th>報價需求日
+            @*@Html.DisplayNameFor(model => model.AcquisitionDate)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SOPDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EOLDate)
+        </th>
+        <th>把握度
+            @*@Html.DisplayNameFor(model => model.Certainty)*@
+        </th>
+        @*<th>報價類型
+            @Html.DisplayNameFor(model => model.RequestClass)
+        </th>*@
+        @*<th>報價方式
+            @Html.DisplayNameFor(model => model.RequestType)
+        </th>*@
+        <th>報價幣別
+            @*@Html.DisplayNameFor(model => model.Currency)*@
+        </th>
+        <th>專案名稱
+            @*@Html.DisplayNameFor(model => model.ProjectName)*@
+        </th>
+        @*<th>預估年營業額
+            @Html.DisplayNameFor(model => model.EstimateRevenue)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.RDRNumber)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.CustomerTeamID)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.CustomerTeamCode)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.LOBID)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.Site)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarMaker)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.CarModel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.EstimateSales)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RFQDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcquisitionDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SOPDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EOLDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.Certainty)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.RequestClass)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.RequestType)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.Currency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rdrMain.ProjectName)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.EstimateRevenue)
+        </td>*@
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.rdrMain.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.rdrMain.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.rdrMain.ID })
+        </td>
+    </tr>
+}
+
+</table>

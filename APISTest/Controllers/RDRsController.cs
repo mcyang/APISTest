@@ -149,6 +149,13 @@ namespace APISTest.Controllers
         }
         #endregion
 
+        #region
+        public ActionResult Temp()
+        {
+            return View();
+        }
+        #endregion
+
         #region 回收連線資源
         protected override void Dispose(bool disposing)
         {

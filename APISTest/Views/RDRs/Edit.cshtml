@@ -6,6 +6,10 @@
 @{
     ViewBag.Title = "Edit";
 }
+@*fancybox燈箱*@
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fancybox.pack.js")"></script>
+<link href="@Url.Content("~/Content/jquery.fancybox.css")" rel="stylesheet" type="text/css" />
 
 <h2>RDR管理/Edit</h2>
 
@@ -84,7 +88,8 @@
             <td class="col-md-3">@Html.TextBoxFor(model => model.rdr.ProjectName)</td>
             <th class="col-md-2"><span style="color:red">*</span>Module</th>
             <td class="col-md-3">
-                <input type="button" class="btn btn-primary" id="ModuleBtn" name="ModuleBtn" title="Add Module" value="Add Module" />
+                <button class="fancy-text btn btn-primary" type="button"  href="@Url.Action("Temp", "RDRs")">球隊燈箱</button>
+
             </td>
             <th></th>
             <td></td>
@@ -317,8 +322,31 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-        }
 
         <div>
             @Html.ActionLink("Back to List", "Index")
         </div>
+}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //燈箱
+        $(".fancy-text").fancybox({
+            type: 'iframe',
+            fitToView: false,
+            width: '800px',
+            height: '600px',
+            autoSize: false,
+            closeClick: false,
+            //openEffect: 'none',
+            //closeEffect: 'none',
+            padding: 0,
+            closeBtn: true,
+            'afterClose': function () {
+                window.location.reload();
+            },
+        });
+    });
+</script>

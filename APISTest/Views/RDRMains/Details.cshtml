@@ -1,0 +1,162 @@
+﻿@model APISTest.Models.RDRMain
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RDRMain</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RDRNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RDRNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerTeamID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerTeamID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerTeamCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerTeamCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOBID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOBID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Site)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarMakerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarMakerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarModel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarModel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateSales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateSales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RFQDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RFQDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcquisitionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcquisitionDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SOPDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SOPDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EOLDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EOLDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Certainty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Certainty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateRevenue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateRevenue)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
