@@ -58,6 +58,10 @@ namespace APISTest.Models
         /// <summary>墨西哥LAMX</summary>
         [Description("LAMX")]
         LAMX = 3,
+
+        /// <summary>LAE</summary>
+        [Description("LAE")]
+        LAE = 4,
     }
 
     /// <summary>
@@ -93,7 +97,7 @@ namespace APISTest.Models
     }
 
     /// <summary>
-    /// 車型預估年銷售量
+    /// 預估年營業額
     /// </summary>
     public enum EnumEstimateRevenue
     {
@@ -113,5 +117,48 @@ namespace APISTest.Models
         [Description("1億以上")]
         More1E = 4,
     }
-    
+
+    /// <summary>
+    /// 報價方式
+    /// </summary>
+    public enum EnumRequestType
+    {
+        /// <summary>EX-WORK</summary>
+        [Description("EX-WORK")]
+        EXWORK = 1,
+
+        /// <summary>DAP</summary>
+        [Description("DAP")]
+        DAP = 2,
+
+        /// <summary>HUB</summary>
+        [Description("HUB")]
+        HUB = 3,
+
+        /// <summary>FOB</summary>
+        [Description("FOB")]
+        FOB = 4,
+
+        /// <summary>其他</summary>
+        [Description("其他")]
+        Others = 5,
+    }
+
+    /// <summary>
+    /// LOB
+    /// </summary>
+    public enum EnumLOB
+    {
+        /// <summary>VLS</summary>
+        [Description("VLS")]
+        VLS = 1,
+
+        /// <summary>VSA</summary>
+        [Description("VSA")]
+        VSA = 2,
+
+        /// <summary>MCM</summary>
+        [Description("MCM")]
+        MCM = 3,
+    }
 }

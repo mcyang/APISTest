@@ -124,7 +124,7 @@ namespace APISTest.Helpers
 
             using (JohnTestEntities ddl_db = new JohnTestEntities())
             {
-                foreach (var item in ddl_db.CarMakers.Where(p => p.IsDelete == false))
+                foreach (var item in ddl_db.CarMakers.Where(p => p.IsDelete == false).OrderBy(p=>p.Name))
                 {
                     list.Add(new SelectListItem()
                     {

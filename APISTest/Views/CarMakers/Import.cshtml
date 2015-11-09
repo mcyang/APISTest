@@ -1,0 +1,18 @@
+﻿@model IEnumerable<APISTest.Models.CarMaker>
+
+@{
+    ViewBag.Title = "Import";
+}
+
+<h2>匯入車廠資料(Excel)</h2>
+
+@using (Html.BeginForm("ImportExcel", "CarMakers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+            <td>匯入</td>
+            <td><input type="file" id="file" name="file" /></td>
+            <td><input type="submit" id="Submit" name="Submit" value="Submit" /></td>
+        </tr>
+    </table>
+}

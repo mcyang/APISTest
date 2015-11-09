@@ -5,15 +5,53 @@
     ViewBag.Title = "Index";
 }
 
+<h2>RDR維護-列表頁</h2>
+<table class="table">
+    <tr>
+        <td colspan="3" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">搜尋條件</td>
+    </tr>
+    <tr>
+        <td class="col-md-3">
+            @Html.Label("RDRNum", "RDR No.")
+            @Html.TextBox("serach_RDR")
+        </td>
+        <td class="col-md-5" colspan="3">
+            @Html.Label("SOPEOL", "依SOP、EOL Date:")
+            @Html.Editor("search_SOPEOL", new { htmlAttributes = new { type = "month" } })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("lab_CustomerTeam", "依客戶:")
+            @Html.DDL_CustomerTeam("aaa",0,true)
+        </td>
+        <td>
+            @Html.Label("lab_Site", "依地區:")
+            @(Html.DDL_FromEnum<EnumSite>("EnumSiteList", "", true))
+        </td>
+        <td>
+            @Html.Label("lab_RFQDate", "依RFQ Date:")
+            @Html.Editor("search_RFQDate", new { htmlAttributes = new { type = "date" } })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("lab_Product", "依燈種:")
+            @Html.DDL_ProductGroup("pp",0,true)
+        </td>
+        <td>
+            @Html.Label("lab_CarMaker", "依車廠別:")
+            @Html.DDL_CarMaker("tt",0,true)
+        </td>
+        <td>
+            <button type="button" class="btn btn-primary">搜尋</button>
+        </td>
+    </tr>
+</table>
 
-<ol class="breadcrumb">
-    <li><a href="#">MKT管理</a></li>
-    <li><a href="#">RDR維護</a></li>
-    <li class="active">列表</li>
-</ol>
 
 <p>
-    @Html.ActionLink("新增", "Create",null,new {@class= "btn btn-success" })
+    @Html.ActionLink("Create New", "Create","RDRMains")
 </p>
 <table class="table">
     <tr>
@@ -131,8 +169,9 @@
             @Html.DisplayFor(modelItem => item.EstimateRevenue)
         </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.rdrMain.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.rdrMain.ID }) |
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.rdrMain.ID }) |*@
+            @Html.ActionLink("Details", "Edit","RDRs"  ) |
+
             @Html.ActionLink("Delete", "Delete", new { id=item.rdrMain.ID })
         </td>
     </tr>

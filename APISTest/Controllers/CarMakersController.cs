@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using APISTest.Models;
+using System.IO;
+using LinqToExcel;
 
 namespace APISTest.Controllers
 {
@@ -16,6 +18,52 @@ namespace APISTest.Controllers
     public class CarMakersController : Controller
     {
         private JohnTestEntities db = new JohnTestEntities();
+
+        //匯入
+        [HttpGet]
+        public ActionResult Import()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ImportExcel(HttpPostedFileBase file)
+        {
+            //1.判斷是否有取得檔案
+            if (file.ContentLength > 0)
+            {
+                #region 上傳檔案
+                //2.取得上傳檔名
+                //3.取得絕對路徑
+                //4.儲存
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/UploadFiles"), fileName);
+                file.SaveAs(path);
+                #endregion
+
+                #region 使用LinqToExcel讀取Excel
+                var excel = new ExcelQueryFactory(path);
+                var workSheetNames = excel.GetWorksheetNames();
+                var content = from item in excel.Worksheet(0)
+                              select item;
+                #endregion
+
+                #region 寫入DB
+                foreach (var c in content)
+                {
+                    CarMaker carmaker = new CarMaker();
+                    carmaker.Code = c[0].ToString().Trim();
+                    carmaker.Name = c[1].ToString().Trim();
+                    
+                    db.CarMakers.Add(carmaker);
+                    db.SaveChanges();
+                }
+                #endregion
+            }
+
+            return RedirectToAction("Index");
+        }
+        
 
         // GET: CarMakers
         public ActionResult Index()

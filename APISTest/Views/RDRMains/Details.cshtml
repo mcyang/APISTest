@@ -1,162 +1,101 @@
-﻿@model APISTest.Models.RDRMain
+﻿@model APISTest.ViewModels.RDRMainDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">RDR維護</a></li>
+    <li class="active">編輯專案基本資料</li>
+</ol>
 
 <div>
-    <h4>RDRMain</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.RDRNumber)
-        </dt>
+     <table class="table table-bordered">
+         <tr>
+             <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料</td>
+         </tr>
+         <tr>
+             <th class="col-md-2">RDR#</th>
+             <td class="col-md-3">
+                 @Html.DisplayFor(model => model.rdrMain.RDRNumber)
+             </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.RDRNumber)
-        </dd>
+             <th class="col-md-2">客戶群</th>
+             <td class="col-md-3">
+                 @Html.DisplayFor(model => model.rdrMain.CustomerTeamCode)
+             </td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerTeamID)
-        </dt>
+             <th class="col-md-2"></th>
+             <td class="col-md-3"></td>
+         </tr>
+         <tr>
+             <th class="col-md-2">專案名稱</th>
+             <td class="col-md-3">@Html.DisplayFor(model => model.rdrMain.ProjectName)</td>
 
-        <dd>
-            @Html.DisplayFor(model => model.CustomerTeamID)
-        </dd>
+             <th>LOB</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.LOB)</td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerTeamCode)
-        </dt>
+             <th>量產地</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.Site)</td>
+         </tr>
+         <tr>
+             <th>車廠</th>
+             <td>@Html.DisplayFor(model => model.CarMaker)</td>
 
-        <dd>
-            @Html.DisplayFor(model => model.CustomerTeamCode)
-        </dd>
+             <th>車型</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.CarModel)</td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LOBID)
-        </dt>
+             <th>車型預估年銷售量</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.EstimateSales)</td>
+         </tr>
+         <tr>
+             <th>RFQ Date</th>
+             <td>@Html.DisplayFor(model => model.RFQDate)</td>
 
-        <dd>
-            @Html.DisplayFor(model => model.LOBID)
-        </dd>
+             <th>報價需求日</th>
+             <td>@Html.DisplayFor(model => model.AcquisitionDate)</td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Site)
-        </dt>
+             <th></th>
+             <td></td>
+         </tr>
+         <tr>
+             <th>SOP Date</th>
+             <td>@Html.DisplayFor(model => model.SOPDate)</td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Site)
-        </dd>
+             <th>EOL Date</th>
+             <td>@Html.DisplayFor(model => model.EOLDate)</td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CarMakerID)
-        </dt>
+             <th>把握度</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.Certainty)</td>
+         </tr>
+         <tr>
+             <th>報價類型</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.RequestClass)</td>
 
-        <dd>
-            @Html.DisplayFor(model => model.CarMakerID)
-        </dd>
+             <th>報價方式</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.RequestType)</td>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CarModel)
-        </dt>
+             <th>報價貨幣</th>
+             <td>@Html.DisplayFor(model => model.rdrMain.Currency)</td>
+         </tr>
+         <tr>
+             <th class="col-md-2">預估年營業額</th>
+             <td class="col-md-3" colspan="5">@Html.DisplayFor(model => model.EstimateRevenueText)</td>
+         </tr>
+     </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.CarModel)
-        </dd>
+    <div class="row">
+        <div class="col-md-1">@*返回RDR列表(RDRs/Index)*@
+            @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EstimateSales)
-        </dt>
+        <div class="col-md-1">
+            @Html.ActionLink("編 輯", "Edit", "RDRMains", new { id = Model.rdrMain.ID }, new { @class = "btn btn-warning" })
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.EstimateSales)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RFQDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RFQDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AcquisitionDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AcquisitionDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SOPDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SOPDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EOLDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EOLDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Certainty)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Certainty)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RequestClass)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RequestClass)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RequestType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RequestType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Currency)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Currency)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProjectName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EstimateRevenue)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EstimateRevenue)
-        </dd>
-
-    </dl>
+        <div class="col-md-2">
+            @Html.ActionLink("Add Module", "Create", "RDRModules", new { id = Model.rdrMain.ID }, new { @class = "btn btn-success" })
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

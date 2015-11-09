@@ -1,20 +1,22 @@
-﻿@*@model APISTest.Models.RDRMain*@
-@model APISTest.ViewModels.RDRMainViewModel
+﻿@model APISTest.ViewModels.RDRMainViewModel
 
 @{
     ViewBag.Title = "Edit";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
-<h2>Edit</h2>
+
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">RDR維護</a></li>
+    <li class="active">編輯專案基本資料</li>
+</ol>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>RDRMain</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.rdrMain.ID)
 
@@ -31,25 +33,29 @@
 
                 <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
                 <td class="col-md-3">
-                    @Html.DDL_CustomerTeam("CustomerTeamList", Model.rdrMain.CustomerTeamID)
-                    @Html.Hidden("ddl_CustomerTeamText")
+                    @Html.DisplayFor(model => model.rdrMain.CustomerTeamCode)
+                    @Html.HiddenFor(model => model.rdrMain.CustomerTeamID)
                 </td>
 
-                <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
-                <td class="col-md-3">@Html.TextBoxFor(model => model.rdrMain.ProjectName)</td>
+                <th class="col-md-2"></th>
+                <td class="col-md-3"></td>
             </tr>
             <tr>
+                <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
+                <td class="col-md-3">@Html.TextBoxFor(model => model.rdrMain.ProjectName)</td>
+
                 <th><span style="color:red">*</span>LOB</th>
-                <td>@Html.DisplayFor(model => model.rdrMain.LOBID)</td>
+                <td>
+                    @*改為下拉*@
+                    @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", Model.rdrMain.LOB, false))
+                    @Html.Hidden("ddl_LOBList")
+                </td>
 
                 <th><span style="color:red">*</span>量產地</th>
                 <td>
                     @(Html.DDL_FromEnum<EnumSite>("EnumSiteList", Model.rdrMain.Site, false))
                     @Html.Hidden("ddl_SiteText")
                 </td>
-
-                <th></th>
-                <td></td>
             </tr>
             <tr>
                 <th><span style="color:red">*</span>車廠</th>
@@ -105,48 +111,61 @@
                 </td>
 
                 <th><span style="color:red">*</span>報價方式</th>
-                <td>@Html.DisplayFor(model => model.rdrMain.RequestType)</td>
-
-                <th><span style="color:red">*</span>報價貨幣</th>
                 <td>
-                    @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.rdrMain.Currency, false))
-                    @Html.Hidden("ddl_CurrencyText")
+                    @(Html.DDL_FromEnum<EnumRequestType>("EnumRequestTypeList", Model.rdrMain.RequestType, false))
+                    @Html.Hidden("ddl_RequestTypeText")
                 </td>
-            </tr>
-            <tr>
-                <th class="col-md-2"><span style="color:red">*</span>預估年營業額</th>
-                <td class="col-md-3" colspan="5">
-                    @* 這段還不夠好，最好自訂一個 RadioButtonList 來放，並搭配 Enum 使用 *@
-                    <div class="revenuelist">
-                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
-                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
-                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
-                        @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
-                    </div>
-                       @Html.Hidden("EstimateRevenueValue")
-                </td>
-            </tr>
-        </table>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <th><span style="color:red">*</span>報價貨幣</th>
+            <td>
+                @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.rdrMain.Currency, false))
+                @Html.Hidden("ddl_CurrencyText")
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2"><span style="color:red">*</span>預估年營業額</th>
+            <td class="col-md-3" colspan="5">
+                @* 這段還不夠好，最好自訂一個 RadioButtonList 來放，並搭配 Enum 使用 *@
+                <div class="revenuelist">
+                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
+                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
+                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
+                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
+                </div>
+                @Html.Hidden("EstimateRevenueValue")
+            </td>
+        </tr>
+    </table>
+
+    <div class="row">
+        <div class="col-md-1">
+            @Html.ActionLink("返回", "Index", null, new { @class = "btn btn-info" })
+        </div>
+
+        <div class="col-md-1">
+            <div>
+                <input type="submit" value="儲存" class="btn btn-success" />
             </div>
         </div>
     </div>
+</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@*<div>
+    @Html.ActionLink("返回", "Index")
+</div>*@
 
 <script type="text/javascript">
     $(function () {
 
         //CustomerTeamList init Text
-        var team_selectedText = $('#CustomerTeamList option:selected').text();
-        $('#ddl_CustomerTeamText').val(team_selectedText);
+        //var team_selectedText = $('#CustomerTeamList option:selected').text();
+        //$('#ddl_CustomerTeamText').val(team_selectedText);
         
+        //EnumLOBList init Text
+        var Lob_selectedText = $('#EnumLOBList option:selected').text();
+        $('#ddl_LOBList').val(Lob_selectedText);
+
         //EnumSiteList init Text
         var site_selectedText = $('#EnumSiteList option:selected').text();
         $('#ddl_SiteText').val(site_selectedText);
@@ -162,6 +181,10 @@
         //EnumQuotationList init Text
         var quotation_selectedText = $('#EnumQuotationList option:selected').text();
         $('#ddl_QuotationText').val(quotation_selectedText);
+
+        //EnumRequestTypeList init Text
+        var requestType_selectedText = $('#EnumRequestTypeList option:selected').text();
+        $('#ddl_RequestTypeText').val(requestType_selectedText);
 
         //EnumCurrencyList init Text
         var currency_selectedText = $('#EnumCurrencyList option:selected').text();

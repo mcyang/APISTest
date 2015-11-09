@@ -18,7 +18,7 @@ namespace APISTest.Models
         public string RDRNumber { get; set; }
         public int CustomerTeamID { get; set; }
         public string CustomerTeamCode { get; set; }
-        public int LOBID { get; set; }
+        public string LOB { get; set; }
         public string Site { get; set; }
         public int CarMakerID { get; set; }
         public string CarModel { get; set; }

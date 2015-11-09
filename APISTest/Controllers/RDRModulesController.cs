@@ -15,12 +15,16 @@ namespace APISTest.Controllers
     {
         private JohnTestEntities db = new JohnTestEntities();
 
+        #region 列表頁
         // GET: RDRModules
         public ActionResult Index()
         {
             return View(db.RDRModules.ToList());
-        }
+        } 
+        #endregion
 
+
+        #region 明細頁
         // GET: RDRModules/Details/5
         public ActionResult Details(int? id)
         {
@@ -34,8 +38,11 @@ namespace APISTest.Controllers
                 return HttpNotFound();
             }
             return View(rDRModule);
-        }
+        } 
+        #endregion
 
+
+        #region 新增頁
         // GET: RDRModules/Create
         /// <summary>
         /// 新增機種
@@ -45,7 +52,7 @@ namespace APISTest.Controllers
         /// <param name="startYear">SOPDate年</param>
         /// <param name="EndYear">EOLDate年</param>
         /// <returns></returns>
-        public ActionResult Create(int id = 1, string code= "AL.15.0001", int startYear=2016, int endYear=2020)
+        public ActionResult Create(int id = 1, string code = "AL.15.0001", int startYear = 2016, int endYear = 2018)
         {
             RDRModuleViewModel viewModel = new RDRModuleViewModel();
             viewModel.ParentID = id;
@@ -61,18 +68,53 @@ namespace APISTest.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ParentID,RDRNumber,ModuleName,ProductGroupID,CustomerID,EstimateProduct,Attachment,Remark,ModuleVersion,CreateTime")] RDRModule rDRModule)
+        public ActionResult Create(RDRModuleViewModel viewModel, FormCollection fc)
         {
+            RDRModule rdrModule = new RDRModule();
+
+            //int fid = 0;
+            //int.TryParse(fc["ParentID"], out fid);
+            //rdrModule.ParentID = fid;
+            rdrModule.ParentID = viewModel.ParentID;
+            
+            //rdrModule.RDRNumber = "xxyy123"; //假資料
+
+            //rdrModule.ModuleName = fc["ModuleName"];
+            rdrModule.ModuleName = viewModel.ModuleName;
+
+            int pid = 0;
+            int.TryParse(fc["ProductGroupsList"], out pid);
+            rdrModule.ProductGroupID = pid; //產品別ID
+            string productCode = db.ProductGroups.Find(pid).Code.Substring(8, 2);   //產品別代碼2碼
+            
+            int cid = 0;
+            int.TryParse(fc["CustomersList"], out cid);
+            rdrModule.CustomerID = cid; //交貨地
+
+            rdrModule.EstimateProduct = fc["EstimateProduct"];
+            rdrModule.Attachment = fc["Attachment"];  //附件
+            //rdrModule.Remark = fc["Remark"];  //Remark
+            rdrModule.Remark = viewModel.Remark;  //Remark
+            rdrModule.ModuleVersion = 0;    //版本號 預設值0
+            rdrModule.CreateTime = System.DateTime.Now;
+
+            //自動編碼原則: 繼承RDR單號+產品別2碼+交貨地數目1碼
+            //問題: 交貨地數目需要所有機種蒐集完才有辦法算
+            string str_rdr = viewModel.MainCode + "-" + productCode;
+
             if (ModelState.IsValid)
             {
-                db.RDRModules.Add(rDRModule);
+                db.RDRModules.Add(rdrModule);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(rDRModule);
+            return View();
         }
+        #endregion
 
+
+        #region 編輯頁
         // GET: RDRModules/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -104,6 +146,10 @@ namespace APISTest.Controllers
             return View(rDRModule);
         }
 
+        #endregion
+
+
+        #region 刪除頁
         // GET: RDRModules/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -130,6 +176,10 @@ namespace APISTest.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
+
+
+        #region 回收連線資源
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -137,6 +187,7 @@ namespace APISTest.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+        #endregion
     }
 }

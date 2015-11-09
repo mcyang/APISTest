@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using APISTest.Models;
 using APISTest.ViewModels;
 using APISTest.Helpers;
+using Microsoft.Reporting.WebForms;
 
 namespace APISTest.Controllers
 {
@@ -47,12 +48,19 @@ namespace APISTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRMain rDRMain = db.RDRMains.Find(id);
-            if (rDRMain == null)
+            RDRMain rdrmain = db.RDRMains.Find(id);
+            if (rdrmain == null)
             {
                 return HttpNotFound();
             }
-            return View(rDRMain);
+
+            #region 轉為ViewModel
+            RDRMainDetailsViewModel viewModel = new RDRMainDetailsViewModel();
+            viewModel.rdrMain = rdrmain;
+            viewModel.CarMaker = db.CarMakers.SingleOrDefault(p => p.ID == rdrmain.CarMakerID).Name;
+            #endregion
+
+            return View(viewModel);
         } 
         #endregion
 
@@ -83,7 +91,7 @@ namespace APISTest.Controllers
             //自動編號原則: 客戶群2碼.系統年2碼.流水號4碼
             rdrMain.RDRNumber = CommonHelps.CreateRDRNumber(System.DateTime.Now.Year, teamCode.Trim()); //RDRNumber(系統自動編號)
             rdrMain.ProjectName = fc["rdrMain.ProjectName"]; //專案名稱
-            rdrMain.LOBID = 1; //LOB
+            rdrMain.LOB = fc["ddl_LOBText"]; //LOB
             rdrMain.Site = fc["ddl_SiteText"]; //量產地
 
             int carMakerID = 0;
@@ -101,7 +109,7 @@ namespace APISTest.Controllers
             rdrMain.EOLDate = Convert.ToDateTime(fc["EOLDate"]);    //EOLDate
             rdrMain.Certainty = fc["ddl_CertaintyText"];    //把握度
             rdrMain.RequestClass = fc["ddl_QuotationText"]; //報價類型
-            rdrMain.RequestType = "DDP"; //報價方式
+            rdrMain.RequestType = fc["ddl_RequestTypeText"]; //報價方式
             rdrMain.Currency = fc["ddl_CurrencyText"]; //報價貨幣
 
             int revenue = 0;
@@ -116,7 +124,9 @@ namespace APISTest.Controllers
             {
                 db.RDRMains.Add(rdrMain);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //導向RDRMains/Deatils，再從Details中選擇要新增Module還是要修改RDRMain
+                return RedirectToAction("Details");
             } 
             #endregion
 
@@ -158,12 +168,13 @@ namespace APISTest.Controllers
 
             RDRMain rdrMain = db.RDRMains.Find(id);
             
-            int teamID = 0;
-            int.TryParse(fc["CustomerTeamList"], out teamID);
-            rdrMain.CustomerTeamID = teamID; //客戶群ID
-            rdrMain.CustomerTeamCode = fc["ddl_CustomerTeamText"]; //客戶群代碼
+            //int teamID = 0;
+            //int.TryParse(fc["CustomerTeamList"], out teamID);
+            //rdrMain.CustomerTeamID = teamID; //客戶群ID
+            //rdrMain.CustomerTeamCode = fc["ddl_CustomerTeamText"]; //客戶群代碼
 
             rdrMain.ProjectName = fc["rdrMain.ProjectName"]; //專案名稱
+            rdrMain.LOB = fc["ddl_LOBList"]; //LOB
             rdrMain.Site = fc["ddl_SiteText"]; //量產地
 
             int carMakerID = 0;
@@ -181,6 +192,7 @@ namespace APISTest.Controllers
             rdrMain.EOLDate = Convert.ToDateTime(fc["EOLDate"]);    //EOLDate
             rdrMain.Certainty = fc["ddl_CertaintyText"];    //把握度
             rdrMain.RequestClass = fc["ddl_QuotationText"]; //報價類型
+            rdrMain.RequestType = fc["ddl_RequestTypeText"];   //報價方式
             rdrMain.Currency = fc["ddl_CurrencyText"]; //報價貨幣
 
             int revenue = 0;
@@ -193,6 +205,8 @@ namespace APISTest.Controllers
             {
                 db.Entry(rdrMain).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
+
+                //這邊要改為導向RDRs/Edit
                 return RedirectToAction("Index");
             } 
             #endregion
@@ -221,12 +235,14 @@ namespace APISTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRMain rDRMain = db.RDRMains.Find(id);
-            if (rDRMain == null)
+            RDRMain rdrMain = db.RDRMains.Find(id);
+            if (rdrMain == null)
             {
                 return HttpNotFound();
             }
-            return View(rDRMain);
+            
+
+            return View(rdrMain);
         }
 
         // POST: RDRMains/Delete/5
@@ -241,6 +257,79 @@ namespace APISTest.Controllers
         }
         #endregion
 
+
+        #region 瀏覽報表
+        //瀏覽報表
+        public ActionResult BrowseReport()
+        {
+            #region 報表資料來源
+            List<RDRMainReportViewModel> mainList = new List<RDRMainReportViewModel>();
+
+            //撈資料
+            var mainData = from main in db.RDRMains.Where(m=>m.ID==1)
+                           join car in db.CarMakers on main.CarMakerID equals car.ID
+                           select new { main, car.Name };
+
+            foreach (var m in mainData)
+            {
+                RDRMainReportViewModel viewModel = new RDRMainReportViewModel();
+                viewModel.rdrMain = m.main;
+                viewModel.CarMakerName = m.Name;
+                mainList.Add(viewModel);
+            }
+
+            List<RDRModuleReportViewModel> modulesList = new List<RDRModuleReportViewModel>();
+            var modulesData = from module in db.RDRModules
+                              join customer in db.Customers on module.CustomerID equals customer.ID
+                              join productGroup in db.ProductGroups on module.ProductGroupID equals productGroup.ID
+                              join main in db.RDRMains.Where(m => m.ID == 1) on module.ParentID equals main.ID
+                              select new { rdrModule = module, CustomerName = customer.Name, ProductGroupName = productGroup.Name };
+
+            foreach (var m in modulesData)
+            {
+                RDRModuleReportViewModel moduleRptModel = new RDRModuleReportViewModel();
+                moduleRptModel.rdrModule = m.rdrModule;
+                moduleRptModel.ProductGroupName = m.ProductGroupName;
+                moduleRptModel.CustomerName = m.CustomerName;
+
+                modulesList.Add(moduleRptModel);
+            }
+
+            List<RDRInfoReportViewModel> infoList = new List<RDRInfoReportViewModel>();
+            var infoData = from info in db.RDRInformations.Where(x => x.ParentID == 1)
+                           select new { info};
+            foreach (var i in infoData)
+            {
+                RDRInfoReportViewModel infoModel = new RDRInfoReportViewModel();
+                infoModel.rdrInfo = i.info;
+
+                infoList.Add(infoModel);
+            }
+            #endregion
+
+            try
+            {
+                // Set report info
+                APISTest.Reports.ReportWrapper rw = new APISTest.Reports.ReportWrapper();
+                rw.ReportPath = Server.MapPath("~/Reports/RdrReport/RDR.rdlc");
+                rw.ReportDataSources.Add(new ReportDataSource("DS_RDRMain", mainList));
+                rw.ReportDataSources.Add(new ReportDataSource("DS_RDRModule", modulesList));
+                rw.ReportDataSources.Add(new ReportDataSource("DS_RDRInfo", infoList));
+                //rw.ReportParameters.Add(new ReportParameter("param", list[0].EstimateProduct));
+                rw.IsDownloadDirectly = false;
+
+                // Pass report info via session
+                Session["ReportWrapper"] = rw;
+
+                // Go report viewer page
+                return Redirect("/Reports/ReportViewer.aspx");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
 
         #region 回收連線資源
         protected override void Dispose(bool disposing)
