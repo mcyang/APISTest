@@ -76,7 +76,7 @@ namespace APISTest.Controllers
 
             RDR rDR = db.RDRs.Find(id);
             RDRViewModel viewModel = new RDRViewModel();
-            viewModel.rdr = rDR;
+            //viewModel.rdr = rDR;
 
             if (rDR == null)
             {

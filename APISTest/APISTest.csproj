@@ -214,6 +214,7 @@
     <Compile Include="Areas\Backstage\BackstageAreaRegistration.cs" />
     <Compile Include="Areas\Backstage\Controllers\TestController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AwardedCheckController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CarMakersController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
@@ -222,7 +223,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductGroupsController.cs" />
     <Compile Include="Controllers\RDRMainsController.cs" />
-    <Compile Include="Controllers\RDRManagementController.cs" />
+    <Compile Include="Controllers\RDRManageController.cs" />
     <Compile Include="Controllers\RDRModulesController.cs" />
     <Compile Include="Controllers\RDRInfosController.cs" />
     <Compile Include="Controllers\RDRsController.cs" />
@@ -283,6 +284,11 @@
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\AwardedReport\KickoffDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KickoffDS.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reports\RdrReport\RDRDS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -303,6 +309,7 @@
     <Compile Include="ViewModels\RDRInfoViewModel.cs" />
     <Compile Include="ViewModels\RDRModuleViewModel.cs" />
     <Compile Include="ViewModels\RDRMainViewModel.cs" />
+    <Compile Include="ViewModels\RDRAwardViewModel.cs" />
     <Compile Include="ViewModels\RDRViewModel.cs" />
     <Compile Include="ViewModels\_SortModel.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
@@ -353,6 +360,17 @@
     </None>
     <Content Include="Reports\RdrReport\RDRDS.xsc">
       <DependentUpon>RDRDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\AwardedReport\KickoffDS.xsc">
+      <DependentUpon>KickoffDS.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\AwardedReport\KickoffDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>KickoffDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\AwardedReport\KickoffDS.xss">
+      <DependentUpon>KickoffDS.xsd</DependentUpon>
     </Content>
     <None Include="Reports\RdrReport\RDRDS.xsd">
       <SubType>Designer</SubType>
@@ -461,8 +479,11 @@
     <Content Include="Views\RDRInfos\Details.cshtml" />
     <Content Include="Views\RDRInfos\Edit.cshtml" />
     <Content Include="Views\RDRInfos\Index.cshtml" />
-    <Content Include="Views\RDRManagement\Index.cshtml" />
+    <Content Include="Views\RDRManage\Index.cshtml" />
     <Content Include="Views\CarMakers\Import.cshtml" />
+    <Content Include="Views\RDRManage\Details.cshtml" />
+    <Content Include="Views\AwardedCheck\Index.cshtml" />
+    <Content Include="Views\AwardedCheck\Kickoff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -482,6 +503,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\AwardedReport\AwardedRpt.rdlc" />
     <EmbeddedResource Include="Reports\RdrReport\RDR.rdlc" />
   </ItemGroup>
   <PropertyGroup>

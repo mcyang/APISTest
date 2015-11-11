@@ -34,5 +34,7 @@ namespace APISTest.Models
         public string ProjectName { get; set; }
         public int EstimateRevenue { get; set; }
         public System.DateTime CreateTime { get; set; }
+        public int Status { get; set; }
+        public System.DateTime ModifyTime { get; set; }
     }
 }

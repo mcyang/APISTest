@@ -161,4 +161,48 @@ namespace APISTest.Models
         [Description("MCM")]
         MCM = 3,
     }
+
+    /// <summary>
+    /// RDR Status
+    /// </summary>
+    public enum EnumRDRStatus
+    {
+        /// <summary>RFQ</summary>
+        [Description("RFQ")]
+        RFQ = 1,
+
+        /// <summary>Awarded</summary>
+        [Description("Awarded")]
+        Awarded = 2,
+
+        /// <summary>Fail</summary>
+        [Description("Fail")]
+        Fail = 3,
+    }
+
+    /// <summary>
+    /// 設計驗證階段
+    /// </summary>
+    public enum EnumDesignVerify
+    {
+        /// <summary>PTT</summary>
+        [Description("PTT")]
+        PTT = 1,
+
+        /// <summary>EVT</summary>
+        [Description("EVT")]
+        EVT = 2,
+
+        /// <summary>DVT</summary>
+        [Description("DVT")]
+        DVT = 3,
+
+        /// <summary>PVT</summary>
+        [Description("PVT")]
+        PVT = 4,
+
+        /// <summary>MP</summary>
+        [Description("MP")]
+        MP = 5,
+    }
 }

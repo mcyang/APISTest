@@ -58,7 +58,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Code" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
@@ -206,6 +206,8 @@
           <Property Name="ProjectName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="EstimateRevenue" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ModifyTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="RDRModule">
           <Key>
@@ -313,7 +315,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
@@ -486,6 +488,8 @@
           <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="EstimateRevenue" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -707,6 +711,8 @@
           <EntitySetMapping Name="RDRMains">
             <EntityTypeMapping TypeName="JohnTestModel.RDRMain">
               <MappingFragment StoreEntitySet="RDRMain">
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="EstimateRevenue" ColumnName="EstimateRevenue" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />

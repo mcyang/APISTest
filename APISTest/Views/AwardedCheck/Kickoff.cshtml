@@ -1,0 +1,93 @@
+﻿@model APISTest.ViewModels.KickoffCreateViewModel
+@{
+    ViewBag.Title = "Kickoff";
+}
+
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">Awarded Check</a></li>
+    <li class="active">填寫新機種開案單</li>
+</ol>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.rdrMain.ID)
+
+        <table class="table table-bordered">
+            <tr>
+                <th>開案單號 ：</th>
+                <td></td>
+                <th></th>
+                <td></td>
+                <th>Kickoff 召開日期：</th>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料</td>
+            </tr>
+            <tr>
+                <th class="col-md-2">RDR#</th>
+                <td class="col-md-3">
+                    @Html.DisplayFor(model => model.rdrMain.RDRNumber)
+                </td>
+
+                <th class="col-md-2">客戶群</th>
+                <td class="col-md-3">
+                    @Html.DisplayFor(model => model.rdrMain.CustomerTeamCode)
+                </td>
+
+                <th class="col-md-2">業務</th>
+                <td class="col-md-3">土哥</td>
+            </tr>
+            <tr>
+                <th>專案名稱</th>
+                <td>@Html.DisplayFor(model => model.rdrMain.ProjectName)</td>
+                <th>LOB</th>
+                <td>@Html.DisplayFor(model => model.rdrMain.LOB)</td>
+                <th>量產地</th>
+                <td>@Html.DisplayFor(model => model.rdrMain.Site)</td>
+            </tr>
+            <tr>
+                <th>車廠</th>
+                <td>@Html.DisplayFor(model => model.CarMakerName) </td>
+
+                <th>車型</th>
+                <td>@Html.DisplayFor(model => model.rdrMain.CarModel)</td>
+
+                <th>車型預估年銷售量</th>
+                <td>
+                    @Html.DisplayFor(model => model.rdrMain.EstimateSales)
+                </td>
+            </tr>
+            <tr>
+                <th>SOP Date</th>
+                <td>
+                    @Html.DisplayFor(model => model.rdrMain.SOPDate)
+                </td>
+
+                <th>EOL Date</th>
+                <td>
+                    @Html.DisplayFor(model => model.rdrMain.EOLDate)
+                </td>
+                <th>預估年營業額</th>
+                <td>@Html.DisplayFor(model => model.EstimateRevenueText)</td>
+            </tr>
+        </table>
+
+        <div class="row">
+            <div class="col-md-1">
+                @Html.ActionLink("返回", "Index", null, new { @class = "btn btn-info" })
+            </div>
+
+            <div class="col-md-1">
+                <div>
+                    <input type="submit" value="儲存" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

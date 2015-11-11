@@ -1741,7 +1741,7 @@
             <DataSetName>DS_RDRModule</DataSetName>
             <Top>5.45222cm</Top>
             <Height>1.2cm</Height>
-            <Width>19cm</Width>
+            <Width>19.00001cm</Width>
             <ZIndex>40</ZIndex>
             <Style>
               <Border>
@@ -5847,7 +5847,6 @@
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
           <Top>0.63528cm</Top>
-          <Left>0.00001cm</Left>
           <Height>1.34083cm</Height>
           <Width>19cm</Width>
           <Style>
