@@ -33,6 +33,37 @@
           <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Kickoff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KickoffNumber" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="KickoffDate" Type="datetime" Nullable="false" />
+          <Property Name="ParentID" Type="int" Nullable="false" />
+          <Property Name="IsReliabilityTest" Type="bit" Nullable="false" />
+          <Property Name="IsPPAP" Type="bit" Nullable="false" />
+          <Property Name="IsCustomerDocForm" Type="bit" Nullable="false" />
+          <Property Name="IsLiteonDocForm" Type="bit" Nullable="false" />
+          <Property Name="IsLiteonConFirm" Type="bit" Nullable="false" />
+          <Property Name="IsCustomerConFirm" Type="bit" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifyTime" Type="datetime" Nullable="false" />
+          <Property Name="Level" Type="int" />
+        </EntityType>
+        <EntityType Name="KickoffDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentID" Type="int" Nullable="false" />
+          <Property Name="Stage" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="RequireDate" Type="datetime" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifyTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Log">
           <Key>
             <PropertyRef Name="Id" />
@@ -224,6 +255,10 @@
           <Property Name="Remark" Type="nvarchar" MaxLength="100" />
           <Property Name="ModuleVersion" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsAwarded" Type="bit" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsFail" Type="bit" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -238,6 +273,8 @@
           <EntitySet Name="CarMaker" EntityType="Self.CarMaker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerTeam" EntityType="Self.CustomerTeam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kickoff" EntityType="Self.Kickoff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KickoffDetails" EntityType="Self.KickoffDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RDR" EntityType="Self.RDR" Schema="dbo" store:Type="Tables" />
@@ -281,6 +318,8 @@
           <EntitySet Name="RDRInformations" EntityType="JohnTestModel.RDRInformation" />
           <EntitySet Name="CarMakers" EntityType="JohnTestModel.CarMaker" />
           <EntitySet Name="RDRMains" EntityType="JohnTestModel.RDRMain" />
+          <EntitySet Name="Kickoffs" EntityType="JohnTestModel.Kickoff" />
+          <EntitySet Name="KickoffDetails" EntityType="JohnTestModel.KickoffDetail" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -393,6 +432,10 @@
           <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ModuleVersion" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsAwarded" Type="Boolean" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsFail" Type="Boolean" />
+          <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="RDRInformation">
           <Key>
@@ -489,6 +532,37 @@
           <Property Name="EstimateRevenue" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Kickoff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KickoffNumber" Type="String" Nullable="false" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="KickoffDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="IsReliabilityTest" Type="Boolean" Nullable="false" />
+          <Property Name="IsPPAP" Type="Boolean" Nullable="false" />
+          <Property Name="IsCustomerDocForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsLiteonDocForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsLiteonConFirm" Type="Boolean" Nullable="false" />
+          <Property Name="IsCustomerConFirm" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Level" Type="Int32" />
+        </EntityType>
+        <EntityType Name="KickoffDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="Stage" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="RequireDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
@@ -622,6 +696,10 @@
           <EntitySetMapping Name="RDRModules">
             <EntityTypeMapping TypeName="JohnTestModel.RDRModule">
               <MappingFragment StoreEntitySet="RDRModule">
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="IsFail" ColumnName="IsFail" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsAwarded" ColumnName="IsAwarded" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="ModuleVersion" ColumnName="ModuleVersion" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
@@ -732,6 +810,39 @@
                 <ScalarProperty Name="CustomerTeamCode" ColumnName="CustomerTeamCode" />
                 <ScalarProperty Name="CustomerTeamID" ColumnName="CustomerTeamID" />
                 <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kickoffs">
+            <EntityTypeMapping TypeName="JohnTestModel.Kickoff">
+              <MappingFragment StoreEntitySet="Kickoff">
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsCustomerConFirm" ColumnName="IsCustomerConFirm" />
+                <ScalarProperty Name="IsLiteonConFirm" ColumnName="IsLiteonConFirm" />
+                <ScalarProperty Name="IsLiteonDocForm" ColumnName="IsLiteonDocForm" />
+                <ScalarProperty Name="IsCustomerDocForm" ColumnName="IsCustomerDocForm" />
+                <ScalarProperty Name="IsPPAP" ColumnName="IsPPAP" />
+                <ScalarProperty Name="IsReliabilityTest" ColumnName="IsReliabilityTest" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="KickoffDate" ColumnName="KickoffDate" />
+                <ScalarProperty Name="KickoffNumber" ColumnName="KickoffNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KickoffDetails">
+            <EntityTypeMapping TypeName="JohnTestModel.KickoffDetail">
+              <MappingFragment StoreEntitySet="KickoffDetails">
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="RequireDate" ColumnName="RequireDate" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

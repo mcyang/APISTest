@@ -41,29 +41,22 @@ namespace APISTest.Controllers
         [HttpGet]
         public ActionResult Kickoff(int id)
         {
-            //撈RDRMain
-            //RDRMain rdrMain = db.RDRMains.Find(id);
-            //if (rdrMain == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //Get 車廠Name
+            //撈RDR主表資料、RDR其他資訊(db.RDRMain join CarMaker join RDRInfomation)
             KickoffCreateViewModel viewModel = (from main in db.RDRMains
                                                join car in db.CarMakers on main.CarMakerID equals car.ID
+                                               join infos in db.RDRInformations on main.ID equals infos.ParentID
                                                where main.ID == id
                                                select new KickoffCreateViewModel
                                                {
                                                    rdrMain = main,
+                                                   rdrInfo = infos,
                                                    CarMakerName = car.Name
                                                }).SingleOrDefault();
 
             //撈RDRModule
-
-                                               //撈RDRInfo
-
-                                               //轉換為 ViewModel 資料型態傳入
-                                               //KickoffCreateViewModel viewModel = new KickoffCreateViewModel();
-                                               //viewModel.rdrMain = rDRMain;
+            viewModel.rdrModuleList = db.RDRModules.Where(p => p.ParentID == id).AsEnumerable().ToList();
+             
+            //List<RDRModule> mo = tt.ToList<RDRModule>();
 
             return View(viewModel);
         }

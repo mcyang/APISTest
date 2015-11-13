@@ -12,22 +12,15 @@ namespace APISTest.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RDRModule
+    public partial class KickoffDetail
     {
         public int ID { get; set; }
         public int ParentID { get; set; }
-        public string RDRNumber { get; set; }
-        public string ModuleName { get; set; }
-        public int ProductGroupID { get; set; }
-        public int CustomerID { get; set; }
-        public string EstimateProduct { get; set; }
-        public string Attachment { get; set; }
-        public string Remark { get; set; }
-        public int ModuleVersion { get; set; }
+        public string Stage { get; set; }
+        public System.DateTime RequireDate { get; set; }
+        public int Quantity { get; set; }
+        public string Description { get; set; }
         public System.DateTime CreateTime { get; set; }
-        public Nullable<bool> IsAwarded { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<bool> IsFail { get; set; }
-        public string Reason { get; set; }
+        public System.DateTime ModifyTime { get; set; }
     }
 }

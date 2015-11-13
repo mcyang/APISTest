@@ -261,6 +261,12 @@
     </Compile>
     <Compile Include="Models\EnumTypes.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Kickoff.cs">
+      <DependentUpon>APISTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KickoffDetail.cs">
+      <DependentUpon>APISTestModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Log.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
