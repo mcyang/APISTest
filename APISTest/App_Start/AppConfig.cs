@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace APISTest.App_Start
+namespace APISTest
 {
     /// <summary>
     /// 系統相關設定初始化

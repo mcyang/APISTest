@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "My";
+}
+
+<h2>RDRModules/Main</h2>
+<div>這是主頁面</div>
+<hr />
+<div id="result">
+
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#result').load("/RDRModules/_MyPartialView");
+        });
+    </script>
+    }

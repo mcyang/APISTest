@@ -20,7 +20,7 @@ namespace APISTest.Controllers
         // Join RDRMain、RDRModule、RDRInfo三張表
         public ActionResult Index()
         {
-            var aa = from rdrMain in db.RDRMains
+            var aa = from rdrMain in db.RDRMains.Where(m=>m.IsDelete == false)
                      join car in db.CarMakers
                      on rdrMain.CarMakerID equals car.ID
                      select new { rdrMain, car.Name };
@@ -34,6 +34,9 @@ namespace APISTest.Controllers
                 list.Add(viewModel);
             }
 
+            #region 搜尋條件
+
+            #endregion
             return View(list);
         }
         #endregion
@@ -78,6 +81,28 @@ namespace APISTest.Controllers
             viewModel.rdrInfoDetail = rdrInfo;
 
             return View(viewModel);
+        }
+
+        /// <summary>
+        /// 刪除
+        /// </summary>
+        /// <param name="id">RDRMain.ID</param>
+        /// <returns></returns>
+        public ActionResult Delete(int id)
+        {
+            //1.找出該筆資料
+            RDRMain item = db.RDRMains.Find(id);
+            if (item != null)
+            {
+                //2.設定假刪(IsDelete=true)
+                item.IsDelete = true;
+
+                //3.資料表Save
+                db.SaveChanges();
+            }
+
+            //4.重新導向回列表頁
+            return RedirectToAction("Index");
         }
     }
 }

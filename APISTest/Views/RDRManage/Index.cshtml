@@ -1,4 +1,5 @@
-﻿@model IEnumerable<APISTest.ViewModels.RDRMainIndexViewModel>
+﻿@*@model fvmRDRManage*@
+@model IEnumerable<APISTest.ViewModels.RDRMainIndexViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -10,6 +11,11 @@
     <li class="active">列表頁</li>
 </ol>
 
+@*@using (Html.BeginForm("Index", "RDRManage", FormMethod.Post, new { id = "searchForm" }))
+{
+
+}*@
+
 <table class="table">
     <tr>
         <td colspan="3" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">搜尋條件</td>
@@ -17,7 +23,7 @@
     <tr>
         <td class="col-md-3">
             @Html.Label("RDRNum", "RDR No.")
-            @Html.TextBox("serach_RDR")
+            @Html.TextBox("serach_RDRNo")
         </td>
         <td class="col-md-5" colspan="3">
             @Html.Label("SOPEOL", "依SOP、EOL Date:")
@@ -59,43 +65,19 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            RDR#
-        </th>
-        <th>
-            客戶群
-        </th>
-        <th>
-            量產地
-        </th>
-        <th>
-            車廠
-        </th>
-        <th>
-            車型
-        </th>
-        <th>
-            預估年銷售量
-        </th>
-        <th>@Html.DisplayNameFor(model => model.RFQDate)</th>
-        <th>
-            報價需求日
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SOPDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EOLDate)
-        </th>
-        <th>
-            把握度
-        </th>
-        <th>
-            報價幣別
-        </th>
-        <th>
-            專案名稱
-        </th>
+        <th>RDR#</th>
+        <th>客戶群</th>
+        <th>量產地</th>
+        <th>車廠</th>
+        <th>車型</th>
+        <th>預估年銷售量</th>
+        <th>RFQ Date</th>
+        <th>報價需求日</th>
+        <th>SOP Date</th>
+        <th>EOL Date</th>
+        <th>把握度</th>
+        <th>報價幣別</th>
+        <th>專案名稱</th>
         <th></th>
     </tr>
 
@@ -144,9 +126,16 @@
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.rdrMain.ID }) |
 
-                @Html.ActionLink("Delete", "Delete", new { id = item.rdrMain.ID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.rdrMain.ID },new { @onclick = "return Confirm_Form()" })
             </td>
         </tr>
     }
 
 </table>
+
+<script type="text/javascript">
+    function Confirm_Form() {
+        if (!confirm("您確定要刪除嗎?"))
+            return false;
+    }
+</script>

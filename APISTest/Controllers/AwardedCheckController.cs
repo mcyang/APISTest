@@ -60,10 +60,17 @@ namespace APISTest.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public ActionResult Kickoff(KickoffCreateViewModel viewModel)
+        {
+
+            return View();
+        }
         #endregion
 
-        #region 瀏覽報表
-        //瀏覽報表
+            #region 瀏覽報表
+            //瀏覽報表
         public ActionResult BrowseReport()
         {
             #region 報表資料來源

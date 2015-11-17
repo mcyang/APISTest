@@ -1,0 +1,93 @@
+﻿@*@model APISTest.Models.RDRModule*@
+@model APISTest.ViewModels.RDRModuleViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">RDR維護</a></li>
+    <li><a href="#">新增RDR表單</a></li>
+    <li class="active">新增機種資料</li>
+</ol>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table table-bordered" id="Table1">
+        <tr>
+            <th class="col-md-2">Module</th>
+            <th>產品別</th>
+            <th>交貨地</th>
+            <th>預估年產量</th> @*靠北!! 這邊又要自動產生欄位*@
+            <th>附件</th>
+            <th>備註</th>
+            <th><input type="button" class="BtnPlus btn-warning" value="新 增" /></th>
+        </tr>
+
+
+        <tr id="trBuild_Clone">
+            <td>@Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td>@Html.DDL_ProductGroup("ProductGroupsList", 0)</td>
+            <td>@Html.DDL_Customers("CustomersList", 1, 0)</td>
+            <td>
+                <table class="table-bordered" id="mytable">
+                    <tr>
+                        <td class="col-xs-2">年度</td>
+                        <td style="text-align:center">預估年產量</td>
+                    </tr>
+                    @for (int i = 0; i < (Model.EndYear - Model.StartYear + 1); i++)
+                    {
+                        int idx = Model.StartYear + i;
+                        <tr>
+                            <td style="text-align:center" class="myyears">@idx.ToString()</td>
+                            <td style="text-align:center">
+                                @Html.TextBox("Index_" + idx.ToString(), Model.Estimate, new { id = "Index_" + idx.ToString(), @class = "myestimate" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </td>
+            @*<td>@item.EstimateProduct</td>*@ @*這邊要改為可以編輯*@
+            <td><input type="file" id="file" name="file" /></td>
+            <td>@Html.TextAreaFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 30 })</td>
+            <td><input type="button" class="BtnMinus btn-danger" value="刪 除" /></td>
+        </tr>
+       
+
+    </table>
+}
+
+@section scripts
+{
+ <script>
+      var ID = 2;
+      function addRow() {
+          var html = $('#trBuild_Clone').clone();     //只複製 td
+          $("#Table1 tr:last").after(html);
+          ID++;
+      };
+
+      function deleteRow() {
+          var rowCount = $('#Table1 tr').length;
+          var row = $(this).parent().parent();
+          if (rowCount > 2)
+          {
+              row.remove();
+          }
+      };
+
+      $("#Table1").on("click", ".BtnMinus", deleteRow);
+      
+     
+
+
+      //新增列
+      $('.BtnPlus').click(function () {
+          addRow();
+      });
+</script>
+
+    }

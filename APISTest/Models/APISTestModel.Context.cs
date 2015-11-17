@@ -37,5 +37,6 @@ namespace APISTest.Models
         public virtual DbSet<RDRMain> RDRMains { get; set; }
         public virtual DbSet<Kickoff> Kickoffs { get; set; }
         public virtual DbSet<KickoffDetail> KickoffDetails { get; set; }
+        public virtual DbSet<RDRModuleTemp> RDRModuleTemps { get; set; }
     }
 }

@@ -239,6 +239,7 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ModifyTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RDRModule">
           <Key>
@@ -259,6 +260,25 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="IsFail" Type="bit" />
           <Property Name="Reason" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RDRModuleTemp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentID" Type="int" Nullable="false" />
+          <Property Name="RDRNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ModuleName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductGroupID" Type="int" Nullable="false" />
+          <Property Name="ProductGroupCode" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="EstimateProduct" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Attachment" Type="nvarchar" MaxLength="100" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModuleVersion" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="ProductGroupName" Type="varchar" MaxLength="20" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -281,6 +301,7 @@
           <EntitySet Name="RDRInformation" EntityType="Self.RDRInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RDRMain" EntityType="Self.RDRMain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RDRModule" EntityType="Self.RDRModule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RDRModuleTemp" EntityType="Self.RDRModuleTemp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -320,6 +341,7 @@
           <EntitySet Name="RDRMains" EntityType="JohnTestModel.RDRMain" />
           <EntitySet Name="Kickoffs" EntityType="JohnTestModel.Kickoff" />
           <EntitySet Name="KickoffDetails" EntityType="JohnTestModel.KickoffDetail" />
+          <EntitySet Name="RDRModuleTemps" EntityType="JohnTestModel.RDRModuleTemp" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -533,6 +555,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Kickoff">
           <Key>
@@ -564,6 +587,25 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="RDRModuleTemp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="RDRNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModuleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductGroupID" Type="Int32" Nullable="false" />
+          <Property Name="ProductGroupCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="EstimateProduct" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleVersion" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProductGroupName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -789,6 +831,7 @@
           <EntitySetMapping Name="RDRMains">
             <EntityTypeMapping TypeName="JohnTestModel.RDRMain">
               <MappingFragment StoreEntitySet="RDRMain">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
@@ -842,6 +885,26 @@
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="RequireDate" ColumnName="RequireDate" />
                 <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RDRModuleTemps">
+            <EntityTypeMapping TypeName="JohnTestModel.RDRModuleTemp">
+              <MappingFragment StoreEntitySet="RDRModuleTemp">
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ProductGroupName" ColumnName="ProductGroupName" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="ModuleVersion" ColumnName="ModuleVersion" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="EstimateProduct" ColumnName="EstimateProduct" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ProductGroupCode" ColumnName="ProductGroupCode" />
+                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

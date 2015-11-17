@@ -69,6 +69,9 @@ namespace APISTest.Controllers
         // GET: RDRMains/Create
         public ActionResult Create()
         {
+            //待處理
+            //RFQ Date 預設系統日期
+            //AcquisitionDate 預設系統日期+7天
             return View();
         }
 
@@ -115,7 +118,10 @@ namespace APISTest.Controllers
             int revenue = 0;
             int.TryParse(fc["EstimateRevenueValue"], out revenue);
             rdrMain.EstimateRevenue = revenue;  //預估年營業額
+            rdrMain.Status = 1; // 狀態:RFQ階段
             rdrMain.CreateTime = System.DateTime.Now;
+            rdrMain.ModifyTime = System.DateTime.Now;
+            rdrMain.IsDelete = false;
 
             #endregion
 
@@ -126,8 +132,13 @@ namespace APISTest.Controllers
                 db.SaveChanges();
 
                 //導向RDRMains/Deatils，再從Details中選擇要新增Module還是要修改RDRMain
-                return RedirectToAction("Details");
-            } 
+                
+                return RedirectToAction("Details", new { id = rdrMain.ID });
+            }
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+            }
             #endregion
 
             return View();
@@ -241,7 +252,6 @@ namespace APISTest.Controllers
                 return HttpNotFound();
             }
             
-
             return View(rdrMain);
         }
 

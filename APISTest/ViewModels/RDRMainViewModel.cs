@@ -41,6 +41,7 @@ namespace APISTest.ViewModels
         }
     }
 
+    //RDRMain 列表資料模型
     public class RDRMainIndexViewModel
     {
         public RDRMain rdrMain { get; set; }
@@ -52,6 +53,7 @@ namespace APISTest.ViewModels
         public DateTime RFQDate
         {
             get { return rdrMain.RFQDate; }
+            set { }
         }
 
         [DataType(DataType.Date)]
@@ -59,6 +61,7 @@ namespace APISTest.ViewModels
         public DateTime AcquisitionDate
         {
             get { return rdrMain.AcquisitionDate; }
+            set { }
         }
 
         [DataType(DataType.Date)]
@@ -74,6 +77,8 @@ namespace APISTest.ViewModels
         {
             get { return rdrMain.EOLDate; }
         }
+
+    
     }
 
     public class RDRMainDetailsViewModel

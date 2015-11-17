@@ -257,14 +257,15 @@
                         <td>@item.ModuleName</td>
                         <td>@item.EstimateProduct</td> @*這邊要改為可以編輯*@
                         <td>@Html.RadioButton("AwardOrFail"+ idx, item.IsAwarded ?? false)</td>
-                        <td>@Html.Editor("Price" + idx, item.Price.HasValue ? item.Price.ToString() : "0.0", new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>@Html.Editor("Price" + idx, item.Price.HasValue ? item.Price.ToString() : "0.0", new { htmlAttributes = new { @class = "form-control" } })</td> @*disabled*@
                         <td>@Html.RadioButton("AwardOrFail" + idx, item.IsFail ?? false)</td>
-                        <td>@Html.Editor("Reason" + idx, item.Reason , new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>@Html.Editor("Reason" + idx, item.Reason , new { htmlAttributes = new { @class = "form-control" } })</td> @*disabled*@
                     </tr>
 
                     idx++;
                 }
             </table>
+            
             @* 這邊考慮用 partialView來放 *@
             <table class="table table-bordered" id="Table1">
                 <tr><td colspan="5" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">客戶時程及樣品需求</td></tr>
@@ -379,6 +380,7 @@
                 $('#level').removeAttr('disabled');
             } else
             {
+                $('#level').val("");;
                 $('#level').attr("disabled", true)
             }
         });

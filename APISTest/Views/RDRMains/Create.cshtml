@@ -33,7 +33,7 @@
 
                     <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
                     <td class="col-md-3">
-                        @Html.DDL_CustomerTeam("CustomerTeamList", 0)
+                        @Html.DDL_CustomerTeam("CustomerTeamList", 0, false, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.Hidden("ddl_CustomerTeamText")
                     </td>
 
