@@ -7,37 +7,40 @@
 }
 
 <h3>機種清單</h3>
-<table class="table-bordered">
-    <tr>
-        <th class="col-md-1">ID</th>
-        <th class="col-md-2">Module</th>
-        <th class="col-md-2">產品別</th>
-        <th class="col-md-2">交貨地</th>
-        <th class="col-md-3">預估年產量</th>
-        <th class="col-md-3">附件</th>
-        <th class="col-md-5">備註</th>
-        <th class="col-md-1"></th>
-    </tr>
-    @if (list != null)
-    {
-        foreach (var item in list)
+<div>
+    <table class="table-bordered">
+        <tr>
+            <th class="col-md-1">ID</th>
+            <th class="col-md-2">Module</th>
+            <th class="col-md-2">產品別</th>
+            <th class="col-md-2">交貨地</th>
+            <th class="col-md-2">預估年產量</th>
+            <th class="col-md-2">附件</th>
+            <th class="col-md-5">備註</th>
+            <th class="col-md-1"></th>
+        </tr>
+        @if (list != null)
         {
-            var idx = list.IndexOf(item);
-            var js_idx = "tempID" + idx;
-            <tr>
-                @Html.Hidden("ParentID", item.ParentID)
-                <td id="@js_idx">@item.ID</td>
-                <td>@item.ModuleName</td>
-                <td>@item.ProductGroupName</td>
-                <td>@item.CustomerName</td>
-                <td>@item.EstimateProduct</td>
-                <td>@item.Attachment</td>
-                <td>@item.Remark</td>
-                <td><input type="button" class="BtnMinus btn-danger" value="刪 除" id="RDRModuleTempDelete" /></td>
-            </tr>
+            foreach (var item in list)
+            {
+                var idx = list.IndexOf(item);
+                var js_idx = "tempID" + idx;
+                <tr>
+                    @Html.Hidden("ParentID", item.ParentID)
+                    <td id="@js_idx">@item.ID</td>
+                    <td>@item.ModuleName</td>
+                    <td>@item.ProductGroupName</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.EstimateProduct</td>
+                    <td>@item.Attachment</td>
+                    <td>@item.Remark</td>
+                    <td><input type="button" class="BtnMinus btn-danger" value="刪 除" id="RDRModuleTempDelete" /></td>
+                </tr>
+            }
         }
-    }
-</table>
+    </table>
+</div>
+
 
 <div class="row">
     <div>
@@ -45,22 +48,3 @@
     </div>
 
 </div>
-
-@*@section Scripts
-{
-    <script type="text/javascript">
-
-        $(function () {
-            $('#RDRModuleTempSave').click(function () {
-                debugger
-                alert("e04");
-            });
-
-            $('#RDRModuleTempDelete').click(function () {
-                debugger
-                alert("淦");
-            });
-        });
-
-    </script>
-}*@

@@ -162,36 +162,66 @@
 
     $(function () {
         $('#RDRModuleTempSave').click(function () {
-            alert("淦");
-            var url = '@Url.Action("Details, RDRModules")';
-            window.location.href = url;
-        });
-
-        $('.BtnMinus').click(function () {
-            alert("幹");
             debugger
-            var pid = $('input[id^="ParentID"]').val();
-            var idx = $(this).parent().parent().find('td[id^="tempID"]').text();
-           
+            //取得ParentID
+            var parentId = $('#ParentID').val();
+            var url = "/RDRModules/Add?selectParentID=" + parentId;
+            window.location.href = url ;
 
+                //以ajax方式,跑RDRModules/AjaxCreate
+                //$.ajax({
+                //    url: '/RDRModules/AjaxCreate',
+                //    type: "POST",
+                //    data:,
+                //    contentType: 'application/json; charset=utf-8',
+                //    async: true,
+                //    processData: false,
+                //    cache: false,
+                //    success: function(data, textStatus, xhr){
+                //        alert(textStatus);
+
+                //        if (data.result == 'Redirect')
+                //            window.location = data.url;
+                //    },
+                //    error: function(xhr){
+                //        alert('error');
+                //    }
+                //});
+            });
+
+        //機種清單-刪除項目
+        $('.BtnMinus').click(function () {
+
+            var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
+            var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModuleTemp.ID
+            //alert("parentID:" + pid);
+
+            //以ajax方式,跑RDRModulesTemp/Delete
             $.ajax({
                 url: "/RDRModulesTemp/Delete",
                 type: "POST",
-                data: JSON.stringify({ id: idx }),
+                data: JSON.stringify({ id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModulesTemp/Delete 的傳入參數名稱相同
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 async: true,
                 processData: false,
                 cache: false,
-                success: function (data) {
-                    alert(data);
+                success: function (data, textStatus, xhr) {
+                    //alert(textStatus);
 
+                    //後端刪除成功，隨後回到前端success這邊做Url 導向
+                    //後端return  Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) })
+                    //data即包含result & url
+                    if (data.result == 'Redirect')
+                        window.location = data.url;
                 },
                 error: function (xhr) {
                     alert('error');
                 }
             });
         });
+
+
         //$('#result').load("/RDRModules/_MyPartialView");
         //var start = $('#StartYear').val();
         //var end = $('#EndYear').val();

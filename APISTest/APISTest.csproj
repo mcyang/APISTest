@@ -291,6 +291,7 @@
     <Compile Include="Models\RDRModuleTemp.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Rule\RDRModule.cs" />
     <Compile Include="Models\Team.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
@@ -503,6 +504,7 @@
     <Content Include="Views\RDRModules\_MyPartialView.cshtml" />
     <Content Include="Views\RDRModules\Main.cshtml" />
     <Content Include="Views\RDRModules\CreateTemp.cshtml" />
+    <Content Include="Views\RDRModules\CreateModuleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

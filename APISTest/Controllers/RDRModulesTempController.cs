@@ -19,15 +19,11 @@ namespace APISTest.Controllers
         [HttpPost]
         public JsonResult Delete(int? id, int? parentID)
         {
-          
-                RDRModuleTemp temp = db.RDRModuleTemps.Find(id);
-                db.RDRModuleTemps.Remove(temp);
-                db.SaveChanges();
-                return Json("Response from Delete");
-            
-            //return Redirect("~/RDRModules/_MyPartialView");
-            //return PartialView("_MyPartialView");
-            //return RedirectToAction("Create","RDRModules", new { id = parentID });
+            RDRModuleTemp temp = db.RDRModuleTemps.Find(id);
+            db.RDRModuleTemps.Remove(temp);
+            db.SaveChanges();
+
+            return Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) });
         }
     }
 }
