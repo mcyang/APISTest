@@ -212,6 +212,7 @@
           <Property Name="IsInnerTechDev" Type="bit" Nullable="false" />
           <Property Name="IsOEM" Type="bit" Nullable="false" />
           <Property Name="IsProductionTrans" Type="bit" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RDRMain">
           <Key>
@@ -240,6 +241,7 @@
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ModifyTime" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CreateUserID" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="RDRModule">
           <Key>
@@ -260,6 +262,7 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="IsFail" Type="bit" />
           <Property Name="Reason" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RDRModuleTemp">
           <Key>
@@ -458,6 +461,7 @@
           <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="IsFail" Type="Boolean" />
           <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="RDRInformation">
           <Key>
@@ -519,6 +523,7 @@
           <Property Name="IsInnerTechDev" Type="Boolean" Nullable="false" />
           <Property Name="IsOEM" Type="Boolean" Nullable="false" />
           <Property Name="IsProductionTrans" Type="Boolean" Nullable="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CarMaker">
           <Key>
@@ -556,6 +561,7 @@
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ModifyTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateUserID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Kickoff">
           <Key>
@@ -738,6 +744,7 @@
           <EntitySetMapping Name="RDRModules">
             <EntityTypeMapping TypeName="JohnTestModel.RDRModule">
               <MappingFragment StoreEntitySet="RDRModule">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="IsFail" ColumnName="IsFail" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -759,6 +766,7 @@
           <EntitySetMapping Name="RDRInformations">
             <EntityTypeMapping TypeName="JohnTestModel.RDRInformation">
               <MappingFragment StoreEntitySet="RDRInformation">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="IsProductionTrans" ColumnName="IsProductionTrans" />
                 <ScalarProperty Name="IsOEM" ColumnName="IsOEM" />
                 <ScalarProperty Name="IsInnerTechDev" ColumnName="IsInnerTechDev" />
@@ -831,6 +839,7 @@
           <EntitySetMapping Name="RDRMains">
             <EntityTypeMapping TypeName="JohnTestModel.RDRMain">
               <MappingFragment StoreEntitySet="RDRMain">
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

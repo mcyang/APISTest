@@ -14,7 +14,7 @@
     <li class="active">新增專案基本資料</li>
 </ol>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create","RDRMains",FormMethod.Post, new { id = "ListForm" }))
     {
         @Html.AntiForgeryToken()
 
@@ -37,8 +37,8 @@
                         @Html.Hidden("ddl_CustomerTeamText")
                     </td>
 
-                    <th class="col-md-2"></th>
-                    <td class="col-md-3"></td>
+                    <th class="col-md-2"><span style="color:red">*</span>業務</th>
+                    <td class="col-md-3">@Html.TextBoxFor(model => model.rdrMain.CreateUserID)</td>
                 </tr>
                 <tr>
                     <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>

@@ -121,6 +121,7 @@ namespace APISTest.Controllers
             rdrMain.Status = 1; // 狀態:RFQ階段
             rdrMain.CreateTime = System.DateTime.Now;
             rdrMain.ModifyTime = System.DateTime.Now;
+            rdrMain.CreateUserID = fc["rdrMain.CreateUserID"];
             rdrMain.IsDelete = false;
 
             #endregion
@@ -270,13 +271,13 @@ namespace APISTest.Controllers
 
         #region 瀏覽報表
         //瀏覽報表
-        public ActionResult BrowseReport()
+        public ActionResult BrowseReport(int id)
         {
             #region 報表資料來源
             List<RDRMainReportViewModel> mainList = new List<RDRMainReportViewModel>();
 
             //撈資料
-            var mainData = from main in db.RDRMains.Where(m=>m.ID==1)
+            var mainData = from main in db.RDRMains.Where(m=>m.ID == id)
                            join car in db.CarMakers on main.CarMakerID equals car.ID
                            select new { main, car.Name };
 

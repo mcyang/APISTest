@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    var idx = ViewContext.RouteData.Values["id"];
 }
 
 <ol class="breadcrumb">
@@ -10,6 +11,8 @@
     <li class="active">明細頁</li>
 </ol>
 <div>
+    <p>@Html.ActionLink("列 印", "BrowseReport", "RDRMains", new { id = idx }, new { @class = "btn btn-default" ,target = "_blank" })</p>
+
     <table class="table table-bordered">
         <tr>
             <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料</td>
@@ -25,9 +28,9 @@
                 @Html.DisplayFor(model => model.rdrMainDetail.rdrMain.CustomerTeamCode)
             </td>
 
-            <th class="col-md-2">填表日期</th>
+            <th class="col-md-2">業務</th>
             <td class="col-md-2">
-                @Html.DisplayFor(model => model.rdrMainDetail.CreateDate)
+                @Html.DisplayFor(model => model.rdrMainDetail.rdrMain.CreateUserID)
             </td>
         </tr>
         <tr>
@@ -57,8 +60,10 @@
             <th>報價需求日</th>
             <td>@Html.DisplayFor(model => model.rdrMainDetail.AcquisitionDate)</td>
 
-            <th></th>
-            <td></td>
+            <th class="col-md-2">填表日期</th>
+            <td class="col-md-2">
+                @Html.DisplayFor(model => model.rdrMainDetail.CreateDate)
+            </td>
         </tr>
         <tr>
             <th>SOP Date</th>
@@ -411,25 +416,25 @@
             <th><span style="color:red">*</span> NRE CHARGE </th>
             <td colspan="6">
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsModuleFee)  模具費
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsModuleFee)  模具費
                 </label>
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsSampleFee)  樣品費
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsSampleFee)  樣品費
                 </label>
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsHandMoldingFee)  手造模
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsHandMoldingFee)  手造模
                 </label>
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsTravelFee)  差旅費
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsTravelFee)  差旅費
                 </label>
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsTestFee)  測試驗證費
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsTestFee)  測試驗證費
                 </label>
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsDevelopFee)  開發費
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsDevelopFee)  開發費
                 </label>
                 <label class="checkbox-inline">
-                    @Html.EditorFor(m => m.rdrInfoDetail.IsVerifyToolFee)  製程用檢治工具
+                    @Html.DisplayFor(m => m.rdrInfoDetail.IsVerifyToolFee)  製程用檢治工具
                 </label>
             </td>
         </tr>

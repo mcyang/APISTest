@@ -21,13 +21,13 @@
                  @Html.DisplayFor(model => model.rdrMain.RDRNumber)
              </td>
 
-             <th class="col-md-2">客戶群</th>
-             <td class="col-md-3">
+             <th class="col-md-1">客戶群</th>
+             <td class="col-md-2">
                  @Html.DisplayFor(model => model.rdrMain.CustomerTeamCode)
              </td>
 
-             <th class="col-md-2"></th>
-             <td class="col-md-3"></td>
+             <th class="col-md-2">業務</th>
+             <td class="col-md-3">@Html.DisplayFor(model => model.rdrMain.CreateUserID)</td>
          </tr>
          <tr>
              <th class="col-md-2">專案名稱</th>
@@ -86,8 +86,8 @@
      </table>
 
     <div class="row">
-        <div class="col-md-1">@*返回RDR列表(RDRs/Index)*@
-            @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
+        <div class="col-md-1">
+            @Html.ActionLink("返 回", "Index", "RDRManage", new { @class = "btn btn-info" })
         </div>
 
         <div class="col-md-1">

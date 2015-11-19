@@ -37,11 +37,11 @@ namespace APISTest.Controllers
         }
 
         // GET: RDROthersInfoes/Create
-        public ActionResult Create(int id = 1)
+        public ActionResult Create(int id)
         {
             RDRInfoViewModel viewModel = new RDRInfoViewModel();
             viewModel.ParentID = id;
-            viewModel.SelectedDevelopSiteId = 1;
+            //viewModel.SelectedDevelopSiteId = 1;
             viewModel.DevelopSites = Enumerable.Range(1, 5).Select(x => new DevelopSite
             {
                 Id = x,
@@ -62,7 +62,7 @@ namespace APISTest.Controllers
             {
                 db.RDRInformations.Add(viewModel.rdrInfo);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","RDRManage");
             }
             else
             {

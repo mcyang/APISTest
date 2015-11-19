@@ -71,6 +71,7 @@ namespace APISTest.Controllers
             viewModel.MainCode = main.RDRNumber;
             viewModel.StartYear = main.SOPDate.Year;
             viewModel.EndYear = main.EOLDate.Year;
+            viewModel.CustomerID = main.CustomerTeamID;
 
             return View(viewModel);
         }
@@ -115,7 +116,6 @@ namespace APISTest.Controllers
             db.RDRModuleTemps.Add(rdrModuleTemp);
             db.SaveChanges();
 
-            ViewData["Parent"] = viewModel.ParentID;
             return RedirectToAction("Create", new { id = viewModel.ParentID });
         }
         #endregion
@@ -164,24 +164,29 @@ namespace APISTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRModule rDRModule = db.RDRModules.Find(id);
-            if (rDRModule == null)
+            RDRModule rdrModule = db.RDRModules.Find(id);
+            if (rdrModule == null)
             {
                 return HttpNotFound();
             }
-            return View(rDRModule);
+
+            //rdrModule.IsDelete = true; //假刪
+            db.RDRModules.Remove(rdrModule); //真刪
+            db.SaveChanges();
+
+            return RedirectToAction("CreateModuleList","RDRModules", new { id = rdrModule.ParentID });
         }
 
-        // POST: RDRModules/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            RDRModule rDRModule = db.RDRModules.Find(id);
-            db.RDRModules.Remove(rDRModule);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: RDRModules/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    RDRModule rDRModule = db.RDRModules.Find(id);
+        //    db.RDRModules.Remove(rDRModule);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         #endregion
 
@@ -277,10 +282,10 @@ namespace APISTest.Controllers
                 //判斷規則: 只有 "產品別同 & 交貨地不同" 情況下，需要計算交貨地數。其他情況都固定。
                 //ex. AL.16.0001-01.1.00.0
                 //    AL.16.0001-01.2.01.0
-                bool IsRule = db.RDRModules.Where(m => m.ProductGroupID == pid && m.CustomerID != cid).Any();
+                bool IsRule = list.Where(m => m.ProductGroupID == pid && m.CustomerID != cid).Any();
                 if (IsRule)
                 {
-                    var compare = db.RDRModules.Where(m => m.ProductGroupID == pid && m.CustomerID != cid).ToList();
+                    var compare = list.Where(m => m.ProductGroupID == pid && m.CustomerID != cid).ToList();
 
                     //找出資料庫中交貨地數目最大值
                     int max = compare.Select(p => Convert.ToInt32(p.RDRNumber.ToString().Substring(14, 1))).Max();

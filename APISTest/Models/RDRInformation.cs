@@ -70,5 +70,6 @@ namespace APISTest.Models
         public bool IsInnerTechDev { get; set; }
         public bool IsOEM { get; set; }
         public bool IsProductionTrans { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

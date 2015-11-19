@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    var idx = ViewContext.RouteData.Values["id"];
 }
 
 <ol class="breadcrumb">
@@ -10,6 +11,11 @@
     <li><a href="#">新增RDR表單</a></li>
     <li class="active">新增機種資料</li>
 </ol>
+
+
+<p>
+    @Html.ActionLink("新增機種", "Create", "RDRModules", new { id = idx }, new { @class = "btn btn-warning" })
+</p>
 
 <table class="table">
     <tr>
@@ -81,8 +87,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @onclick = "return Confirm_Form()" })
             </td>
         </tr>
     }
@@ -91,14 +96,19 @@
 <div class="row">
     <div class="col-md-1">
         @*返回RDR列表(RDRs/Index)*@
-        @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("返 回", "Index", "RDRManage", null, new { @class = "btn btn-info" })
     </div>
-
-@*<div class="col-md-1">
-    @Html.ActionLink("編 輯", "Edit", "RDRMains", new { id = Model.ID }, new { @class = "btn btn-warning" })
-</div>*@
-
 <div class="col-md-2">
-    @Html.ActionLink("新增其他專案資訊", "Create", "RDRInfos", new { id = ViewData["Parent"] }, new { @class = "btn btn-success" })
+    @Html.ActionLink("下一步", "Create", "RDRInfos", new { id = idx }, new { @class = "btn btn-success" })
 </div>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        function Confirm_Form() {
+            if (!confirm("您確定要刪除嗎?"))
+                return false;
+        }
+    </script>
+}

@@ -486,7 +486,6 @@
     <Content Include="Views\RDRMains\Details.cshtml" />
     <Content Include="Views\RDRMains\Edit.cshtml" />
     <Content Include="Views\RDRMains\Index.cshtml" />
-    <Content Include="Views\RDRModules\Delete.cshtml" />
     <Content Include="Views\RDRModules\Details.cshtml" />
     <Content Include="Views\RDRModules\Edit.cshtml" />
     <Content Include="Views\RDRModules\Index.cshtml" />

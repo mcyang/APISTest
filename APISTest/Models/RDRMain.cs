@@ -37,5 +37,6 @@ namespace APISTest.Models
         public int Status { get; set; }
         public System.DateTime ModifyTime { get; set; }
         public bool IsDelete { get; set; }
+        public string CreateUserID { get; set; }
     }
 }

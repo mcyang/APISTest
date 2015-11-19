@@ -1,6 +1,7 @@
 ﻿@model APISTest.ViewModels.RDRInfoViewModel
 @{
     ViewBag.Title = "Create";
+    int parent_id = Convert.ToInt32(ViewContext.RouteData.Values["id"]);
 }
 
 <ol class="breadcrumb">
@@ -11,14 +12,14 @@
 </ol>
 <hr />
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","RDRInfos",FormMethod.Post,new { id = "ListForm" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(m => m.ParentID)
+        @Html.HiddenFor(m => m.rdrInfo.ParentID)
 
         <table class="table table-bordered">
             <tr>
@@ -99,7 +100,7 @@
             <tr>
                 <td>開發地</td>
                 <td colspan="4">
-                    @for (var i = 0; i < Model.DevelopSites.Count(); i++)
+                    @*@for (var i = 0; i < Model.DevelopSites.Count(); i++)
                     {
                         @Html.HiddenFor(x => x.DevelopSites[i].Id)
                             @Html.RadioButtonFor(model => model.SelectedDevelopSiteId, Model.DevelopSites[i].Id, new { id= "DevelopSite_" + i})
@@ -121,22 +122,22 @@
                                 @Html.Label("TCH")
                                 break;
                         }
-                    }
-                    @*<label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.IsLAK, new { id = "IsLAK", name = "Site" }) LAK
+                    }*@
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfo.IsLAK, new { id = "IsLAK", name = "Site" }) LAK
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.IsLAW, new { id = "IsLAW", name = "Site" }) LAW
+                        @Html.RadioButtonFor(model => model.rdrInfo.IsLAW, new { id = "IsLAW", name = "Site" }) LAW
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.IsLGA, new { id = "IsLGA", name = "Site" }) LGA
+                        @Html.RadioButtonFor(model => model.rdrInfo.IsLGA, new { id = "IsLGA", name = "Site" }) LGA
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.IsLAT, new { id = "IsLAT", name = "Site" }) LAT
+                        @Html.RadioButtonFor(model => model.rdrInfo.IsLAT, new { id = "IsLAT", name = "Site" }) LAT
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.IsTCH, new { id = "IsTCH", name = "Site" }) TCH
-                    </label>*@
+                        @Html.RadioButtonFor(model => model.rdrInfo.IsTCH, new { id = "IsTCH", name = "Site" }) TCH
+                    </label>
                 </td>
             </tr>
             <tr>
@@ -387,7 +388,7 @@
     </div>
     <div class="row">
         <div class="col-md-1">
-            @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
+            @Html.ActionLink("返 回", "Index", "RDRManage", null, new { @class = "btn btn-info" })
         </div>
 
         <div class="col-md-1">
@@ -397,3 +398,10 @@
         </div>
     </div>
 }
+
+
+@section scripts{
+    <script>
+        $('#rdrInfo_ParentID').val(@parent_id);
+    </script>
+    }
