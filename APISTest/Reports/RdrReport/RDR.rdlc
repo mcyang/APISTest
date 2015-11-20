@@ -1616,39 +1616,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox47">
+                        <Textbox Name="EstimateProduct">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>2016:100,</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>2017:200,</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>2018:300</Value>
+                                  <Value>=Fields!EstimateProduct.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox47</rd:DefaultName>
+                          <rd:DefaultName>EstimateProduct</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1751,7 +1733,7 @@
             <Top>5.45222cm</Top>
             <Left>0.01cm</Left>
             <Height>1.2cm</Height>
-            <Width>18.89cm</Width>
+            <Width>18.88997cm</Width>
             <ZIndex>40</ZIndex>
             <Style>
               <Border>
@@ -6177,6 +6159,10 @@
         </Field>
         <Field Name="Remark">
           <DataField>Remark</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EstimateProduct">
+          <DataField>EstimateProduct</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

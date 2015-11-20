@@ -42,11 +42,35 @@ namespace APISTest.Controllers
             RDRInfoViewModel viewModel = new RDRInfoViewModel();
             viewModel.ParentID = id;
             //viewModel.SelectedDevelopSiteId = 1;
-            viewModel.DevelopSites = Enumerable.Range(1, 5).Select(x => new DevelopSite
-            {
-                Id = x,
-                Name = "DevelopSite" + x,
-            }).ToList();
+            //viewModel.DevelopSites = new List<DevelopSite> {
+            //    new DevelopSite {
+            //        Id = 1,
+            //        Name = "LAK",
+            //    },
+            //    new DevelopSite
+            //    {
+            //        Id = 2,
+            //        Name = "LAW",
+            //    },
+            //     new DevelopSite {
+            //        Id = 3,
+            //        Name = "LGA",
+            //    },
+            //    new DevelopSite
+            //    {
+            //        Id = 4,
+            //        Name = "LAT",
+            //    },
+            //     new DevelopSite {
+            //        Id = 5,
+            //        Name = "TCH",
+            //    },
+            //};
+            //viewModel.DevelopSites = Enumerable.Range(1, 5).Select(x => new DevelopSite
+            //{
+            //    Id = x,
+            //    Name = "DevelopSite" + x,
+            //}).ToList();
 
             return View(viewModel);
         }
@@ -60,6 +84,25 @@ namespace APISTest.Controllers
         {
             if (ModelState.IsValid)
             {
+                switch (viewModel.SelectedDevelopSiteId)
+                {
+                    case 1:
+                        viewModel.rdrInfo.IsLAK = true;
+                        break;
+                    case 2:
+                        viewModel.rdrInfo.IsLAW = true;
+                        break;
+                    case 3:
+                        viewModel.rdrInfo.IsLGA = true;
+                        break;
+                    case 4:
+                        viewModel.rdrInfo.IsLAT = true;
+                        break;
+                    case 5:
+                        viewModel.rdrInfo.IsTCH = true;
+                        break;
+                }
+
                 db.RDRInformations.Add(viewModel.rdrInfo);
                 db.SaveChanges();
                 return RedirectToAction("Index","RDRManage");

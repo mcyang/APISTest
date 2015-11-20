@@ -274,48 +274,23 @@ namespace APISTest.Controllers
         public ActionResult BrowseReport(int id)
         {
             #region 報表資料來源
-            List<RDRMainReportViewModel> mainList = new List<RDRMainReportViewModel>();
 
             //撈資料
-            var mainData = from main in db.RDRMains.Where(m=>m.ID == id)
+            List<RDRMainReportViewModel> mainList = (from main in db.RDRMains.Where(m=>m.ID == id)
                            join car in db.CarMakers on main.CarMakerID equals car.ID
-                           select new { main, car.Name };
+                           select new RDRMainReportViewModel { rdrMain = main, CarMakerName = car.Name }).ToList();
 
-            foreach (var m in mainData)
-            {
-                RDRMainReportViewModel viewModel = new RDRMainReportViewModel();
-                viewModel.rdrMain = m.main;
-                viewModel.CarMakerName = m.Name;
-                mainList.Add(viewModel);
-            }
-
-            List<RDRModuleReportViewModel> modulesList = new List<RDRModuleReportViewModel>();
-            var modulesData = from module in db.RDRModules
+           
+            List<RDRModuleReportViewModel> modulesList = (from module in db.RDRModules
                               join customer in db.Customers on module.CustomerID equals customer.ID
                               join productGroup in db.ProductGroups on module.ProductGroupID equals productGroup.ID
-                              join main in db.RDRMains.Where(m => m.ID == 1) on module.ParentID equals main.ID
-                              select new { rdrModule = module, CustomerName = customer.Name, ProductGroupName = productGroup.Name };
+                              join main in db.RDRMains.Where(m => m.ID == id) on module.ParentID equals main.ID
+                              select new RDRModuleReportViewModel { rdrModule = module, CustomerName = customer.Name, ProductGroupName = productGroup.Name }).ToList();
 
-            foreach (var m in modulesData)
-            {
-                RDRModuleReportViewModel moduleRptModel = new RDRModuleReportViewModel();
-                moduleRptModel.rdrModule = m.rdrModule;
-                moduleRptModel.ProductGroupName = m.ProductGroupName;
-                moduleRptModel.CustomerName = m.CustomerName;
 
-                modulesList.Add(moduleRptModel);
-            }
+            List<RDRInfoReportViewModel> infoList = (from info in db.RDRInformations.Where(x => x.ParentID == id)
+                           select new RDRInfoReportViewModel { rdrInfo = info }).ToList();
 
-            List<RDRInfoReportViewModel> infoList = new List<RDRInfoReportViewModel>();
-            var infoData = from info in db.RDRInformations.Where(x => x.ParentID == 1)
-                           select new { info};
-            foreach (var i in infoData)
-            {
-                RDRInfoReportViewModel infoModel = new RDRInfoReportViewModel();
-                infoModel.rdrInfo = i.info;
-
-                infoList.Add(infoModel);
-            }
             #endregion
 
             try

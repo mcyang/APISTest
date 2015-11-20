@@ -879,6 +879,8 @@ namespace APISTest.Reports.RdrReport {
             
             private global::System.Data.DataColumn columnRemark;
             
+            private global::System.Data.DataColumn columnEstimateProduct;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public RDRModuleDataTable() {
@@ -962,6 +964,14 @@ namespace APISTest.Reports.RdrReport {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn EstimateProductColumn {
+                get {
+                    return this.columnEstimateProduct;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -997,7 +1007,7 @@ namespace APISTest.Reports.RdrReport {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public RDRModuleRow AddRDRModuleRow(string RDRModuleNo, string ModuleName, string ProductGroupName, string CustomerName, string Attachment, string Remark) {
+            public RDRModuleRow AddRDRModuleRow(string RDRModuleNo, string ModuleName, string ProductGroupName, string CustomerName, string Attachment, string Remark, string EstimateProduct) {
                 RDRModuleRow rowRDRModuleRow = ((RDRModuleRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         RDRModuleNo,
@@ -1005,7 +1015,8 @@ namespace APISTest.Reports.RdrReport {
                         ProductGroupName,
                         CustomerName,
                         Attachment,
-                        Remark};
+                        Remark,
+                        EstimateProduct};
                 rowRDRModuleRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRDRModuleRow);
                 return rowRDRModuleRow;
@@ -1034,6 +1045,7 @@ namespace APISTest.Reports.RdrReport {
                 this.columnCustomerName = base.Columns["CustomerName"];
                 this.columnAttachment = base.Columns["Attachment"];
                 this.columnRemark = base.Columns["Remark"];
+                this.columnEstimateProduct = base.Columns["EstimateProduct"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1051,6 +1063,8 @@ namespace APISTest.Reports.RdrReport {
                 base.Columns.Add(this.columnAttachment);
                 this.columnRemark = new global::System.Data.DataColumn("Remark", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRemark);
+                this.columnEstimateProduct = new global::System.Data.DataColumn("EstimateProduct", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEstimateProduct);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2879,6 +2893,22 @@ namespace APISTest.Reports.RdrReport {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string EstimateProduct {
+                get {
+                    try {
+                        return ((string)(this[this.tableRDRModule.EstimateProductColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("資料表 \'RDRModule\' 中資料行 \'EstimateProduct\' 的值是 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableRDRModule.EstimateProductColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsRDRModuleNoNull() {
                 return this.IsNull(this.tableRDRModule.RDRModuleNoColumn);
             }
@@ -2947,6 +2977,18 @@ namespace APISTest.Reports.RdrReport {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetRemarkNull() {
                 this[this.tableRDRModule.RemarkColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEstimateProductNull() {
+                return this.IsNull(this.tableRDRModule.EstimateProductColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEstimateProductNull() {
+                this[this.tableRDRModule.EstimateProductColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -100,6 +100,11 @@
             <tr>
                 <td>開發地</td>
                 <td colspan="4">
+                    @foreach (var item in Model.DevelopSites)
+                    {
+                        @Html.RadioButtonFor(model => model.SelectedDevelopSiteId, item.Id , new { id = "DevelopSite_" + item.Id })
+                        <label>@item.Name</label>
+                    }
                     @*@for (var i = 0; i < Model.DevelopSites.Count(); i++)
                     {
                         @Html.HiddenFor(x => x.DevelopSites[i].Id)
@@ -123,7 +128,7 @@
                                 break;
                         }
                     }*@
-                    <label class="radio-inline">
+                    @*<label class="radio-inline">
                         @Html.RadioButtonFor(model => model.rdrInfo.IsLAK, new { id = "IsLAK", name = "Site" }) LAK
                     </label>
                     <label class="radio-inline">
@@ -137,7 +142,7 @@
                     </label>
                     <label class="radio-inline">
                         @Html.RadioButtonFor(model => model.rdrInfo.IsTCH, new { id = "IsTCH", name = "Site" }) TCH
-                    </label>
+                    </label>*@
                 </td>
             </tr>
             <tr>
