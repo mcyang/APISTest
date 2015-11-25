@@ -30,5 +30,6 @@ namespace APISTest.Models
         public Nullable<bool> IsFail { get; set; }
         public string Reason { get; set; }
         public bool IsDelete { get; set; }
+        public string CustomerBOM { get; set; }
     }
 }

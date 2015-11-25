@@ -55,13 +55,17 @@ namespace APISTest.Models
         [Description("LGA")]
         LGA = 2,
 
+        /// <summary>無錫LAW</summary>
+        [Description("LAW")]
+        LAW = 3,
+
         /// <summary>墨西哥LAMX</summary>
         [Description("LAMX")]
-        LAMX = 3,
+        LAMX = 4,
 
         /// <summary>LAE</summary>
         [Description("LAE")]
-        LAE = 4,
+        LAE = 5,
     }
 
     /// <summary>

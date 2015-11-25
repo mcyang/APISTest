@@ -87,7 +87,7 @@
 
     <div class="row">
         <div class="col-md-1">
-            @Html.ActionLink("返 回", "Index", "RDRManage", new { @class = "btn btn-info" })
+            @Html.ActionLink("取 消", "Delete", "RDRMains", new { id = Model.rdrMain.ID }, new { @class = "btn btn-info", @onclick = "return Confirm_Form()" })
         </div>
 
         <div class="col-md-1">
@@ -95,7 +95,17 @@
         </div>
 
         <div class="col-md-2">
-            @Html.ActionLink("Add Module", "Create", "RDRModules", new { id = Model.rdrMain.ID }, new { @class = "btn btn-success" })
+            @Html.ActionLink("下一步", "Create", "RDRModules", new { id = Model.rdrMain.ID }, new { @class = "btn btn-success" })
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+        function Confirm_Form() {
+            if (!confirm("即將刪除表單資料，您確定要刪除嗎?"))
+                return false;
+        }
+    </script>
+}

@@ -1,109 +1,114 @@
-﻿@model APISTest.Models.RDRModule
+﻿@model APISTest.ViewModels.RDRModuleEditViewModel
 
 @{
     ViewBag.Title = "Edit";
+
+    int StartYear = int.Parse(ViewData["StartYear"].ToString());
+    int EndYear = int.Parse(ViewData["EndYear"].ToString());
 }
 
-<h2>Edit</h2>
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">RDR維護</a></li>
+    <li><a href="#">編輯RDR表單</a></li>
+    <li class="active">編輯機種資料</li>
+</ol>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>RDRModule</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ParentID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RDRNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RDRNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RDRNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ModuleName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProductGroupID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductGroupID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProductGroupID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EstimateProduct, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EstimateProduct, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EstimateProduct, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ModuleVersion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ModuleVersion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ModuleVersion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreateTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
+<h3>編輯機種資料</h3>
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @using (Html.BeginForm("Edit","RDRModules", FormMethod.Post, new { id = "ListForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.ParentID)
+            @*@Html.HiddenFor(m => m.StartYear)
+            @Html.HiddenFor(m => m.EndYear)*@
+
+            <div class="form-group">
+                @Html.Label("RDR#", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(m=>m.RDRNumber)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Module", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("產品別", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(m => m.ProductGroupName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("交貨地", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                   @Html.DisplayFor(m => m.CustomerName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("預估年產量", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <table class="table-bordered" id="mytable">
+                        <tr>
+                            <td class="col-xs-2">年度</td>
+                            <td style="text-align:center">預估年產量(總量，含左右邊)</td>
+                        </tr>
+                        @for (int i = 0; i < (EndYear - StartYear + 1); i++)
+                        {
+                            int idx = StartYear + i;
+                            <tr>
+                                <td style="text-align:center" class="myyears">@idx.ToString()</td>
+                                <td style="text-align:center">
+                                    @Html.TextBox("Index_" + idx.ToString(), Model.Estimate[i] , new { id = "Index_" + idx.ToString(), @class = "myestimate" }) pcs
+                                </td>
+                            </tr>
+                        }
+                        @Html.HiddenFor(m => m.EstimateProduct)
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @* 上傳 *@
+                    <input type="file" id="file" name="file" />
+                    @Html.HiddenFor(model => model.Attachment)
+                    @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("備註", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" }, rows = 5, cols = 70 })
+                    @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1">
+                @Html.ActionLink("返 回", "Details", "RDRManage", new {  id = Model.ParentID }, new { @class = "btn btn-info" })
+            </div>
+            <div class="col-md-1">
+                <div>
+                    <input type="submit" value="儲 存" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
 </div>

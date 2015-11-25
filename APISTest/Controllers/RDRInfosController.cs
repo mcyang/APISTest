@@ -11,66 +11,54 @@ using APISTest.ViewModels;
 
 namespace APISTest.Controllers
 {
+    /// <summary>
+    /// RDR表單其他資訊Controller
+    /// </summary>
     public class RDRInfosController : Controller
     {
         private JohnTestEntities db = new JohnTestEntities();
 
+        #region 列表頁
         // GET: RDROthersInfoes
         public ActionResult Index()
         {
             return View(db.RDRInformations.ToList());
         }
+        #endregion
 
-        // GET: RDROthersInfoes/Details/5
+
+        #region 明細頁
+        /// <summary>
+        /// RDR其他資訊明細
+        /// </summary>
+        /// <param name="id">RDRInformation.ID</param>
+        /// <returns></returns>
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRInformation rDROthersInfo = db.RDRInformations.Find(id);
-            if (rDROthersInfo == null)
+            RDRInformation rdrInfo = db.RDRInformations.Find(id);
+            if (rdrInfo == null)
             {
                 return HttpNotFound();
             }
-            return View(rDROthersInfo);
+            return View(rdrInfo);
         }
+        #endregion
 
-        // GET: RDROthersInfoes/Create
+
+        #region 新增頁
+        /// <summary>
+        /// RDR其他資訊新增
+        /// </summary>
+        /// <param name="id">RDRMain.ID</param>
+        /// <returns></returns>
         public ActionResult Create(int id)
         {
             RDRInfoViewModel viewModel = new RDRInfoViewModel();
-            viewModel.ParentID = id;
-            //viewModel.SelectedDevelopSiteId = 1;
-            //viewModel.DevelopSites = new List<DevelopSite> {
-            //    new DevelopSite {
-            //        Id = 1,
-            //        Name = "LAK",
-            //    },
-            //    new DevelopSite
-            //    {
-            //        Id = 2,
-            //        Name = "LAW",
-            //    },
-            //     new DevelopSite {
-            //        Id = 3,
-            //        Name = "LGA",
-            //    },
-            //    new DevelopSite
-            //    {
-            //        Id = 4,
-            //        Name = "LAT",
-            //    },
-            //     new DevelopSite {
-            //        Id = 5,
-            //        Name = "TCH",
-            //    },
-            //};
-            //viewModel.DevelopSites = Enumerable.Range(1, 5).Select(x => new DevelopSite
-            //{
-            //    Id = x,
-            //    Name = "DevelopSite" + x,
-            //}).ToList();
+            viewModel._ParentID = id;
 
             return View(viewModel);
         }
@@ -105,7 +93,7 @@ namespace APISTest.Controllers
 
                 db.RDRInformations.Add(viewModel.rdrInfo);
                 db.SaveChanges();
-                return RedirectToAction("Index","RDRManage");
+                return RedirectToAction("Index", "RDRManage");
             }
             else
             {
@@ -114,36 +102,95 @@ namespace APISTest.Controllers
 
             return View(viewModel);
         }
+        #endregion
 
-        // GET: RDROthersInfoes/Edit/5
+        /// <summary>
+        /// GET: RDR其他資訊編輯
+        /// </summary>
+        /// <param name="id">RDRInformation.ID</param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRInformation rDROthersInfo = db.RDRInformations.Find(id);
-            if (rDROthersInfo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rDROthersInfo);
+
+            RDRInfoViewModel viewModel = (from info in db.RDRInformations
+                                          where info.ID == id
+                                          select new RDRInfoViewModel
+                                          {
+                                              rdrInfo = info
+                                          }).FirstOrDefault();
+
+            if (viewModel.rdrInfo.IsLAK) { viewModel.SelectedDevelopSiteId = 1; }
+            if (viewModel.rdrInfo.IsLAW) { viewModel.SelectedDevelopSiteId = 2; }
+            if (viewModel.rdrInfo.IsLGA) { viewModel.SelectedDevelopSiteId = 3; }
+            if (viewModel.rdrInfo.IsLAT) { viewModel.SelectedDevelopSiteId = 4; }
+            if (viewModel.rdrInfo.IsTCH) { viewModel.SelectedDevelopSiteId = 5; }
+
+            return View(viewModel);
         }
 
-        // POST: RDROthersInfoes/Edit/5
+        // POST: RDRInfos/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ParentID,ProjectType,IsElectronic,IsSoftware,IsMechanism,IsOptic,IsRF,IsLAK,IsLAW,IsLGA,IsLAT,IsTCH,StartDate,EndDate,TxtOther_1,IsSpec,IsGERBER,IsWireDwg,IsSample,IsBOM,IsAssemblyDwg,IsDChart,IsCKT,Is2D,Is3D,IsROHS,IsELV,IsVLS,TxtOthers_2,IsMaterialCost,IsPackageCost,IsProcessCost,IsProductHourCost,IsTestHourCost,IsSamplePrice,IsModuleFee,IsSampleFee,IsHandMoldingFee,IsTravelFee,IsTestFee,IsDevelopFee,IsVerifyToolFee,TxtOthers_3,IsAssignForm,IsProposal,IsDevPlan,IsStepPrice,TxtOthers_4")] RDRInformation rDROthersInfo)
+        public ActionResult Edit(RDRInfoViewModel viewModel)
         {
+            //RDRInformation rdrInfo = db.RDRInformations.Where(m => m.ID == viewModel.rdrInfo.ID).FirstOrDefault();
+
+            switch (viewModel.SelectedDevelopSiteId)
+            {
+                case 1:
+                    viewModel.rdrInfo.IsLAK = true;
+                    break;
+                case 2:
+                    viewModel.rdrInfo.IsLAW = true;
+                    break;
+                case 3:
+                    viewModel.rdrInfo.IsLGA = true;
+                    break;
+                case 4:
+                    viewModel.rdrInfo.IsLAT = true;
+                    break;
+                case 5:
+                    viewModel.rdrInfo.IsTCH = true;
+                    break;
+            }
+
             if (ModelState.IsValid)
             {
-                db.Entry(rDROthersInfo).State = System.Data.Entity.EntityState.Modified;
+                switch (viewModel.SelectedDevelopSiteId)
+                {
+                    case 1:
+                        viewModel.rdrInfo.IsLAK = true;
+                        break;
+                    case 2:
+                        viewModel.rdrInfo.IsLAW = true;
+                        break;
+                    case 3:
+                        viewModel.rdrInfo.IsLGA = true;
+                        break;
+                    case 4:
+                        viewModel.rdrInfo.IsLAT = true;
+                        break;
+                    case 5:
+                        viewModel.rdrInfo.IsTCH = true;
+                        break;
+                }
+
+                db.Entry(viewModel.rdrInfo).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Details", "RDRManage", new { id = viewModel.rdrInfo.ParentID });
             }
-            return View(rDROthersInfo);
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+            }
+            return View(viewModel);
         }
 
         // GET: RDROthersInfoes/Delete/5

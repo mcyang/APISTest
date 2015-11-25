@@ -1,5 +1,13 @@
 ﻿@*@model fvmRDRManage*@
-@model IEnumerable<APISTest.ViewModels.RDRMainIndexViewModel>
+@*@model IEnumerable<APISTest.ViewModels.RDRMainIndexViewModel>*@
+
+@using PagedList;
+@using PagedList.Mvc
+@model IPagedList<APISTest.ViewModels.RDRMainIndexViewModel>
+
+@section styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
 
 @{
     ViewBag.Title = "Index";
@@ -60,11 +68,13 @@
     </table>
 }
 
-
-
-<p>
+<div style="float:left">
     @Html.ActionLink("新 增", "Create", "RDRMains", null, new { @class = "btn btn-success" })
-</p>
+</div>
+<div style="float:right">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
 <table class="table">
     <tr>
         <th>RDR#</th>
@@ -134,6 +144,8 @@
     }
 
 </table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 
 <script type="text/javascript">
     function Confirm_Form() {

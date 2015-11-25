@@ -15,7 +15,6 @@ namespace APISTest.Controllers
     {
         private JohnTestEntities db = new JohnTestEntities();
 
-        // GET: RDRModulesTemp
         [HttpPost]
         public JsonResult Delete(int? id, int? parentID)
         {
@@ -24,6 +23,16 @@ namespace APISTest.Controllers
             db.SaveChanges();
 
             return Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteAll(int parentID)
+        {
+            RDRModuleTemp temp = db.RDRModuleTemps.Find(parentID);
+            db.RDRModuleTemps.Remove(temp);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "RDRManage", new { id = parentID });
         }
     }
 }

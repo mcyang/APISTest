@@ -12,7 +12,7 @@
 </ol>
 <hr />
 
-@using (Html.BeginForm("Create","RDRInfos",FormMethod.Post,new { id = "ListForm" }))
+@using (Html.BeginForm("Create","RDRInfos",FormMethod.Post, new { id = "ListForm"} ))
 {
     @Html.AntiForgeryToken()
 
@@ -105,44 +105,6 @@
                         @Html.RadioButtonFor(model => model.SelectedDevelopSiteId, item.Id , new { id = "DevelopSite_" + item.Id })
                         <label>@item.Name</label>
                     }
-                    @*@for (var i = 0; i < Model.DevelopSites.Count(); i++)
-                    {
-                        @Html.HiddenFor(x => x.DevelopSites[i].Id)
-                            @Html.RadioButtonFor(model => model.SelectedDevelopSiteId, Model.DevelopSites[i].Id, new { id= "DevelopSite_" + i})
-                        switch (i)
-                        {
-                            case 0:
-                                @Html.Label("LAK")
-                                break;
-                            case 1:
-                                @Html.Label("LAW")
-                                break;
-                            case 2:
-                                @Html.Label("LGA")
-                                break;
-                            case 3:
-                                @Html.Label("LAT")
-                                break;
-                            case 4:
-                                @Html.Label("TCH")
-                                break;
-                        }
-                    }*@
-                    @*<label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsLAK, new { id = "IsLAK", name = "Site" }) LAK
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsLAW, new { id = "IsLAW", name = "Site" }) LAW
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsLGA, new { id = "IsLGA", name = "Site" }) LGA
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsLAT, new { id = "IsLAT", name = "Site" }) LAT
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsTCH, new { id = "IsTCH", name = "Site" }) TCH
-                    </label>*@
                 </td>
             </tr>
             <tr>
@@ -257,10 +219,10 @@
                 <th class="col-md-2">製程要求</th>
                 <td class="col-md-2">
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsROHS, true, new { id = "IsROHS", name = "IsROHS" }) ROHS
+                        @Html.EditorFor(model => model.rdrInfo.IsROHS) ROHS
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsELV, true, new { id = "IsELV", name = "IsELV" }) ELV
+                        @Html.EditorFor(model => model.rdrInfo.IsELV) ELV
                     </label>
                 </td>
                 <th class="col-md-2">VLS配阻</th>
@@ -363,13 +325,13 @@
                 <th class="col-md-2">客戶回估文件需求</th>
                 <td>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsAssignForm, true, new { id = "IsAssignForm", name = "IsAssignForm" }) 客戶指定表單
+                        @Html.EditorFor(model => model.rdrInfo.IsAssignForm) 客戶指定表單
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsProposal, true, new { id = "IsProposal", name = "IsProposal" }) 技術提案
+                        @Html.EditorFor(model => model.rdrInfo.IsProposal) 技術提案
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsDevPlan, true, new { id = "IsDevPlan", name = "IsDevPlan" }) 開發計畫
+                        @Html.EditorFor(model => model.rdrInfo.IsDevPlan) 開發計畫
                     </label>
                 </td>
             </tr>
@@ -391,15 +353,14 @@
         </table>
 
     </div>
+
     <div class="row">
-        <div class="col-md-1">
+        @*<div class="col-md-1">
             @Html.ActionLink("返 回", "Index", "RDRManage", null, new { @class = "btn btn-info" })
-        </div>
+        </div>*@
 
         <div class="col-md-1">
-            <div>
                 <input type="submit" value="儲 存" class="btn btn-success" />
-            </div>
         </div>
     </div>
 }

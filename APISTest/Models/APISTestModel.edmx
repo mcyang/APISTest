@@ -263,6 +263,7 @@
           <Property Name="IsFail" Type="bit" />
           <Property Name="Reason" Type="nvarchar" MaxLength="50" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="CustomerBOM" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RDRModuleTemp">
           <Key>
@@ -282,6 +283,7 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="ProductGroupName" Type="varchar" MaxLength="20" />
           <Property Name="CustomerName" Type="varchar" MaxLength="20" />
+          <Property Name="CustomerBOM" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -462,6 +464,7 @@
           <Property Name="IsFail" Type="Boolean" />
           <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CustomerBOM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="RDRInformation">
           <Key>
@@ -612,6 +615,7 @@
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ProductGroupName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CustomerName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerBOM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -744,6 +748,7 @@
           <EntitySetMapping Name="RDRModules">
             <EntityTypeMapping TypeName="JohnTestModel.RDRModule">
               <MappingFragment StoreEntitySet="RDRModule">
+                <ScalarProperty Name="CustomerBOM" ColumnName="CustomerBOM" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="IsFail" ColumnName="IsFail" />
@@ -902,6 +907,7 @@
           <EntitySetMapping Name="RDRModuleTemps">
             <EntityTypeMapping TypeName="JohnTestModel.RDRModuleTemp">
               <MappingFragment StoreEntitySet="RDRModuleTemp">
+                <ScalarProperty Name="CustomerBOM" ColumnName="CustomerBOM" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="ProductGroupName" ColumnName="ProductGroupName" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />

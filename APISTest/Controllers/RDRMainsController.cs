@@ -93,17 +93,17 @@ namespace APISTest.Controllers
             
             //自動編號原則: 客戶群2碼.系統年2碼.流水號4碼
             rdrMain.RDRNumber = CommonHelps.CreateRDRNumber(System.DateTime.Now.Year, teamCode.Trim()); //RDRNumber(系統自動編號)
-            rdrMain.ProjectName = fc["rdrMain.ProjectName"]; //專案名稱
+            rdrMain.ProjectName = fc["ProjectName"]; //專案名稱
             rdrMain.LOB = fc["ddl_LOBText"]; //LOB
             rdrMain.Site = fc["ddl_SiteText"]; //量產地
 
             int carMakerID = 0;
             int.TryParse(fc["CarMakerList"], out carMakerID);
             rdrMain.CarMakerID = carMakerID; //車廠
-            rdrMain.CarModel = fc["rdrMain.CarModel"]; //車型
+            rdrMain.CarModel = fc["CarModel"]; //車型
 
             int sales = 0;
-            int.TryParse(fc["rdrMain.EstimateSales"], out sales);
+            int.TryParse(fc["EstimateSales"], out sales);
             rdrMain.EstimateSales = sales; //預估年銷售量
 
             rdrMain.RFQDate = Convert.ToDateTime(fc["RFQDate"]);   //RFQDate
@@ -121,7 +121,7 @@ namespace APISTest.Controllers
             rdrMain.Status = 1; // 狀態:RFQ階段
             rdrMain.CreateTime = System.DateTime.Now;
             rdrMain.ModifyTime = System.DateTime.Now;
-            rdrMain.CreateUserID = fc["rdrMain.CreateUserID"];
+            rdrMain.CreateUserID = fc["CreateUserID"];
             rdrMain.IsDelete = false;
 
             #endregion
@@ -134,7 +134,7 @@ namespace APISTest.Controllers
 
                 //導向RDRMains/Deatils，再從Details中選擇要新增Module還是要修改RDRMain
                 
-                return RedirectToAction("Details", new { id = rdrMain.ID });
+                return RedirectToAction("Details","RDRManage" , new { id = rdrMain.ID });
             }
             else
             {
@@ -156,15 +156,32 @@ namespace APISTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRMain rDRMain = db.RDRMains.Find(id);
-            if (rDRMain == null)
-            {
-                return HttpNotFound();
-            }
 
             //轉換為 ViewModel 資料型態傳入
-            RDRMainViewModel viewModel = new RDRMainViewModel();
-            viewModel.rdrMain = rDRMain;
+            RDRMainViewModel viewModel = (from main in db.RDRMains.Where(m => m.ID == id)
+                                          select new RDRMainViewModel
+                                          {
+                                              rdrMain = main,
+                                              ID = main.ID,
+                                              RDRNumber = main.RDRNumber,
+                                              CustomerTeamID = main.CustomerTeamID,
+                                              CustomerTeamCode = main.CustomerTeamCode,
+                                              CreateUserID = main.CreateUserID,
+                                              ProjectName = main.ProjectName,
+                                              LOB = main.LOB,
+                                              Site = main.Site,
+                                              CarMakerID = main.CarMakerID,
+                                              CarModel = main.CarModel,
+                                              EstimateSales = main.EstimateSales,
+                                              Certainty = main.Certainty,
+                                              RequestClass = main.RequestClass,
+                                              RequestType = main.RequestType,
+                                              Currency = main.Currency,
+                                              EstimateRevenue = main.EstimateRevenue,
+                                              Status = main.Status,
+                                              CreateTime = main.CreateTime,
+                                              ModifyTime = main.ModifyTime,
+                                          }).FirstOrDefault();
 
             return View(viewModel);
         }
@@ -177,25 +194,18 @@ namespace APISTest.Controllers
         public ActionResult Edit(int id, FormCollection fc)
         {
             #region 前端data >> FormCollection >> RDRMain
-
             RDRMain rdrMain = db.RDRMains.Find(id);
-            
-            //int teamID = 0;
-            //int.TryParse(fc["CustomerTeamList"], out teamID);
-            //rdrMain.CustomerTeamID = teamID; //客戶群ID
-            //rdrMain.CustomerTeamCode = fc["ddl_CustomerTeamText"]; //客戶群代碼
-
-            rdrMain.ProjectName = fc["rdrMain.ProjectName"]; //專案名稱
+            rdrMain.ProjectName = fc["ProjectName"]; //專案名稱
             rdrMain.LOB = fc["ddl_LOBList"]; //LOB
             rdrMain.Site = fc["ddl_SiteText"]; //量產地
 
             int carMakerID = 0;
             int.TryParse(fc["CarMakerList"], out carMakerID);
             rdrMain.CarMakerID = carMakerID; //車廠
-            rdrMain.CarModel = fc["rdrMain.CarModel"]; //車型
+            rdrMain.CarModel = fc["CarModel"]; //車型
 
             int sales = 0;
-            int.TryParse(fc["rdrMain.EstimateSales"], out sales);
+            int.TryParse(fc["EstimateSales"], out sales);
             rdrMain.EstimateSales = sales; //預估年銷售量 
 
             rdrMain.RFQDate = Convert.ToDateTime(fc["RFQDate"]);   //RFQDate
@@ -210,6 +220,7 @@ namespace APISTest.Controllers
             int revenue = 0;
             int.TryParse(fc["EstimateRevenueValue"], out revenue);
             rdrMain.EstimateRevenue = revenue;  //預估年營業額
+            rdrMain.ModifyTime = System.DateTime.Now;
             #endregion
 
             #region 更新
@@ -218,29 +229,57 @@ namespace APISTest.Controllers
                 db.Entry(rdrMain).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
-                //這邊要改為導向RDRs/Edit
-                return RedirectToAction("Index");
-            } 
-            #endregion
+                return RedirectToAction("Details", "RDRManage", new { id = rdrMain.ID });
+                //若目前狀態只有RDRMain有資料 , 則導向RDRMain/Details
+                //若三部分都有資料,導向RDRManage/Details
+                //RDRInformation rdrinfo = db.RDRInformations.Where(m=>m.ParentID == rdrMain.ID).FirstOrDefault();
 
-            RDRMain rDRMain = db.RDRMains.Find(id);
-            if (rDRMain == null)
-            {
-                return HttpNotFound();
+                //if (rdrinfo == null)
+                //{
+                //    return RedirectToAction("Details", "RDRMains", new { id = rdrMain.ID });
+                //}
+                //else //導向RDRMain/Details
+                //{
+                //    return RedirectToAction("Details", "RDRManage", new { id = rdrMain.ID });
+                //}
             }
 
-            //轉換為 ViewModel 資料型態傳入
-            RDRMainViewModel viewModel = new RDRMainViewModel();
-            viewModel.rdrMain = rDRMain;
+            #endregion
+
+            //更新失敗時，停留在原頁面
+            RDRMainViewModel viewModel = (from main in db.RDRMains.Where(m => m.ID == id)
+                                          select new RDRMainViewModel
+                                          {
+                                              rdrMain = main,
+                                              ID = main.ID,
+                                              RDRNumber = main.RDRNumber,
+                                              CustomerTeamID = main.CustomerTeamID,
+                                              CustomerTeamCode = main.CustomerTeamCode,
+                                              CreateUserID = main.CreateUserID,
+                                              ProjectName = main.ProjectName,
+                                              LOB = main.LOB,
+                                              Site = main.Site,
+                                              CarMakerID = main.CarMakerID,
+                                              CarModel = main.CarModel,
+                                              EstimateSales = main.EstimateSales,
+                                              Certainty = main.Certainty,
+                                              RequestClass = main.RequestClass,
+                                              RequestType = main.RequestType,
+                                              Currency = main.Currency,
+                                              EstimateRevenue = main.EstimateRevenue,
+                                              Status = main.Status,
+                                              CreateTime = main.CreateTime,
+                                              ModifyTime = main.ModifyTime,
+                                          }).FirstOrDefault();
 
             return View(viewModel);
         }
-
         #endregion
 
 
         #region 刪除頁
         // GET: RDRMains/Delete/5
+        [HttpPost]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -248,24 +287,17 @@ namespace APISTest.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             RDRMain rdrMain = db.RDRMains.Find(id);
-            if (rdrMain == null)
+            if (rdrMain != null)
             {
-                return HttpNotFound();
+                db.RDRMains.Remove(rdrMain);    //真刪
+                db.SaveChanges();
+
+                return RedirectToAction("Index","RDRManage");
             }
             
             return View(rdrMain);
         }
-
-        // POST: RDRMains/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            RDRMain rDRMain = db.RDRMains.Find(id);
-            db.RDRMains.Remove(rDRMain);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        
         #endregion
 
 
@@ -316,6 +348,7 @@ namespace APISTest.Controllers
             }
         }
         #endregion
+
 
         #region 回收連線資源
         protected override void Dispose(bool disposing)

@@ -10,12 +10,12 @@
     <li>@Html.ActionLink("RDR維護","Index")</li>
     <li class="active">明細頁</li>
 </ol>
-<div>
-    <p>@Html.ActionLink("列 印", "BrowseReport", "RDRMains", new { id = idx }, new { @class = "btn btn-default" ,target = "_blank" })</p>
+<div id="rdrmain">
+    <p>@Html.ActionLink("列 印", "BrowseReport", "RDRMains", new { id = idx }, new { @class = "btn btn-primary", target = "_blank" })</p>
 
     <table class="table table-bordered">
         <tr>
-            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料</td>
+            <td colspan="6" style="background-color:greenyellow; font-size:larger; font-weight:bold; ">專案基本資料</td>
         </tr>
         <tr>
             <th class="col-md-1">RDR#</th>
@@ -99,390 +99,424 @@
         <div class="col-md-1">
             @Html.ActionLink("編 輯", "Edit", "RDRMains", new { id = Model.rdrMainDetail.rdrMain.ID }, new { @class = "btn btn-warning" })
         </div>
+        <div class="col-md-1">
+            @Html.ActionLink("新增機種", "Create", "RDRModules", new { id = Model.rdrMainDetail.rdrMain.ID }, new { @class = "btn btn-danger" })
+        </div>
     </div>
 </div>
 <hr>
-<div>
-    <table class="table table-bordered">
-        <tr>
-            <td colspan="7" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">Module 明細</td>
-        </tr>
-        <tr>
-            <th class="col-md-2">RDR#</th>
-            <th class="col-md-2">Module</th>
-            <th class="col-md-1">產品別</th>
-            <th class="col-md-1">交貨地</th>
-            <th class="col-md-1">預估年產量</th>
-            <th class="col-md-1">附件</th>
-            <th class="col-md-1">備註</th>
-        </tr>
 
-        @foreach (var item in Model.rdrModuleList)
-        {
+@if (Model.rdrModuleList.Count > 0)
+{
+    <div id="rdrmodule">
+        <table class="table table-bordered">
             <tr>
-                <td>@item.RDRNumber</td>
-                <td>@item.ModuleName</td>
-                <td>@item.ProductGroupName</td>
-                <td>@item.CustomerName</td>
-                <td>@item.EstimateProduct</td>
-                <td>@item.Attachment</td>
-                <td>@item.Remark</td>
+                <td colspan="8" style="background-color:greenyellow; font-size:larger; font-weight:bold; ">Module 明細</td>
             </tr>
+            <tr>
+                <th>RDR#</th>
+                <th>Module</th>
+                <th>產品別</th>
+                <th>交貨地</th>
+                <th>預估年產量</th>
+                <th>附件</th>
+                <th>備註</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.rdrModuleList)
+            {
+                <tr>
+                    <td>@item.RDRNumber</td>
+                    <td>@item.ModuleName</td>
+                    <td>@item.ProductGroupName</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item._EstimateProduct</td>
+                    <td>@item.Attachment</td>
+                    <td>@item.Remark</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "RDRModules", new { id = item.ID }, null) |
+                        @Html.ActionLink("Delete", "DeleteFromRDRManageDetails", "RDRModules", new { id = item.ID }, new { @onclick = "return Confirm_Form()" })
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="row">
+            <div class="col-md-1">
+                @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
+            </div>
+            @if (Model.rdrInfoDetail == null)
+            {
+                <div class="col-md-1">
+                    @Html.ActionLink("新增其他報價資訊", "Create", "RDRInfos", new { id = Model.rdrMainDetail.rdrMain.ID }, new { @class = "btn btn-danger" })
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+}
+
+
+
+@if (Model.rdrInfoDetail != null)
+{
+    <div id="rdrinfo">
+        <table class="table table-bordered">
+            <tr>
+                <td colspan="7" style="background-color:greenyellow; font-size:larger; font-weight:bold; ">其他報價資訊</td>
+            </tr>
+            <tr>
+                <th rowspan="8" style="vertical-align:middle">專案類型</th>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsNewProductDev)
+                    新產品開發案，請附上 Market Research Report (FM04053)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsODM)
+                    既有平台開發案 ODM
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsExtension)
+                    平台延伸機種
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsSoftwareDev)
+                    純軟體開發案
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsSoftwareParam)
+                    純軟體參數調教案
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsInnerTechDev)
+                    內部技術開發案，請附上 Market Research Report (FM04053)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsOEM)
+                    OEM 代工案
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsProductionTrans)
+                    量產移轉案
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="4" style="vertical-align:middle">開發資源需求</th>
+                <td>
+                    RD 人力
+                </td>
+                <td colspan="4">
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsElectronic)電子
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsSoftware)  軟體
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsMechanism) 機構
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsOptic)     光學
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsRF)        RF
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>開發地</td>
+                <td colspan="4">
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsLAK) LAK
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsLAW) LAW
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsLGA) LGA
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsLAT) LAT
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsTCH) TCH
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>開發期間</td>
+                <td colspan="4">
+                    <label class="control-label  col-md-2">開始時間:</label>
+                    <div class="col-md-3">
+                        @(Model.rdrInfoDetail.rdrInfo.StartDate.HasValue ? Model.rdrInfoDetail.rdrInfo.StartDate.Value.ToString("yyyy/MM/dd") : "----/--/--")
+                    </div>
+                    <label class="control-label  col-md-2">結束時間:</label>
+                    <div class="col-md-3">
+                        @(Model.rdrInfoDetail.rdrInfo.EndDate.HasValue ? Model.rdrInfoDetail.rdrInfo.EndDate.Value.ToString("yyyy/MM/dd") : "----/--/--")
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>其他需求</td>
+                <td colspan="4">
+                    @Html.DisplayFor(model => model.rdrInfoDetail.rdrInfo.TxtOther_1, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "其他需求" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="background-color:greenyellow; font-size:larger; font-weight:bold; text-align:center">報價需求客戶輸入資料</td>
+            </tr>
+            <tr>
+                <th class="col-md-2">規格</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsSpec, true, new { id = "IsSpec_Y", name = "IsSpec", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsSpec, false, new { id = "IsSpec_N", name = "IsSpec", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">GERBER</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsGERBER, true, new { id = "IsGERBER_Y", name = "IsGERBER", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsGERBER, false, new { id = "IsGERBER_N", name = "IsGERBER", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">線材圖面</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsWireDwg, true, new { id = "IsWireDwg_Y", name = "IsWireDwg", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsWireDwg, false, new { id = "IsWireDwg_N", name = "IsWireDwg", disabled = "disabled" }) 無
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th class="col-md-2">SAMPLE</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsSample, true, new { id = "IsSample_Y", name = "IsSample", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsSample, false, new { id = "IsSample_N", name = "IsSample", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">BOM</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsBOM, true, new { id = "IsBOM_Y", name = "IsBOM", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsBOM, false, new { id = "IsBOM_N", name = "IsBOM", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">組合圖</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsAssemblyDwg, true, new { id = "IsAssemblyDwg_Y", name = "IsAssemblyDwg", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsAssemblyDwg, false, new { id = "IsAssemblyDwg_N", name = "IsAssemblyDwg", disabled = "disabled" }) 無
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th class="col-md-2">D CHART</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsDChart, true, new { id = "IsDChart_Y", name = "IsDChart", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsDChart, false, new { id = "IsDChart_N", name = "IsDChart", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">CKT</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsCKT, true, new { id = "IsCKT_Y", name = "IsCKT", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsCKT, false, new { id = "IsCKT_N", name = "IsCKT", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">2D圖面</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.Is2D, true, new { id = "Is2D_Y", name = "Is2D", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.Is2D, false, new { id = "Is2D_N", name = "Is2D", disabled = "disabled" }) 無
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th class="col-md-2">製程要求</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsROHS, true, new { id = "IsROHS", name = "IsROHS", disabled = "disabled" }) ROHS
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsELV, true, new { id = "IsELV", name = "IsELV", disabled = "disabled" }) ELV
+                    </label>
+                </td>
+                <th class="col-md-2">VLS配阻</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsVLS, true, new { id = "IsVLS_Y", name = "IsVLS", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsVLS, false, new { id = "IsVLS_N", name = "IsVLS", disabled = "disabled" }) 無
+                    </label>
+                </td>
+                <th class="col-md-2">3D圖面</th>
+                <td class="col-md-2">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.Is3D, true, new { id = "Is3D_Y", name = "Is3D", disabled = "disabled" }) 有
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.Is3D, false, new { id = "Is3D_N", name = "Is3D", disabled = "disabled" }) 無
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>Others</th>
+                <td colspan="5">@Html.DisplayFor(model => model.rdrInfoDetail.rdrInfo.TxtOthers_2)</td>
+            </tr>
+            <tr>
+                <td colspan="7" style="background-color:greenyellow; font-size:larger; font-weight:bold; text-align:center">報價範圍(<span style="color:red">*欄位必填</span>)</td>
+            </tr>
+            <tr>
+                <th class="col-md-2"><span style="color:red">*</span> 單體成本 </th>
+                <td colspan="6">
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsMaterialCost)  材料成本
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsPackageCost)  包裝成本
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsProcessCost)  製程材料成本
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsProductHourCost)  生產工時成本
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsTestHourCost)  測試工時成本
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span> 是否須報樣品價格 </th>
+                <td colspan="6">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsSamplePrice, false, new { id = "IsSamplePrice_N", name = "IsSamplePrice", disabled = "disabled" }) NO
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsSamplePrice, true, new { id = "IsSamplePrice_Y", name = "IsSamplePrice", disabled = "disabled" }) YES
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th><span style="color:red">*</span> NRE CHARGE </th>
+                <td colspan="6">
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsModuleFee)  模具費
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsSampleFee)  樣品費
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsHandMoldingFee)  手造模
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsTravelFee)  差旅費
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsTestFee)  測試驗證費
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsDevelopFee)  開發費
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.DisplayFor(m => m.rdrInfoDetail.rdrInfo.IsVerifyToolFee)  製程用檢治工具
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>報價排除項目</th>
+                <td colspan="6">@Html.DisplayFor(model => model.rdrInfoDetail.rdrInfo.TxtOthers_3)</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="background-color:greenyellow; font-size:larger; font-weight:bold; text-align:center">報價特殊需求說明</td>
+            </tr>
+            <tr>
+                <th class="col-md-2">客戶回估文件需求</th>
+                <td colspan="5">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsAssignForm, true, new { id = "IsAssignForm", name = "IsAssignForm", disabled = "disabled" }) 客戶指定表單
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsProposal, true, new { id = "IsProposal", name = "IsProposal", disabled = "disabled" }) 技術提案
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsDevPlan, true, new { id = "IsDevPlan", name = "IsDevPlan", disabled = "disabled" }) 開發計畫
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>是否須階梯報價</th>
+                <td colspan="6">
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsStepPrice, false, new { id = "IsStepPrice", name = "IsStepPrice", disabled = "disabled" }) NO
+                    </label>
+                    <label class="radio-inline">
+                        @Html.RadioButtonFor(model => model.rdrInfoDetail.rdrInfo.IsStepPrice, true, new { id = "IsStepPrice", name = "IsStepPrice", disabled = "disabled" }) YES
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>Others</th>
+                <td colspan="6">@Html.DisplayFor(model => model.rdrInfoDetail.rdrInfo.TxtOthers_4)</td>
+            </tr>
+        </table>
+
+        <div class="row">
+            <div class="col-md-1">
+                @*返回RDR列表(RDRManage/Index)*@
+                @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("編 輯", "Edit", "RDRInfos", new { id = Model.rdrInfoDetail.rdrInfo.ID }, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts
+{
+    <script>
+        function Confirm_Form() {
+            if (!confirm("您確定要刪除嗎?"))
+                return false;
         }
-    </table>
-
-    <div class="row">
-        <div class="col-md-1">
-            @*返回RDR列表(RDRManage/Index)*@
-            @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
-        </div>
-        <div class="col-md-1">
-            @Html.ActionLink("編 輯", "Edit", "RDRModules", new { id = Model.rdrMainDetail.rdrMain.ID }, new { @class = "btn btn-warning" })
-        </div>
-    </div>
-</div>
-<hr />
-
-<div>
-    <table class="table table-bordered">
-        <tr>
-            <td colspan="7" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">其他報價資訊</td>
-        </tr>
-        <tr>
-            <th rowspan="8" style="vertical-align:middle">專案類型</th>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsNewProductDev)
-                新產品開發案，請附上 Market Research Report (FM04053)
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsODM)
-                既有平台開發案 ODM
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsExtension)
-                平台延伸機種
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsSoftwareDev)
-                純軟體開發案
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsSoftwareParam)
-                純軟體參數調教案
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsInnerTechDev)
-                內部技術開發案，請附上 Market Research Report (FM04053)
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsOEM)
-                OEM 代工案
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @Html.DisplayFor(m => m.rdrInfoDetail.IsProductionTrans)
-                量產移轉案
-            </td>
-        </tr>
-        <tr>
-            <th rowspan="4" style="vertical-align:middle">開發資源需求</th>
-            <td>
-                RD 人力
-            </td>
-            <td colspan="4">
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsElectronic)電子
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsSoftware)  軟體
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsMechanism) 機構
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsOptic)     光學
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsRF)        RF
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>開發地</td>
-            <td colspan="4">
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsLAK) LAK
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsLAT) LAT
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsLAW) LAW
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsLGA) LGA
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsTCH) TCH
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td>開發期間</td>
-            <td colspan="4">
-                <label class="control-label  col-md-2">開始時間:</label>
-                    <div class="col-md-3">@Model.rdrInfoDetail.StartDate.Value.ToString("yyyy-MM-dd")</div>
-                <label class="control-label  col-md-2">結束時間:</label>
-                <div class="col-md-3">@Model.rdrInfoDetail.EndDate.Value.ToString("yyyy-MM-dd")</div>
-            </td>
-        </tr>
-        <tr>
-            <td>其他需求</td>
-            <td colspan="4">
-                @Html.DisplayFor(model => model.rdrInfoDetail.TxtOther_1, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "其他需求" })
-            </td>
-        </tr>
-        <tr>
-            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; text-align:center">報價需求客戶輸入資料</td>
-        </tr>
-        <tr>
-            <th class="col-md-2">規格</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsSpec, true, new { id = "IsSpec_Y", name = "IsSpec", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsSpec, false, new { id = "IsSpec_N", name = "IsSpec", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">GERBER</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsGERBER, true, new { id = "IsGERBER_Y", name = "IsGERBER", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsGERBER, false, new { id = "IsGERBER_N", name = "IsGERBER", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">線材圖面</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsWireDwg, true, new { id = "IsWireDwg_Y", name = "IsWireDwg", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsWireDwg, false, new { id = "IsWireDwg_N", name = "IsWireDwg", disabled = "disabled" }) 無
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th class="col-md-2">SAMPLE</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsSample, true, new { id = "IsSample_Y", name = "IsSample", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsSample, false, new { id = "IsSample_N", name = "IsSample", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">BOM</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsBOM, true, new { id = "IsBOM_Y", name = "IsBOM", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsBOM, false, new { id = "IsBOM_N", name = "IsBOM", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">組合圖</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsAssemblyDwg, true, new { id = "IsAssemblyDwg_Y", name = "IsAssemblyDwg", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsAssemblyDwg, false, new { id = "IsAssemblyDwg_N", name = "IsAssemblyDwg", disabled = "disabled" }) 無
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th class="col-md-2">D CHART</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsDChart, true, new { id = "IsDChart_Y", name = "IsDChart", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsDChart, false, new { id = "IsDChart_N", name = "IsDChart", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">CKT</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsCKT, true, new { id = "IsCKT_Y", name = "IsCKT", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsCKT, false, new { id = "IsCKT_N", name = "IsCKT", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">2D圖面</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.Is2D, true, new { id = "Is2D_Y", name = "Is2D", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.Is2D, false, new { id = "Is2D_N", name = "Is2D", disabled = "disabled" }) 無
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th class="col-md-2">製程要求</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsROHS, true, new { id = "IsROHS", name = "IsROHS", disabled = "disabled" }) ROHS
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsELV, true, new { id = "IsELV", name = "IsELV", disabled = "disabled" }) ELV
-                </label>
-            </td>
-            <th class="col-md-2">VLS配阻</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsVLS, true, new { id = "IsVLS_Y", name = "IsVLS", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsVLS, false, new { id = "IsVLS_N", name = "IsVLS", disabled = "disabled" }) 無
-                </label>
-            </td>
-            <th class="col-md-2">3D圖面</th>
-            <td class="col-md-2">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.Is3D, true, new { id = "Is3D_Y", name = "Is3D", disabled = "disabled" }) 有
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.Is3D, false, new { id = "Is3D_N", name = "Is3D", disabled = "disabled" }) 無
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>Others</th>
-            <td colspan="5">@Html.DisplayFor(model => model.rdrInfoDetail.TxtOthers_2)</td>
-        </tr>
-        <tr>
-            <td colspan="7" style="background-color:yellowgreen; font-size:larger; font-weight:bold; text-align:center">報價範圍(<span style="color:red">*欄位必填</span>)</td>
-        </tr>
-        <tr>
-            <th class="col-md-2"><span style="color:red">*</span> 單體成本 </th>
-            <td colspan="6">
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsMaterialCost)  材料成本
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsPackageCost)  包裝成本
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsProcessCost)  製程材料成本
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsProductHourCost)  生產工時成本
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsTestHourCost)  測試工時成本
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th><span style="color:red">*</span> 是否須報樣品價格 </th>
-            <td colspan="6">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsSamplePrice, false, new { id = "IsSamplePrice_N", name = "IsSamplePrice", disabled = "disabled" }) NO
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsSamplePrice, true, new { id = "IsSamplePrice_Y", name = "IsSamplePrice", disabled = "disabled" }) YES
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th><span style="color:red">*</span> NRE CHARGE </th>
-            <td colspan="6">
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsModuleFee)  模具費
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsSampleFee)  樣品費
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsHandMoldingFee)  手造模
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsTravelFee)  差旅費
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsTestFee)  測試驗證費
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsDevelopFee)  開發費
-                </label>
-                <label class="checkbox-inline">
-                    @Html.DisplayFor(m => m.rdrInfoDetail.IsVerifyToolFee)  製程用檢治工具
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>報價排除項目</th>
-            <td  colspan="6">@Html.DisplayFor(model => model.rdrInfoDetail.TxtOthers_3)</td>
-        </tr>
-        <tr>
-            <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; text-align:center">報價特殊需求說明</td>
-        </tr>
-        <tr>
-            <th class="col-md-2">客戶回估文件需求</th>
-            <td colspan="5">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsAssignForm, true, new { id = "IsAssignForm", name = "IsAssignForm", disabled = "disabled" }) 客戶指定表單
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsProposal, true, new { id = "IsProposal", name = "IsProposal", disabled = "disabled" }) 技術提案
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsDevPlan, true, new { id = "IsDevPlan", name = "IsDevPlan", disabled = "disabled" }) 開發計畫
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>是否須階梯報價</th>
-            <td colspan="6">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsStepPrice, false, new { id = "IsStepPrice", name = "IsStepPrice", disabled = "disabled" }) NO
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(model => model.rdrInfoDetail.IsStepPrice, true, new { id = "IsStepPrice", name = "IsStepPrice", disabled = "disabled" }) YES
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th>Others</th>
-            <td colspan="6">@Html.DisplayFor(model => model.rdrInfoDetail.TxtOthers_4)</td>
-        </tr>
-</table>
-
-    <div class="row">
-        <div class="col-md-1">
-            @*返回RDR列表(RDRManage/Index)*@
-            @Html.ActionLink("返 回", "Index", null, new { @class = "btn btn-info" })
-        </div>
-        <div class="col-md-1">
-            @Html.ActionLink("編 輯", "Edit", "RDRInfos", new { id = Model.rdrMainDetail.rdrMain.ID }, new { @class = "btn btn-warning" })
-        </div>
-    </div>
-</div>
+    </script>    
+}

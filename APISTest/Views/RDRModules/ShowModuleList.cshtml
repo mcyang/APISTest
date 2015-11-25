@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<APISTest.Models.RDRModule>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Details";
     var idx = ViewContext.RouteData.Values["id"];
 }
 
@@ -46,9 +46,6 @@
         <th>
             @Html.DisplayNameFor(model => model.ModuleVersion)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </th>
         <th></th>
     </tr>
 
@@ -83,9 +80,6 @@
                 @Html.DisplayFor(modelItem => item.ModuleVersion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreateTime)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @onclick = "return Confirm_Form()" })
             </td>
@@ -94,10 +88,9 @@
 
 </table>
 <div class="row">
-    <div class="col-md-1">
-        @*返回RDR列表(RDRs/Index)*@
+    @*<div class="col-md-1">
         @Html.ActionLink("返 回", "Index", "RDRManage", null, new { @class = "btn btn-info" })
-    </div>
+    </div>*@
 <div class="col-md-2">
     @Html.ActionLink("下一步", "Create", "RDRInfos", new { id = idx }, new { @class = "btn btn-success" })
 </div>

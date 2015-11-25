@@ -25,11 +25,11 @@ namespace APISTest.Controllers
         }
 
         /// <summary>
-        /// 顯示機種資料
+        /// 顯示新增的機種資料
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult CreateModuleList(int id)
+        public ActionResult ShowModuleList(int id)
         {
             return View(db.RDRModules.Where(m => m.ParentID == id).ToList());
         } 
@@ -90,12 +90,12 @@ namespace APISTest.Controllers
             rdrModuleTemp.ParentID = viewModel.ParentID;
             rdrModuleTemp.RDRNumber = viewModel.MainCode;
             rdrModuleTemp.ModuleName = viewModel.ModuleName;
+            rdrModuleTemp.CustomerBOM = viewModel.CustomerBOM;  //客戶料號
 
             int pid = 0;
             int.TryParse(fc["ProductGroupsList"], out pid);
             rdrModuleTemp.ProductGroupID = pid;                     //產品別ID
             string productCode = db.ProductGroups.Find(pid).Code;   //產品別代碼(全碼)
-            //string productShortCode = productCode.Substring(8, 2);  //產品別代碼(後2碼)
             string productName = db.ProductGroups.Find(pid).Name;   //產品別名稱
             rdrModuleTemp.ProductGroupCode = productCode;
             rdrModuleTemp.ProductGroupName = productName;
@@ -111,7 +111,7 @@ namespace APISTest.Controllers
             rdrModuleTemp.Remark = viewModel.Remark;  //Remark
             rdrModuleTemp.ModuleVersion = 0;    //版本號 預設值0
             rdrModuleTemp.CreateTime = System.DateTime.Now;
-            
+           
 
             db.RDRModuleTemps.Add(rdrModuleTemp);
             db.SaveChanges();
@@ -122,6 +122,11 @@ namespace APISTest.Controllers
 
 
         #region 編輯頁
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">傳入RDRModule.ID</param>
+        /// <returns></returns>
         // GET: RDRModules/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -129,12 +134,37 @@ namespace APISTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRModule rDRModule = db.RDRModules.Find(id);
-            if (rDRModule == null)
+
+            RDRModuleEditViewModel viewModel = (from module in db.RDRModules
+                                                join product in db.ProductGroups on module.ProductGroupID equals product.ID
+                                                join customer in db.Customers on module.CustomerID equals customer.ID
+                                                where module.ID == id
+                                                select new RDRModuleEditViewModel {
+                                                    ID = module.ID,
+                                                    ParentID = module.ParentID,
+                                                    RDRNumber = module.RDRNumber,
+                                                    ModuleName = module.ModuleName,
+                                                    ProductGroupID = module.ProductGroupID,
+                                                    ProductGroupName = product.Name,
+                                                    CustomerID = module.CustomerID,
+                                                    CustomerName = customer.Name,
+                                                    Attachment = module.Attachment,
+                                                    Remark = module.Remark,
+                                                    EstimateProduct = module.EstimateProduct
+
+                                                }).FirstOrDefault();
+
+            RDRMain main = db.RDRMains.Find(viewModel.ParentID);
+            string StartYear, EndYear;
+            if (main != null)
             {
-                return HttpNotFound();
+                StartYear = main.SOPDate.Year.ToString();
+                EndYear = main.EOLDate.Year.ToString();
+                ViewData["StartYear"] = StartYear.ToString();
+                ViewData["EndYear"] = EndYear.ToString();
             }
-            return View(rDRModule);
+            
+            return View(viewModel);
         }
 
         // POST: RDRModules/Edit/5
@@ -142,16 +172,25 @@ namespace APISTest.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ParentID,RDRNumber,ModuleName,ProductGroupID,CustomerID,EstimateProduct,Attachment,Remark,ModuleVersion,CreateTime")] RDRModule rDRModule)
+        public ActionResult Edit(RDRModuleEditViewModel viewModel, FormCollection fc)
         {
+            RDRModule rdrModule = db.RDRModules.Find(viewModel.ID);
+            
+            rdrModule.ModuleName = viewModel.ModuleName;
+            rdrModule.Remark = viewModel.Remark;
+            rdrModule.EstimateProduct = viewModel.EstimateProduct;
+
             if (ModelState.IsValid)
             {
-                db.Entry(rDRModule).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(rdrModule).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //儲存成功，導向RDRManage/Details
+                return RedirectToAction("Details","RDRManage", new { id = rdrModule.ParentID });
             }
-            return View(rDRModule);
+            return View(viewModel);
         }
+        
 
         #endregion
 
@@ -174,19 +213,34 @@ namespace APISTest.Controllers
             db.RDRModules.Remove(rdrModule); //真刪
             db.SaveChanges();
 
-            return RedirectToAction("CreateModuleList","RDRModules", new { id = rdrModule.ParentID });
+            return RedirectToAction("ShowModuleList","RDRModules", new { id = rdrModule.ParentID });
         }
 
-        //// POST: RDRModules/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    RDRModule rDRModule = db.RDRModules.Find(id);
-        //    db.RDRModules.Remove(rDRModule);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+       
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">RDRModules.ID</param>
+        /// <returns></returns>
+        public ActionResult DeleteFromRDRManageDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RDRModule rdrModule = db.RDRModules.Find(id);
+            if (rdrModule == null)
+            {
+                return HttpNotFound();
+            }
+
+            //rdrModule.IsDelete = true; //假刪
+            db.RDRModules.Remove(rdrModule); //真刪
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "RDRManage", new { id = rdrModule.ParentID });
+        }
 
         #endregion
 
@@ -232,6 +286,7 @@ namespace APISTest.Controllers
                     module.ModuleVersion = item.ModuleVersion;
                     module.CreateTime = item.CreateTime;
                     module.RDRNumber = CreateRDRNumber(item.RDRNumber, item.ProductGroupID, item.CustomerID);
+                    module.CustomerBOM = item.CustomerBOM;
 
                     if (ModelState.IsValid)
                     {
@@ -243,7 +298,7 @@ namespace APISTest.Controllers
                     }
                 }
 
-                return RedirectToAction("CreateModuleList", "RDRModules", new { id = selectParentID });
+                return RedirectToAction("Details", "RDRManage", new { id = selectParentID });
             }
             else
             {

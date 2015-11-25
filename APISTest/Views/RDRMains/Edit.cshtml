@@ -12,13 +12,13 @@
     <li class="active">編輯專案基本資料</li>
 </ol>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","RDRMains",FormMethod.Post, new { id= "ListForm" } ))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.rdrMain.ID)
+        @Html.HiddenFor(model => model.ID)
 
         <table class="table table-bordered">
             <tr>
@@ -27,60 +27,76 @@
             <tr>
                 <th class="col-md-2">RDR#</th>
                 <td class="col-md-3">
-                    @Html.DisplayFor(model => model.rdrMain.RDRNumber)
-                    @Html.HiddenFor(model => model.rdrMain.RDRNumber)
+                    @Html.DisplayFor(model => model.RDRNumber)
+                    @Html.HiddenFor(model => model.RDRNumber)
                 </td>
 
                 <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
                 <td class="col-md-3">
-                    @Html.DisplayFor(model => model.rdrMain.CustomerTeamCode)
-                    @Html.HiddenFor(model => model.rdrMain.CustomerTeamID)
+                    @Html.DisplayFor(model => model.CustomerTeamCode)
+                    @Html.HiddenFor(model => model.CustomerTeamCode)
+                    @Html.HiddenFor(model => model.CustomerTeamID)
                 </td>
 
-                <th class="col-md-2"></th>
-                <td class="col-md-3"></td>
+                <th class="col-md-2">業務</th>
+                <td class="col-md-3">
+                    @Html.DisplayFor(model => model.CreateUserID)
+                    @Html.HiddenFor(model => model.CreateUserID)
+                </td>
             </tr>
             <tr>
                 <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
-                <td class="col-md-3">@Html.TextBoxFor(model => model.rdrMain.ProjectName)</td>
+                <td class="col-md-3">
+                    @Html.TextBoxFor(model => model.ProjectName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
+                </td>
 
                 <th><span style="color:red">*</span>LOB</th>
                 <td>
                     @*改為下拉*@
-                    @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", Model.rdrMain.LOB, false))
+                    @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", Model.LOB, false, new { @class = "form-control" }))
+                    @Html.HiddenFor(m=>m.LOB)
                     @Html.Hidden("ddl_LOBList")
                 </td>
 
                 <th><span style="color:red">*</span>量產地</th>
                 <td>
-                    @(Html.DDL_FromEnum<EnumSite>("EnumSiteList", Model.rdrMain.Site, false))
+                    @(Html.DDL_FromEnum<EnumSite>("EnumSiteList", Model.Site, false, new { @class = "form-control" }))
+                    @Html.HiddenFor(m => m.Site)
                     @Html.Hidden("ddl_SiteText")
                 </td>
             </tr>
             <tr>
                 <th><span style="color:red">*</span>車廠</th>
                 <td>
-                    @Html.DDL_CarMaker("CarMakerList", Model.rdrMain.CarMakerID)
+                    @Html.DDL_CarMaker("CarMakerList", Model.CarMakerID,false, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.CarMakerID)
                     @Html.Hidden("ddl_CarMakerText")
                 </td>
 
                 <th><span style="color:red">*</span>車型</th>
-                <td>@Html.TextBoxFor(model => model.rdrMain.CarModel)</td>
+                <td>
+                    @Html.EditorFor(model => model.CarModel, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CarModel, "", new { @class = "text-danger" })
+                </td>
 
                 <th><span style="color:red">*</span>車型預估年銷售量</th>
                 <td>
-                    @Html.TextBoxFor(model => model.rdrMain.EstimateSales)
+                    @Html.EditorFor(model => model.EstimateSales, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EstimateSales, "", new { @class = "text-danger" })
                 </td>
             </tr>
             <tr>
                 <th><span style="color:red">*</span>RFQ Date</th>
                 <td>
                     @Html.EditorFor(model => model.RFQDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.RFQDate, "", new { @class = "text-danger" })
                 </td>
 
                 <th><span style="color:red">*</span>報價需求日</th>
                 <td>
                     @Html.EditorFor(model => model.AcquisitionDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.AcquisitionDate, "", new { @class = "text-danger" })
                 </td>
 
                 <th></th>
@@ -90,35 +106,45 @@
                 <th><span style="color:red">*</span>SOP Date</th>
                 <td>
                     @Html.EditorFor(model => model.SOPDate, new { htmlAttributes = new { @class = "form-control", type = "month" } })
+                    @Html.ValidationMessageFor(model => model.SOPDate, "", new { @class = "text-danger" })
                 </td>
 
                 <th><span style="color:red">*</span>EOL Date</th>
                 <td>
                     @Html.EditorFor(model => model.EOLDate, new { htmlAttributes = new { @class = "form-control", type = "month" } })
-                </td>
+                    @Html.ValidationMessageFor(model => model.EOLDate, "", new { @class = "text-danger" })
+                </td>   
 
                 <th><span style="color:red">*</span>把握度</th>
                 <td>
-                    @(Html.DDL_FromEnum<EnumCertainty>("EnumCertaintyList", Model.rdrMain.Certainty, false))
+                    @(Html.DDL_FromEnum<EnumCertainty>("EnumCertaintyList", Model.Certainty, false, new { @class = "form-control" }))
+                    @Html.ValidationMessageFor(model => model.Certainty, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.Certainty)
                     @Html.Hidden("ddl_CertaintyText")
                 </td>
             </tr>
             <tr>
                 <th><span style="color:red">*</span>報價類型</th>
                 <td>
-                    @(Html.DDL_FromEnum<EnumQuotation>("EnumQuotationList", Model.rdrMain.RequestClass, false))
+                    @(Html.DDL_FromEnum<EnumQuotation>("EnumQuotationList", Model.RequestClass, false, new { @class = "form-control" }))
+                    @Html.ValidationMessageFor(model => model.RequestClass, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.RequestClass)
                     @Html.Hidden("ddl_QuotationText")
                 </td>
 
                 <th><span style="color:red">*</span>報價方式</th>
                 <td>
-                    @(Html.DDL_FromEnum<EnumRequestType>("EnumRequestTypeList", Model.rdrMain.RequestType, false))
+                    @(Html.DDL_FromEnum<EnumRequestType>("EnumRequestTypeList", Model.RequestType, false, new { @class = "form-control" }))
+                    @Html.ValidationMessageFor(model => model.RequestType, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.RequestType)
                     @Html.Hidden("ddl_RequestTypeText")
                 </td>
 
             <th><span style="color:red">*</span>報價貨幣</th>
             <td>
-                @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.rdrMain.Currency, false))
+                @(Html.DDL_FromEnum<EnumCurrency>("EnumCurrencyList", Model.Currency, false, new { @class = "form-control" }))
+                @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.Currency)
                 @Html.Hidden("ddl_CurrencyText")
             </td>
         </tr>
@@ -127,20 +153,22 @@
             <td class="col-md-3" colspan="5">
                 @* 這段還不夠好，最好自訂一個 RadioButtonList 來放，並搭配 Enum 使用 *@
                 <div class="revenuelist">
-                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
-                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
-                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
-                    @Html.RadioButtonFor(model => model.rdrMain.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
+                    @Html.RadioButtonFor(model => model.EstimateRevenue, "1", new { id = "r1_EstimateRevenue", name = "EstimateRevenue" }) 小於2千萬
+                    @Html.RadioButtonFor(model => model.EstimateRevenue, "2", new { id = "r2_EstimateRevenue", name = "EstimateRevenue" }) 2 - 5千萬
+                    @Html.RadioButtonFor(model => model.EstimateRevenue, "3", new { id = "r3_EstimateRevenue", name = "EstimateRevenue" }) 5千萬 - 1億
+                    @Html.RadioButtonFor(model => model.EstimateRevenue, "4", new { id = "r4_EstimateRevenue", name = "EstimateRevenue" }) 1億以上
+                    @Html.ValidationMessageFor(model => model.EstimateRevenue, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.EstimateRevenue)
+                    @Html.Hidden("EstimateRevenueValue")
                 </div>
-                @Html.Hidden("EstimateRevenueValue")
             </td>
         </tr>
     </table>
 
     <div class="row">
-        <div class="col-md-1">
-            @Html.ActionLink("返回", "Index", null, new { @class = "btn btn-info" })
-        </div>
+        @*<div class="col-md-1">
+            @Html.ActionLink("返回", "Index", "RDRManage", null, new { @class = "btn btn-info" })
+        </div>*@
 
         <div class="col-md-1">
             <div>
@@ -151,10 +179,16 @@
 </div>
 }
 
-@*<div>
-    @Html.ActionLink("返回", "Index")
-</div>*@
-
+@section scripts
+{
+    <script>
+        //EnumLOBList init Text
+        debugger
+        var Lob_selectedText = $('#EnumLOBList option:selected').text();
+        $('#ddl_LOBList').val(Lob_selectedText);
+        $('#rdrMain.LOB').val(Lob_selectedText);
+    </script>
+}
 <script type="text/javascript">
     $(function () {
 
@@ -201,6 +235,12 @@
         $('#ddl_CustomerTeamText').val(team_selectedText);
     });
 
+    //EnumLOBList choose Text
+    $('#EnumLOBList').change(function () {
+        var Lob_selectedText = $('#EnumLOBList option:selected').text();
+        $('#ddl_LOBList').val(Lob_selectedText);
+    });
+
     //EnumSiteList choose Text
     $('#EnumSiteList').change(function () {
         var site_selectedText = $('#EnumSiteList option:selected').text();
@@ -224,6 +264,13 @@
         var quotation_selectedText = $('#EnumQuotationList option:selected').text();
         $('#ddl_QuotationText').val(quotation_selectedText);
     });
+
+    //EnumRequestTypeList choose Text
+    $('#EnumRequestTypeList').change(function () {
+        var requestType_selectedText = $('#EnumRequestTypeList option:selected').text();
+        $('#ddl_RequestTypeText').val(requestType_selectedText);
+    });
+
 
     //EnumCurrencyList choose Text
     $('#EnumCurrencyList').change(function () {

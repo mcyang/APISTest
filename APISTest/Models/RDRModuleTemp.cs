@@ -28,5 +28,6 @@ namespace APISTest.Models
         public System.DateTime CreateTime { get; set; }
         public string ProductGroupName { get; set; }
         public string CustomerName { get; set; }
+        public string CustomerBOM { get; set; }
     }
 }

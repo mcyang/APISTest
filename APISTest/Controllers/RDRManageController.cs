@@ -8,37 +8,40 @@ using System.Web.Mvc;
 using APISTest.Models;
 using APISTest.ViewModels;
 using APISTest.Helpers;
-
+using PagedList;
 namespace APISTest.Controllers
 {
     public class RDRManageController : Controller
     {
         private JohnTestEntities db = new JohnTestEntities();
 
+        private const int pageSize = 5; // 設定分頁一頁5筆資料
+
         #region RDR表單管理 - 列表頁
-        // GET: RDRMains
         // Join RDRMain、RDRModule、RDRInfo三張表
         /// <summary>
         /// RDR表單管理 - 列表頁
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public ActionResult Index(FormCollection fc)
+        public ActionResult Index(FormCollection fc, int page = 1)
         {
-            List<RDRMainIndexViewModel> list = (from main in db.RDRMains.Where(m => m.IsDelete == false)
+            int currentPage = page < 1 ? 1 : page; // 當前頁
+
+            var data = (from main in db.RDRMains.Where(m => m.IsDelete == false)
                                                 join car in db.CarMakers
                                                 on main.CarMakerID equals car.ID
                                                 select new RDRMainIndexViewModel
                                                 {
                                                     rdrMain = main,
                                                     CarMaker = car.Name
-                                                }).ToList();
+                                                }).OrderBy(m=>m.rdrMain.ID); // 一定要先 OrderBy，否則分頁處理會報錯
 
             #region 搜尋條件
             // Search By RDRNumber
             if (!string.IsNullOrEmpty(fc["serach_RDRNo"]))
             {
-                list = list.Where(m => m.rdrMain.RDRNumber.Contains(fc["serach_RDRNo"])).ToList();
+                data = data.Where(m => m.rdrMain.RDRNumber.Contains(fc["serach_RDRNo"])).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By CustomerTeam
@@ -47,7 +50,7 @@ namespace APISTest.Controllers
                 int cid = 0;
                 int.TryParse(fc["search_CustomerTeam"], out cid);
 
-                list = list.Where(m => m.rdrMain.CustomerTeamID == cid).ToList();
+                data = data.Where(m => m.rdrMain.CustomerTeamID == cid).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By Site
@@ -56,7 +59,7 @@ namespace APISTest.Controllers
                 int sid = 0;
                 int.TryParse(fc["search_Site"], out sid);
                 string site = APISTest.Tools.EnumMapTool.GetDescription((EnumSite)sid);
-                list = list.Where(m => m.rdrMain.Site == site).ToList();
+                data = data.Where(m => m.rdrMain.Site == site).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By CarMaker
@@ -64,7 +67,7 @@ namespace APISTest.Controllers
             {
                 int carid = 0;
                 int.TryParse(fc["search_CarMaker"], out carid);
-                list = list.Where(m => m.rdrMain.CarMakerID == carid).ToList();
+                data = data.Where(m => m.rdrMain.CarMakerID == carid).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By Product
@@ -74,14 +77,14 @@ namespace APISTest.Controllers
                 int.TryParse(fc["search_Product"], out pid);
                 var idList = db.RDRModules.Where(m => m.ProductGroupID == pid).Select(p=>p.ParentID).Distinct();
 
-                list = list.Where(m=> idList.Contains(m.rdrMain.ID)).AsEnumerable().ToList();
+                data = data.Where(m=> idList.Contains(m.rdrMain.ID)).OrderBy(m => m.rdrMain.ID);
             }
 
             // Search By RFQDate
             if (!string.IsNullOrEmpty(fc["search_RFQDate"]))
             {
                 DateTime dtRFQ = Convert.ToDateTime(fc["search_RFQDate"]);
-                list = list.Where(m => m.rdrMain.RFQDate == dtRFQ).ToList();
+                data = data.Where(m => m.rdrMain.RFQDate == dtRFQ).OrderBy(m => m.rdrMain.ID);
             }
 
             // Search By SOPDate EOLDate
@@ -89,17 +92,19 @@ namespace APISTest.Controllers
             if (!HasSOP)
             {
                 DateTime dtSOP = Convert.ToDateTime(fc["search_SOPDate"]);
-                list = list.Where(m => m.rdrMain.SOPDate <= dtSOP).ToList();
+                data = data.Where(m => m.rdrMain.SOPDate <= dtSOP).OrderBy(m => m.rdrMain.ID);
             }
             bool HasEOL = string.IsNullOrEmpty(fc["search_EOLDate"]);
             if (!HasEOL)
             {
                 DateTime dtEOL = Convert.ToDateTime(fc["search_EOLDate"]);
-                list = list.Where(m => m.rdrMain.EOLDate >= dtEOL).ToList();
+                data = data.Where(m => m.rdrMain.EOLDate >= dtEOL).OrderBy(m => m.rdrMain.ID); ;
             }
             #endregion
 
-            return View(list);
+            var result = data.ToPagedList(currentPage, pageSize);
+
+            return View(result);
         }
         #endregion
 
@@ -117,10 +122,10 @@ namespace APISTest.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
+            //建立 RDR表單ViewModel
             RDRViewModel viewModel = new RDRViewModel();
 
-            //撈RDRMain
+            //撈RDRMain & 丟到RDR主表明細ViewModel
             viewModel.rdrMainDetail = (from main in db.RDRMains.Where(m => m.ID == id)
                                        join car in db.CarMakers on main.CarMakerID equals car.ID
                                        select new RDRMainDetailsViewModel
@@ -129,7 +134,7 @@ namespace APISTest.Controllers
                                            CarMaker = car.Name
                                        }).SingleOrDefault();
 
-            //撈RDRModule
+            //撈RDRModule & 丟到RDR機種資料明細ViewModel
             viewModel.rdrModuleList = (from m in db.RDRModules
                                        join n in db.ProductGroups on m.ProductGroupID equals n.ID
                                        join p in db.Customers on m.CustomerID equals p.ID
@@ -148,8 +153,14 @@ namespace APISTest.Controllers
                                            CreateTime = m.CreateTime
                                        }).ToList();
 
-            //撈RDRInfo
-            viewModel.rdrInfoDetail = db.RDRInformations.Where(m => m.ParentID == id).SingleOrDefault();
+            //撈RDRInfo & 丟到RDR其他資訊明細ViewModel
+            viewModel.rdrInfoDetail = (from info in db.RDRInformations
+                                       join main in db.RDRMains on info.ParentID equals main.ID
+                                       where info.ParentID == id
+                                       select new RDRInfoViewModel
+                                       {
+                                           rdrInfo = info,
+                                       }).FirstOrDefault();
 
             return View(viewModel);
         }

@@ -291,6 +291,7 @@
     <Compile Include="Models\RDRModuleTemp.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Rule\RDRMain.cs" />
     <Compile Include="Models\Rule\RDRModule.cs" />
     <Compile Include="Models\Team.cs">
       <DependentUpon>APISTestModel.tt</DependentUpon>
@@ -486,8 +487,6 @@
     <Content Include="Views\RDRMains\Details.cshtml" />
     <Content Include="Views\RDRMains\Edit.cshtml" />
     <Content Include="Views\RDRMains\Index.cshtml" />
-    <Content Include="Views\RDRModules\Details.cshtml" />
-    <Content Include="Views\RDRModules\Edit.cshtml" />
     <Content Include="Views\RDRModules\Index.cshtml" />
     <Content Include="Views\RDRInfos\Create.cshtml" />
     <Content Include="Views\RDRInfos\Delete.cshtml" />
@@ -503,7 +502,7 @@
     <Content Include="Views\RDRModules\_MyPartialView.cshtml" />
     <Content Include="Views\RDRModules\Main.cshtml" />
     <Content Include="Views\RDRModules\CreateTemp.cshtml" />
-    <Content Include="Views\RDRModules\CreateModuleList.cshtml" />
+    <Content Include="Views\RDRModules\ShowModuleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
