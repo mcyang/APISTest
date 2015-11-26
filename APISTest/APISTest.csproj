@@ -472,16 +472,10 @@
     <Content Include="Views\ProductGroups\Details.cshtml" />
     <Content Include="Views\ProductGroups\Edit.cshtml" />
     <Content Include="Views\ProductGroups\Index.cshtml" />
-    <Content Include="Views\RDRs\Create.cshtml" />
-    <Content Include="Views\RDRs\Delete.cshtml" />
-    <Content Include="Views\RDRs\Details.cshtml" />
-    <Content Include="Views\RDRs\Edit.cshtml" />
-    <Content Include="Views\RDRs\Index.cshtml" />
     <Content Include="Views\CarMakers\Create.cshtml" />
     <Content Include="Views\CarMakers\Delete.cshtml" />
     <Content Include="Views\CarMakers\Details.cshtml" />
     <Content Include="Views\CarMakers\Index.cshtml" />
-    <Content Include="Views\RDRs\Temp.cshtml" />
     <Content Include="Views\RDRMains\Create.cshtml" />
     <Content Include="Views\RDRMains\Delete.cshtml" />
     <Content Include="Views\RDRMains\Details.cshtml" />
@@ -503,6 +497,7 @@
     <Content Include="Views\RDRModules\Main.cshtml" />
     <Content Include="Views\RDRModules\CreateTemp.cshtml" />
     <Content Include="Views\RDRModules\ShowModuleList.cshtml" />
+    <Content Include="Views\RDRModules\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

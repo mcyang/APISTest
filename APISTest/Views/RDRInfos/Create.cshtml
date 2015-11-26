@@ -355,9 +355,9 @@
     </div>
 
     <div class="row">
-        @*<div class="col-md-1">
-            @Html.ActionLink("返 回", "Index", "RDRManage", null, new { @class = "btn btn-info" })
-        </div>*@
+        <div class="col-md-1">
+            @Html.ActionLink("返 回", "Details", "RDRManage", new { id = Model._ParentID }, new { @class = "btn btn-info" })
+        </div>
 
         <div class="col-md-1">
                 <input type="submit" value="儲 存" class="btn btn-success" />
@@ -368,6 +368,8 @@
 
 @section scripts{
     <script>
-        $('#rdrInfo_ParentID').val(@parent_id);
+        $(function () {
+            $('#rdrInfo_ParentID').val(@parent_id);
+        });
     </script>
     }

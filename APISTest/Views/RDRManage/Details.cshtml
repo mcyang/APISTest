@@ -109,7 +109,7 @@
 @if (Model.rdrModuleList.Count > 0)
 {
     <div id="rdrmodule">
-        <table class="table table-bordered">
+        <table class="table table-bordered fixed">
             <tr>
                 <td colspan="8" style="background-color:greenyellow; font-size:larger; font-weight:bold; ">Module 明細</td>
             </tr>
@@ -131,7 +131,7 @@
                     <td>@item.ModuleName</td>
                     <td>@item.ProductGroupName</td>
                     <td>@item.CustomerName</td>
-                    <td>@item._EstimateProduct</td>
+                    <td>@Html.Raw(item._EstimateProduct)</td>
                     <td>@item.Attachment</td>
                     <td>@item.Remark</td>
                     <td>

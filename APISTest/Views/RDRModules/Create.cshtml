@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Create";
 }
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 
 <ol class="breadcrumb">
     <li><a href="#">MKT管理</a></li>
@@ -16,7 +16,7 @@
 
 <h3>新增機種資料</h3>
 <div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create","RDRModules",FormMethod.Post, new { id = "ListForm" }))
     {
         @Html.AntiForgeryToken()
 
@@ -121,7 +121,7 @@
 
         <div class="row">
             <div class="col-md-1">
-                @Html.ActionLink("返 回", "DeleteAll", "RDRModulesTemp", new { id = Model.ParentID }, new { @class = "btn btn-info", @onclick = "return Confirm_Form()" })
+                @Html.ActionLink("返 回", "DeleteAll", "RDRModulesTemp", new { parentID = Model.ParentID}, new { @class = "btn btn-info", @onclick = "return Confirm_Form()" })
             </div>
 
             <div>
@@ -137,9 +137,11 @@
     @{ Html.RenderPartial("_MyPartialView"); }
 </div>
 
+
 @section scripts
 {
     <script>
+
 
         //預估年產量字串陣列
         var list = [];
@@ -157,10 +159,10 @@
             $('#EstimateProduct').val(list);    //寫入Html.Hidden中
         });
 
-
         function Confirm_Form() {
-            if (!confirm("機種清單尚未儲存，若返回即刪除資料，您確定要刪除嗎?"))
+            if (!confirm("機種清單尚未儲存，若返回即刪除資料，您確定要刪除嗎?")) {
                 return false;
+            }
         }
 
         //_MyPartialView中的儲存鈕

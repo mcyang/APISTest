@@ -71,7 +71,8 @@
                             <tr>
                                 <td style="text-align:center" class="myyears">@idx.ToString()</td>
                                 <td style="text-align:center">
-                                    @Html.TextBox("Index_" + idx.ToString(), Model.Estimate[i] , new { id = "Index_" + idx.ToString(), @class = "myestimate" }) pcs
+                                    @Html.TextBox("Index_" + idx.ToString(), Model.Estimate[i] , new { id = "Index_" + idx.ToString(), @class = "myestimate" }) K Pcs/Y
+                                    @Html.ValidationMessageFor(model => model.Estimate[i], "", new { @class = "text-danger" })
                                 </td>
                             </tr>
                         }
@@ -112,3 +113,29 @@
         </div>
     }
 </div>
+
+@section scripts
+{
+    <script>
+        //預估年產量字串陣列
+        var list = [];
+
+        ///預估年產量 textbox 內容變更事件
+        $('.myestimate').change(function (e) {
+            //Get ID & Value
+            var ID = this.id;
+            var year = this.id.substr(6, 4); //ex. Index_2016 => 2016
+            var Value = $('#' + ID).val();
+
+            //組合成字串
+            var str = year + ":" + Value;
+            list.push(str);
+            $('#EstimateProduct').val(list);    //寫入Html.Hidden中
+        });
+
+        $(function () {
+            //須與form表單ID名稱相同
+            //$("#ListForm").validate();
+        });
+    </script>
+}

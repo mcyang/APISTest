@@ -220,10 +220,10 @@
                 <th class="col-md-2">製程要求</th>
                 <td class="col-md-2">
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsROHS, true, new { id = "IsROHS", name = "IsROHS" }) ROHS
+                        @Html.EditorFor(model => model.rdrInfo.IsROHS) ROHS
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsELV, true, new { id = "IsELV", name = "IsELV" }) ELV
+                        @Html.EditorFor(model => model.rdrInfo.IsELV) ELV
                     </label>
                 </td>
                 <th class="col-md-2">VLS配阻</th>
@@ -326,13 +326,13 @@
                 <th class="col-md-2">客戶回估文件需求</th>
                 <td>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsAssignForm, true, new { id = "IsAssignForm", name = "IsAssignForm" }) 客戶指定表單
+                        @Html.EditorFor(model => model.rdrInfo.IsAssignForm) 客戶指定表單
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsProposal, true, new { id = "IsProposal", name = "IsProposal" }) 技術提案
+                        @Html.EditorFor(model => model.rdrInfo.IsProposal) 技術提案
                     </label>
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.rdrInfo.IsDevPlan, true, new { id = "IsDevPlan", name = "IsDevPlan" }) 開發計畫
+                        @Html.EditorFor(model => model.rdrInfo.IsDevPlan) 開發計畫
                     </label>
                 </td>
             </tr>
