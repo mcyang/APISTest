@@ -1,0 +1,402 @@
+﻿@model APIS.Models.RDRInformation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RDROthersInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsElectronic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsElectronic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSoftware)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSoftware)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsMechanism)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsMechanism)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsOptic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsOptic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsRF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsRF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLAK)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLAK)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLAW)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLAW)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLGA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLGA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLAT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTCH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTCH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TxtOther_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TxtOther_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSpec)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSpec)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsGERBER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsGERBER)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsWireDwg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsWireDwg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSample)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSample)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBOM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsBOM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAssemblyDwg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAssemblyDwg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDChart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDChart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCKT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCKT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Is2D)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Is2D)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Is3D)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Is3D)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsROHS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsROHS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsELV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsELV)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsVLS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsVLS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TxtOthers_2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TxtOthers_2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsMaterialCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsMaterialCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPackageCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPackageCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsProcessCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsProcessCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsProductHourCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsProductHourCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTestHourCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTestHourCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSamplePrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSamplePrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsModuleFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsModuleFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSampleFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSampleFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsHandMoldingFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsHandMoldingFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTravelFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTravelFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTestFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTestFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDevelopFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDevelopFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsVerifyToolFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsVerifyToolFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TxtOthers_3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TxtOthers_3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAssignForm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAssignForm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsProposal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsProposal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDevPlan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDevPlan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsStepPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsStepPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TxtOthers_4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TxtOthers_4)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

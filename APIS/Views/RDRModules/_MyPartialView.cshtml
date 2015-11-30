@@ -1,0 +1,56 @@
+﻿@model List<RDRModuleTemp>
+@{
+    Layout = null;
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+    int pid = int.Parse(ViewData["ParentID"].ToString());
+}
+
+<h3>機種清單</h3>
+@using (Html.BeginForm("Add", "RDRModules", new { id = pid } , FormMethod.Post, new { id = "ListForm" }))
+{
+    <div>
+        <table class="table-bordered">
+            <tr>
+                <th style="width:5%">ID</th>
+                <th style="width:15%">Module</th>
+                <th style="width:15%">客戶料號</th>
+                <th style="width:10%">產品別</th>
+                <th style="width:10%">交貨地</th>
+                <th style="width:15%">預估年產量</th>
+                <th style="width:15%">附件</th>
+                <th style="width:15%">備註</th>
+                <th></th>
+            </tr>
+            @if (Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    var idx = Model.IndexOf(item);
+                    var js_idx = "tempID" + idx;
+                    <tr>
+                        @Html.Hidden("ParentID", item.ParentID)
+                        <td id="@js_idx">@item.ID</td>
+                        <td>@item.ModuleName</td>
+                        <td>@item.CustomerBOM</td>
+                        <td>@item.ProductGroupName</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.EstimateProduct</td>
+                        <td>@item.Attachment</td>
+                        <td>@item.Remark</td>
+                        <td><input type="button" class="BtnMinus btn-danger" value="刪 除" id="RDRModuleTempDelete" /></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="9"><span style="color:red; text-align:center">請於上方新增機種資料!!</span></td></tr>
+            }
+        </table>
+    </div>
+
+    <div style="margin:10px 0">
+        <input type="submit" value="儲 存" class="btn btn-success" id="RDRModuleTempSave" />
+    </div>
+}
+
+

@@ -1,0 +1,33 @@
+﻿@model List<APIS.ViewModels.RDRModuleViewModel>
+
+@{
+    Layout = null;
+    
+}
+
+<table class="table table-bordered">
+    <tr>
+        <td td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">機種資料</td>
+    </tr>
+    <tr>
+        <th class="col-md-2">Module</th>
+        <th>產品別</th>
+        <th>交貨地</th>
+        <th>預估年產量</th> @*靠北!! 這邊又要自動產生欄位*@
+        <th class="col-md-1">附件</th>
+        <th class="col-md-1">備註</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var idx = Model.IndexOf(item);
+        <tr>
+            <td>@item.ModuleName</td>
+            <td>@item.ProductGroupID</td>
+            <td>@item.CustomerID</td>
+            <td>@item.EstimateProduct</td> @*這邊要改為可以編輯*@
+            <td>@item.Attachment</td>
+            <td>@item.Remark</td>
+        </tr>
+    }
+</table>
