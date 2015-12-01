@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using APIS.Models;
-using System.IO;
 using LinqToExcel;
+using PagedList;
 
 namespace APIS.Controllers
 {
@@ -18,8 +19,9 @@ namespace APIS.Controllers
     public class CarMakersController : Controller
     {
         private JohnTestEntities db = new JohnTestEntities();
+        private const int pageSize = 10; // 設定分頁一頁10筆資料
 
-        //匯入
+        #region 匯入
         [HttpGet]
         public ActionResult Import()
         {
@@ -54,7 +56,7 @@ namespace APIS.Controllers
                     CarMaker carmaker = new CarMaker();
                     carmaker.Code = c[0].ToString().Trim();
                     carmaker.Name = c[1].ToString().Trim();
-                    
+
                     db.CarMakers.Add(carmaker);
                     db.SaveChanges();
                 }
@@ -63,29 +65,31 @@ namespace APIS.Controllers
 
             return RedirectToAction("Index");
         }
-        
+        #endregion
 
-        // GET: CarMakers
-        public ActionResult Index()
+
+        #region 列表頁
+        public ActionResult Index(FormCollection fc, int page = 1)
         {
-            return View(db.CarMakers.ToList());
-        }
+            int currentPage = page < 1 ? 1 : page; // 當前頁
 
-        // GET: CarMakers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CarMaker carMaker = db.CarMakers.Find(id);
-            if (carMaker == null)
-            {
-                return HttpNotFound();
-            }
-            return View(carMaker);
-        }
+            //作分頁前一定要先 OrderBy
+            var data = db.CarMakers.OrderBy(m => m.ID);
 
+            //搜尋條件
+            string byMakers = fc["serach_CarMakersName"] == null ? "" : fc["serach_CarMakersName"].Trim();
+            if (!String.IsNullOrWhiteSpace(byMakers))
+            {
+                data = data.Where(m => m.Name.Contains(byMakers)).OrderBy(m => m.ID);
+            }
+            
+            var result = data.ToPagedList(currentPage, pageSize);
+            return View(result);
+        }
+        #endregion
+
+
+        #region 新增頁
         // GET: CarMakers/Create
         public ActionResult Create()
         {
@@ -97,7 +101,7 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,IsDelete")] CarMaker carMaker)
+        public ActionResult Create([Bind(Include = "ID,Code,Name,IsDelete")] CarMaker carMaker)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +112,10 @@ namespace APIS.Controllers
 
             return View(carMaker);
         }
+        #endregion
 
+
+        #region 編輯頁
         // GET: CarMakers/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -116,7 +123,7 @@ namespace APIS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarMaker carMaker = db.CarMakers.Find(id);
+            CarMaker carMaker = db.CarMakers.Where(m => m.ID == id).FirstOrDefault();
             if (carMaker == null)
             {
                 return HttpNotFound();
@@ -129,7 +136,7 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,IsDelete")] CarMaker carMaker)
+        public ActionResult Edit([Bind(Include = "ID,Code,Name,IsDelete")] CarMaker carMaker)
         {
             if (ModelState.IsValid)
             {
@@ -138,34 +145,36 @@ namespace APIS.Controllers
                 return RedirectToAction("Index");
             }
             return View(carMaker);
-        }
+        } 
+        #endregion
 
-        // GET: CarMakers/Delete/5
+
+        #region 刪除頁
+        [AcceptVerbs(HttpVerbs.Delete)]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarMaker carMaker = db.CarMakers.Find(id);
-            if (carMaker == null)
+
+            CarMaker carMaker = db.CarMakers.Where(m => m.ID == id).FirstOrDefault();
+            if (carMaker != null)
             {
-                return HttpNotFound();
+                carMaker.IsDelete = true; //假刪
+                if (ModelState.IsValid)
+                {
+                    db.Entry(carMaker).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(carMaker);
-        }
+        } 
+        #endregion
 
-        // POST: CarMakers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CarMaker carMaker = db.CarMakers.Find(id);
-            db.CarMakers.Remove(carMaker);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
+        #region 回收連線資源
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -173,6 +182,7 @@ namespace APIS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+        #endregion
     }
 }

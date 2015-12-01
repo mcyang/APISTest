@@ -306,6 +306,10 @@
     <Compile Include="Models\RDRModuleTemp.cs">
       <DependentUpon>APISModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Rule\ProductGroup.cs" />
+    <Compile Include="Models\Rule\CarMaker.cs" />
+    <Compile Include="Models\Rule\Customer.cs" />
+    <Compile Include="Models\Rule\CustomerTeam.cs" />
     <Compile Include="Models\Rule\RDRMain.cs" />
     <Compile Include="Models\Rule\RDRModule.cs" />
     <Compile Include="Models\Team.cs">
@@ -509,24 +513,16 @@
     <Content Include="Views\Teams\Edit.cshtml" />
     <Content Include="Views\Teams\Index.cshtml" />
     <Content Include="Views\CustomerTeams\Create.cshtml" />
-    <Content Include="Views\CustomerTeams\Delete.cshtml" />
-    <Content Include="Views\CustomerTeams\Details.cshtml" />
     <Content Include="Views\CustomerTeams\Edit.cshtml" />
     <Content Include="Views\CustomerTeams\Index.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Customers\_PagedAjax.cshtml" />
     <Content Include="Views\ProductGroups\Create.cshtml" />
-    <Content Include="Views\ProductGroups\Delete.cshtml" />
-    <Content Include="Views\ProductGroups\Details.cshtml" />
     <Content Include="Views\ProductGroups\Edit.cshtml" />
     <Content Include="Views\ProductGroups\Index.cshtml" />
     <Content Include="Views\CarMakers\Create.cshtml" />
-    <Content Include="Views\CarMakers\Delete.cshtml" />
-    <Content Include="Views\CarMakers\Details.cshtml" />
     <Content Include="Views\CarMakers\Index.cshtml" />
     <Content Include="Views\RDRMains\Create.cshtml" />
     <Content Include="Views\RDRMains\Delete.cshtml" />
@@ -550,6 +546,7 @@
     <Content Include="Views\RDRModules\CreateTemp.cshtml" />
     <Content Include="Views\RDRModules\ShowModuleList.cshtml" />
     <Content Include="Views\RDRModules\Edit.cshtml" />
+    <Content Include="Views\CarMakers\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,103 +1,131 @@
 ﻿@using PagedList
 @using PagedList.Mvc
-@model IEnumerable<APIS.ViewModels.CustomerViewModel>
-@*@model IPagedList<APIS.ViewModels.CustomerViewModel>*@
+@model IPagedList<APIS.ViewModels.CustomerViewModel>
 
-@*@section styles{
+@section styles{
     <link href="~/Content/PagedList.css" rel="stylesheet" />
-}*@
+}
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Customers/Index</h2>
+<ol class="breadcrumb">
+    <li><a href="#">基本資料管理</a></li>
+    <li><a href="#">客戶</a></li>
+    <li class="active">列表頁</li>
+</ol>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h4>客戶管理</h4>
+<div class="container">
+    <h4 class="alert-info">搜尋條件</h4>
+    @using (Html.BeginForm("Index", "Customers", FormMethod.Post, new { id = "searchForm" }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.Label("CustomerName", "客戶名稱:")
+                    @Html.TextBox("serach_CustomerName")
+                </td>
+                <td>
+                    @Html.Label("CustomerTeamName", "客戶群:")
+                    @Html.DDL_CustomerTeam("serach_CustomerTeamName", 0, null,true)
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary">搜 尋</button>
+                </td>
+            </tr>
+        </table> 
+    }
+</div>
+<hr />
 
+<div style="float:left">
+    @Html.ActionLink("新 增", "Create", "Customers", null, new { @class = "btn btn-success" })
+</div>
+<div style="float:right">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
 
-<table class="table">
+<table class="table table-hover">
     <tr>
-        <th>
-            客戶代碼
-            @*@Html.DisplayNameFor(model => model.First().Code)*@
-        </th>
-        <th>
-            客戶名稱
-            @*@Html.DisplayNameFor(model => model.First().Name)*@
-        </th>
-        <th>
-            客戶群
-            @*@Html.DisplayNameFor(model => model.First().ParentID)*@
-        </th>
-        <th>
-            是否刪除
-            @*@Html.DisplayNameFor(model => model.First().IsDelete)*@
-        </th>
-        <th></th>
+        <th>客戶代碼</th>
+        <th>客戶名稱</th>
+        <th>客戶群 </th>
+        <th>是否刪除</th>
+        <th>管理</th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.Code)
+                @Html.DisplayFor(modelItem => item.Code)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.Name)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerTeamCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.IsDelete)
+                @Html.DisplayFor(modelItem => item.IsDelete)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.customer.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.customer.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.customer.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Ajax.ActionLink("Delete", "Delete", new { id = item.ID }, new AjaxOptions { HttpMethod = "Delete", Confirm = String.Format("確定刪除 ?"), OnSuccess = "deleteCompleted" })
             </td>
         </tr>
     }
 
 </table>
 
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+@section scripts{
+    <script>
+        /*刪除成功,重新Reload*/
+        function deleteCompleted() {
+            // Reload page
+            window.location.reload();
+        }
+    </script>
+}
+
 @*<div id="CustomerData">
 
-</div>*@
+    </div>*@
 
 @*@section scripts{
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-        $( function () {
-            var page = window.location.hash ? window.location.hash.slice(1) : 1;
-            fetchPage(page);
-        });
-
-        var fetchPage = function (page) {
-            var pagedPartialUrl = ' @Url.Action("PagedPartial", "Customers" )';  // 導向CustomersController的 ActionResult PagedPartial()
-
-            $.get(pagedPartialUrl, { page: page }, function (data) {
-
-                window.location.hash = page;
-                $('#CustomerData').html(data);
-
-                $('#CustomerData .pagination li a').each(function (i, item) {
-                    var hyperLinkUrl = $(item).attr('href' );
-                    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
-                        var pageNumber = $(item).attr('href').replace('/Customers?page=', '');
-
-                        $(item).attr( 'href', '#' ).click(function (event) {
-                            event.preventDefault();
-                            $(event.target).attr( 'href');
-                            fetchPage(pageNumber);
-                        });
-                    }
-                });
+            $( function () {
+                var page = window.location.hash ? window.location.hash.slice(1) : 1;
+                fetchPage(page);
             });
-        }
 
-    </script>
-}*@
+            var fetchPage = function (page) {
+                var pagedPartialUrl = ' @Url.Action("PagedPartial", "Customers" )';  // 導向CustomersController的 ActionResult PagedPartial()
+
+                $.get(pagedPartialUrl, { page: page }, function (data) {
+
+                    window.location.hash = page;
+                    $('#CustomerData').html(data);
+
+                    $('#CustomerData .pagination li a').each(function (i, item) {
+                        var hyperLinkUrl = $(item).attr('href' );
+                        if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                            var pageNumber = $(item).attr('href').replace('/Customers?page=', '');
+
+                            $(item).attr( 'href', '#' ).click(function (event) {
+                                event.preventDefault();
+                                $(event.target).attr( 'href');
+                                fetchPage(pageNumber);
+                            });
+                        }
+                    });
+                });
+            }
+
+        </script>
+    }*@

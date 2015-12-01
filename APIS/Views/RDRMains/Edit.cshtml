@@ -31,18 +31,20 @@
                     @Html.HiddenFor(model => model.RDRNumber)
                 </td>
 
+                <th><span style="color:red">*</span>LOB</th>
+                <td>
+                    @Html.DisplayFor(model => model.LOB)
+                    @Html.HiddenFor(m => m.LOB)
+                    @Html.Hidden("ddl_LOBList")
+                </td>
+
                 <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
                 <td class="col-md-3">
                     @Html.DisplayFor(model => model.CustomerTeamCode)
                     @Html.HiddenFor(model => model.CustomerTeamCode)
                     @Html.HiddenFor(model => model.CustomerTeamID)
                 </td>
-
-                <th class="col-md-2">業務</th>
-                <td class="col-md-3">
-                    @Html.DisplayFor(model => model.CreateUserID)
-                    @Html.HiddenFor(model => model.CreateUserID)
-                </td>
+               
             </tr>
             <tr>
                 <th class="col-md-2"><span style="color:red">*</span>專案名稱</th>
@@ -51,12 +53,10 @@
                     @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
                 </td>
 
-                <th><span style="color:red">*</span>LOB</th>
-                <td>
-                    @*改為下拉*@
-                    @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", Model.LOB, false, new { @class = "form-control" }))
-                    @Html.HiddenFor(m=>m.LOB)
-                    @Html.Hidden("ddl_LOBList")
+                <th class="col-md-2">業務</th>
+                <td class="col-md-3">
+                    @Html.DisplayFor(model => model.CreateUserID)
+                    @Html.HiddenFor(model => model.CreateUserID)
                 </td>
 
                 <th><span style="color:red">*</span>量產地</th>

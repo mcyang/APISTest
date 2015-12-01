@@ -21,24 +21,7 @@ namespace APIS.Controllers
             return View(db.ProductGroups.ToList());
         }
         #endregion
-
-
-        #region 明細頁
-        // GET: ProductGroups/Details/5
-        public ActionResult Details(short? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            if (productGroup == null)
-            {
-                return HttpNotFound();
-            }
-            return View(productGroup);
-        }
-        #endregion
+        
 
 
         #region 新增頁
@@ -75,7 +58,7 @@ namespace APIS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductGroup productGroup = db.ProductGroups.Find(id);
+            ProductGroup productGroup = db.ProductGroups.Where(m => m.ID == id).FirstOrDefault();
             if (productGroup == null)
             {
                 return HttpNotFound();
@@ -102,30 +85,26 @@ namespace APIS.Controllers
 
 
         #region 刪除頁
-        // GET: ProductGroups/Delete/5
+        [AcceptVerbs(HttpVerbs.Delete)]
         public ActionResult Delete(short? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            if (productGroup == null)
+
+            ProductGroup productGroup = db.ProductGroups.Where(m => m.ID == id).FirstOrDefault();
+            if (productGroup != null)
             {
-                return HttpNotFound();
+                productGroup.IsDelete = true; //假刪
+                if (ModelState.IsValid)
+                {
+                    db.Entry(productGroup).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(productGroup);
-        }
-
-        // POST: ProductGroups/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(short id)
-        {
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            db.ProductGroups.Remove(productGroup);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
         #endregion
 

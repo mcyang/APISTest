@@ -1,25 +1,27 @@
-﻿@model APIS.Models.ProductGroup
+﻿@model APIS.Models.CarMaker
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
 <ol class="breadcrumb">
     <li><a href="#">基本資料管理</a></li>
-    <li><a href="#">產品類別</a></li>
-    <li class="active">新增頁</li>
+    <li><a href="#">車廠</a></li>
+    <li class="active">編輯頁</li>
 </ol>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>產品類別管理</h4>
+        <h4>車廠資料管理</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Code, "車廠代號", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-lg-5">
                 @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
@@ -27,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, "車廠名稱", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-lg-5">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -35,19 +37,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsDelete, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsDelete, "是否刪除", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-lg-5">
-                <div class="checkbox">
                     @Html.EditorFor(model => model.IsDelete)
                     @Html.ValidationMessageFor(model => model.IsDelete, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
     </div>
 
     <div class="form-actions no-color">
         <div class="col-lg-1">
-            @Html.ActionLink("返 回", "Index", "ProductGroups", null, new { @class = "btn btn-info" })
+            @Html.ActionLink("返 回", "Index", "CarMakers", new { @class = "btn btn-info" })
         </div>
 
         <div class="col-lg-1">
@@ -57,3 +57,16 @@
         </div>
     </div>
 }
+
+@section scripts{
+    <script>
+        $(function () {
+
+            /*選取客戶群下拉選單時,變更ParentID值 */
+            $('#CustomerTeamList').change(function () {
+                $('#ParentID').val($('#CustomerTeamList option:selected').val());
+            });
+
+        });
+    </script>
+    }

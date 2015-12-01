@@ -23,23 +23,24 @@
                 @Html.DisplayFor(model => model.rdrMainDetail.rdrMain.RDRNumber)
             </td>
 
+            <th>LOB</th>
+            <td>@Html.DisplayFor(model => model.rdrMainDetail.rdrMain.LOB)</td>
+           
             <th class="col-md-1">客戶群</th>
             <td class="col-md-3">
                 @Html.DisplayFor(model => model.rdrMainDetail.rdrMain.CustomerTeamCode)
             </td>
 
-            <th class="col-md-2">業務</th>
-            <td class="col-md-2">
-                @Html.DisplayFor(model => model.rdrMainDetail.rdrMain.CreateUserID)
-            </td>
         </tr>
         <tr>
             <th>專案名稱</th>
             <td>@Html.DisplayFor(model => model.rdrMainDetail.rdrMain.ProjectName)</td>
 
-            <th>LOB</th>
-            <td>@Html.DisplayFor(model => model.rdrMainDetail.rdrMain.LOB)</td>
-
+            <th class="col-md-2">業務</th>
+            <td class="col-md-2">
+                @Html.DisplayFor(model => model.rdrMainDetail.rdrMain.CreateUserID)
+            </td>
+           
             <th>量產地</th>
             <td>@Html.DisplayFor(model => model.rdrMainDetail.rdrMain.Site)</td>
         </tr>

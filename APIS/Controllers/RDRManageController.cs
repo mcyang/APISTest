@@ -40,51 +40,56 @@ namespace APIS.Controllers
 
             #region 搜尋條件
             // Search By RDRNumber
-            if (!string.IsNullOrEmpty(fc["serach_RDRNo"]))
+            string byRDRNo = fc["serach_RDRNo"] == null ? "" : fc["serach_RDRNo"].Trim();
+            if (!string.IsNullOrEmpty(byRDRNo))
             {
-                data = data.Where(m => m.rdrMain.RDRNumber.Contains(fc["serach_RDRNo"])).OrderBy(m=>m.rdrMain.ID);
+                data = data.Where(m => m.rdrMain.RDRNumber.Contains(byRDRNo)).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By CustomerTeam
-            if (!string.IsNullOrEmpty(fc["search_CustomerTeam"]))
+            string byCustomerTeam = fc["search_CustomerTeam"] == null ? "" : fc["search_CustomerTeam"].Trim();
+            if (!string.IsNullOrEmpty(byCustomerTeam))
             {
                 int cid = 0;
                 int.TryParse(fc["search_CustomerTeam"], out cid);
-
                 data = data.Where(m => m.rdrMain.CustomerTeamID == cid).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By Site
-            if (!string.IsNullOrEmpty(fc["search_Site"]))
+            string bySite = fc["search_Site"] == null ? "" : fc["search_Site"].Trim();
+            if (!string.IsNullOrEmpty(bySite))
             {
                 int sid = 0;
-                int.TryParse(fc["search_Site"], out sid);
+                int.TryParse(bySite, out sid);
                 string site = APIS.Tools.EnumMapTool.GetDescription((EnumSite)sid);
                 data = data.Where(m => m.rdrMain.Site == site).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By CarMaker
+            string byCarMaker = fc["search_CarMaker"] == null ? "" : fc["search_CarMaker"].Trim();
             if (!string.IsNullOrEmpty(fc["search_CarMaker"]))
             {
                 int carid = 0;
-                int.TryParse(fc["search_CarMaker"], out carid);
+                int.TryParse(byCarMaker, out carid);
                 data = data.Where(m => m.rdrMain.CarMakerID == carid).OrderBy(m=>m.rdrMain.ID);
             }
 
             // Search By Product
-            if (!string.IsNullOrEmpty(fc["search_Product"]))
+            string byProduct = fc["search_Product"] == null ? "" : fc["search_Product"].Trim();
+            if (!string.IsNullOrEmpty(byProduct))
             {
                 int pid = 0;
-                int.TryParse(fc["search_Product"], out pid);
+                int.TryParse(byProduct, out pid);
                 var idList = db.RDRModules.Where(m => m.ProductGroupID == pid).Select(p=>p.ParentID).Distinct();
 
                 data = data.Where(m=> idList.Contains(m.rdrMain.ID)).OrderBy(m => m.rdrMain.ID);
             }
 
             // Search By RFQDate
-            if (!string.IsNullOrEmpty(fc["search_RFQDate"]))
+            string byRFQDate = fc["search_RFQDate"] == null ? "" : fc["search_RFQDate"].Trim();
+            if (!string.IsNullOrEmpty(byRFQDate))
             {
-                DateTime dtRFQ = Convert.ToDateTime(fc["search_RFQDate"]);
+                DateTime dtRFQ = Convert.ToDateTime(byRFQDate);
                 data = data.Where(m => m.rdrMain.RFQDate == dtRFQ).OrderBy(m => m.rdrMain.ID);
             }
 

@@ -4,12 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<ol class="breadcrumb">
+    <li><a href="#">基本資料管理</a></li>
+    <li><a href="#">客戶群</a></li>
+    <li class="active">列表頁</li>
+</ol>
 
+<h4>客戶群管理</h4>
+<hr />
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新 增", "Create", "CustomerTeams", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
+
+<table class="table" id="main">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Code)
@@ -17,10 +24,10 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        @*<th>
+        <th>
             @Html.DisplayNameFor(model => model.IsDelete)
-        </th>*@
-        <th></th>
+        </th>
+        <th>管理</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -31,15 +38,24 @@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.IsDelete)
-        </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.DisplayFor(modelItem => item.IsDelete)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Ajax.ActionLink("Delete", "Delete", new { id = item.ID } , new AjaxOptions{ HttpMethod = "Delete", Confirm = String.Format("確定刪除 ?"), OnSuccess = "deleteCompleted" })
         </td>
     </tr>
 }
 
 </table>
+
+@section scripts{
+    <script>
+        function deleteCompleted()
+        {
+            // Reload page
+            window.location.reload();
+        }
+    </script>
+    }

@@ -4,7 +4,6 @@
 @{
     ViewBag.Title = "Create";
 }
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
 
 <ol class="breadcrumb">
@@ -33,13 +32,13 @@
 
                     <th class="col-md-2"><span style="color:red">*</span>LOB</th>
                     <td class="col-md-2">
-                        @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", "", false, new { @class = "form-control" }))
+                        @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", "", true, new { @class = "form-control" }))
                         @Html.Hidden("ddl_LOBText")
                     </td>
 
                     <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
                     <td class="col-md-2">
-                        @Html.DDL_CustomerTeam("CustomerTeamList", 0, false, new { @class = "form-control" })
+                        @Html.DDL_CustomerTeam("CustomerTeamList" , 0, null, false, new { @class = "form-control" })
                         @Html.Hidden("ddl_CustomerTeamText")
                     </td>
 
@@ -166,7 +165,7 @@
         </div>
     }
 
-
+@section scripts{
     <script type="text/javascript">
         $(function () {
 
@@ -201,10 +200,10 @@
                 showButtonPanel: true, //屬性設定: 於日期選擇器最下方產生 "Done" Button Panel,
                 onClose:
                     function (dateText, inst) {    // 按下"Done"時,設定日期
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
-                },
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+                    },
                 beforeShow: function (input, inst) {
                     if ((datestr = $(this).val()).length > 0) {
                         year = datestr.substring(datestr.length - 4, datestr.length);
@@ -236,6 +235,7 @@
                 });
             });
 
+            /*日期區間驗證: 前面日期必小於後面日期*/
             function checkEndTime(sDate, eDate) {
                 var d1 = new Date(sDate.replace(/\-/g, "\/"));
                 var d2 = new Date(eDate.replace(/\-/g, "\/"));
@@ -244,6 +244,8 @@
                     return false;
                 }
             }
+
+            var chooseLOBId = $('#EnumLOBList option:selected').val();
 
             //CustomerTeamList init Text
             var team_selectedText = $('#CustomerTeamList option:selected').text();
@@ -335,4 +337,6 @@
             var revenue_checked = $('.revenuelist input[type="radio"]:checked').val();
             $('#EstimateRevenueValue').val(revenue_checked);
         });
-    </script>
+</script>
+    }
+

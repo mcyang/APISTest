@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using APIS.Models;
-using APIS.ViewModels;
 
 namespace APIS.Controllers
 {
@@ -19,21 +13,6 @@ namespace APIS.Controllers
         public ActionResult Index()
         {
             return View(db.CustomerTeams.ToList());
-        }
-
-        // GET: CustomerTeams/Details/5
-        public ActionResult Details(short? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CustomerTeam customerTeam = db.CustomerTeams.Find(id);
-            if (customerTeam == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customerTeam);
         }
 
         // GET: CustomerTeams/Create
@@ -90,32 +69,32 @@ namespace APIS.Controllers
             return View(customerTeam);
         }
 
-        // GET: CustomerTeams/Delete/5
+
+        #region 刪除頁
+        [AcceptVerbs(HttpVerbs.Delete)]
         public ActionResult Delete(short? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerTeam customerTeam = db.CustomerTeams.Find(id);
-            if (customerTeam == null)
+            CustomerTeam customerTeam = db.CustomerTeams.Where(m => m.ID == id).FirstOrDefault();
+            if (customerTeam != null)
             {
-                return HttpNotFound();
+                customerTeam.IsDelete = true; //假刪
+                if (ModelState.IsValid)
+                {
+                    db.Entry(customerTeam).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(customerTeam);
         }
 
-        // POST: CustomerTeams/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(short id)
-        {
-            CustomerTeam customerTeam = db.CustomerTeams.Find(id);
-            db.CustomerTeams.Remove(customerTeam);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        #endregion
 
+        #region 回收連線資源
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -123,6 +102,7 @@ namespace APIS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+        #endregion
     }
 }

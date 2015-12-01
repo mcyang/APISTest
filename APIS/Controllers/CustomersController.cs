@@ -19,28 +19,45 @@ namespace APIS.Controllers
 
         #region 列表頁
         // GET: Customers
-        public ActionResult Index()
+        public ActionResult Index(FormCollection fc, int page = 1)
         {
-            //int currentPage = page ?? 1; //當前頁
+            int currentPage = page < 1 ? 1 : page; // 當前頁
 
             //作分頁前一定要先 OrderBy
-            var data = from cs in db.Customers
-                       join csteam in db.CustomerTeams
-                       on cs.ParentID equals csteam.ID
-                       orderby cs.ID
-                       select new { cs, csteam.Code };
+            var data = (from customer in db.Customers
+                       join team in db.CustomerTeams
+                       on customer.ParentID equals team.ID
+                       orderby customer.ID
+                       select new CustomerViewModel {
+                           ID = customer.ID,
+                           Code = customer.Code,
+                           Name = customer.Name,
+                           IsDelete = customer.IsDelete,
+                           CustomerTeamID = customer.ParentID,
+                           CustomerTeamCode = team.Code,
+                       });
 
-            List<CustomerViewModel> list = new List<CustomerViewModel>();
-            foreach (var item in data)
+
+            #region 搜尋條件
+            //依客戶名稱
+            string byMakers = fc["serach_CustomerName"] == null ? "" : fc["serach_CustomerName"].Trim();
+            if (!String.IsNullOrWhiteSpace(byMakers))
             {
-                CustomerViewModel viewModel = new CustomerViewModel();
-                viewModel.customer = item.cs;
-                viewModel.CustomerTeamCode = item.Code;
-                list.Add(viewModel);
+                data = data.Where(m => m.Name.Contains(byMakers)).OrderBy(m => m.ID);
             }
 
-            //var result = data.ToPagedList(currentPage, pageSize);
-            return View(list);
+            //依客戶群
+            string byTeam = fc["serach_CustomerTeamName"] == null ? "" : fc["serach_CustomerTeamName"];
+            if (!String.IsNullOrWhiteSpace(byTeam))
+            {
+                int byTeamID = 0;
+                int.TryParse(byTeam, out byTeamID);
+                data = data.Where(m => m.CustomerTeamID == byTeamID).OrderBy(m => m.ID);
+            } 
+            #endregion
+
+            var result = data.ToPagedList(currentPage, pageSize);
+            return View(result);
         }
 
         /// <summary>
@@ -53,25 +70,22 @@ namespace APIS.Controllers
             int currentPage = page ?? 1; //當前頁
 
             //作分頁前一定要先 OrderBy
-            var data = from cs in db.Customers
+            var data = (from cs in db.Customers
                        join csteam in db.CustomerTeams
                        on cs.ParentID equals csteam.ID
                        orderby cs.ID
-                       select new
+                       select new CustomerViewModel
                        {
-                           cs,
-                           csteam.Code
-                       };
+                           ID = cs.ID,
+                           Code = cs.Code,
+                           Name = cs.Name,
+                           IsDelete = cs.IsDelete,
+                           CustomerTeamID = csteam.ID,
+                           CustomerTeamCode = csteam.Code
+                       }).OrderBy(m=>m.ID);
 
-            List<CustomerViewModel> list = new List<CustomerViewModel>();
-            foreach (var item in data)
-            {
-                CustomerViewModel viewModel = new CustomerViewModel();
-                viewModel.customer = item.cs;
-                viewModel.CustomerTeamCode = item.Code;
-                list.Add(viewModel);
-            }
-            var result = list.ToPagedList(currentPage, pageSize);
+           
+            var result = data.ToPagedList(currentPage, pageSize);
             ViewData.Model = result;
 
             return PartialView("_PagedAjax");
@@ -79,43 +93,11 @@ namespace APIS.Controllers
         #endregion
 
 
-        #region 明細頁
-        // GET: Customers/Details/5
-        public ActionResult Details(short? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            
-            var data = from cs in db.Customers
-                       join csteam in db.CustomerTeams
-                       on cs.ParentID equals csteam.ID
-                       where cs.ID == id
-                       select new
-                       {
-                           cs,
-                           csteam.Code
-                       };
-
-            CustomerViewModel viewModel = new CustomerViewModel();
-            viewModel.customer = data.First().cs;
-            viewModel.CustomerTeamCode = data.First().Code;
-
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(viewModel);
-        }
-        #endregion
-
         #region 新增頁
         // GET: Customers/Create
         public ActionResult Create()
         {
-            List<SelectListItem> list = new List<SelectListItem>(); //建立下拉選單
+            List<SelectListItem> list = new List<SelectListItem>(); //建立客戶群下拉選單
 
             foreach (var item in db.CustomerTeams.Where(p => p.IsDelete == false))
             {
@@ -135,29 +117,19 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection fc)
+        public ActionResult Create([Bind(Include = "ID,ParentID,Code,Name,City,IsDelete")] Customer customer)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                Customer customer = new Customer();
-                short teamID = 0;
-                short.TryParse(fc["TeamList"], out teamID);
-
-                bool isDel = false;
-                bool.TryParse(fc["IsDelete"], out isDel);
-
-                customer.Code = fc["Code"];
-                customer.Name = fc["Name"];
-                customer.ParentID = teamID;
-                customer.IsDelete = isDel;
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View();
+            return View(customer);
         } 
         #endregion
+
 
         #region 編輯頁
         // GET: Customers/Edit/5
@@ -168,7 +140,7 @@ namespace APIS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Customer customer = db.Customers.Find(id);
+            Customer customer = db.Customers.Where(m => m.ID == id).FirstOrDefault();
             if (customer == null)
             {
                 return HttpNotFound();
@@ -187,7 +159,7 @@ namespace APIS.Controllers
                 });
             }
 
-            ViewBag.TeamList = list;
+            ViewData["TeamList"] = list;
 
             return View(customer);
         }
@@ -197,58 +169,42 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormCollection fc)
+        public ActionResult Edit([Bind(Include = "ID,ParentID,Code,Name,City,IsDelete")] Customer customer)
         {
-            Customer customer = db.Customers.Find(id);
             if (ModelState.IsValid)
             {
-                short teamID = 0;
-                short.TryParse(fc["TeamList"], out teamID);
-
-                bool isDel = false;
-                string str = fc["IsDelete"];
-                bool.TryParse(fc["IsDelete"], out isDel);
-
-                customer.Code = fc["Code"];
-                customer.Name = fc["Name"];
-                customer.ParentID = teamID;
-                customer.IsDelete = isDel;
-
                 db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View("Edit", customer);
-        } 
+            return View(customer);
+        }
         #endregion
 
+
         #region 刪除頁
-        // GET: Customers/Delete/5
+        [AcceptVerbs(HttpVerbs.Delete)]
         public ActionResult Delete(short? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
+            Customer customer = db.Customers.Where(m => m.ID == id).FirstOrDefault();
+            if (customer != null)
             {
-                return HttpNotFound();
+                customer.IsDelete = true; //假刪
+                if (ModelState.IsValid)
+                {
+                    db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(customer);
         }
-
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(short id)
-        {
-            Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
         #endregion
+
 
         #region 回收連線資源
         protected override void Dispose(bool disposing)

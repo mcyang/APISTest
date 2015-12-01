@@ -4,12 +4,18 @@
     ViewBag.Title = "Index";
 }
 
-<h2>產品別管理/Index</h2>
+<ol class="breadcrumb">
+    <li><a href="#">基本資料管理</a></li>
+    <li><a href="#">產品類別</a></li>
+    <li class="active">列表頁</li>
+</ol>
 
+<h4>產品類別管理</h4>
+<hr />
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新 增", "Create", "ProductGroups", null, new { @class = "btn btn-success" })
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Code)
@@ -20,7 +26,7 @@
         <th>
             @Html.DisplayNameFor(model => model.IsDelete)
         </th>
-        <th></th>
+        <th>管理</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -36,10 +42,19 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Ajax.ActionLink("Delete", "Delete", new { id = item.ID }, new AjaxOptions { HttpMethod = "Delete", Confirm = String.Format("確定刪除 ?"), OnSuccess = "deleteCompleted" })
         </td>
     </tr>
 }
 
 </table>
+
+@section scripts{
+    <script>
+        /*刪除成功,重新Reload*/
+        function deleteCompleted() {
+            // Reload page
+            window.location.reload();
+        }
+    </script>
+}

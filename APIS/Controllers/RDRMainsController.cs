@@ -195,7 +195,7 @@ namespace APIS.Controllers
             #region 前端data >> FormCollection >> RDRMain
             RDRMain rdrMain = db.RDRMains.Find(id);
             rdrMain.ProjectName = fc["ProjectName"]; //專案名稱
-            rdrMain.LOB = fc["ddl_LOBList"]; //LOB
+            //rdrMain.LOB = fc["ddl_LOBList"]; //LOB
             rdrMain.Site = fc["ddl_SiteText"]; //量產地
 
             int carMakerID = 0;

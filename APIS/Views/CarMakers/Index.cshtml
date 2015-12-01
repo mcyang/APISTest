@@ -1,27 +1,56 @@
-﻿@model IEnumerable<APIS.Models.CarMaker>
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<APIS.Models.CarMaker>
+
+@section styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<ol class="breadcrumb">
+    <li><a href="#">基本資料管理</a></li>
+    <li><a href="#">車廠</a></li>
+    <li class="active">列表頁</li>
+</ol>
+<hr />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<h4>車廠管理</h4>
+<div class="container">
+    <h4 class="alert-info">搜尋條件</h4>
+    @using (Html.BeginForm("Index", "CarMakers", FormMethod.Post, new { id = "searchForm" }))
+    {
+        @Html.Label("CarMakersName", "車廠名稱:")
+        @Html.TextBox("serach_CarMakersName")
+        <button type="submit" class="btn btn-primary">搜 尋</button>
+    }
+</div>
+<hr />
+
+<div class="container">
+    <div style="float:left">
+        @Html.ActionLink("新 增", "Create", "CarMakers", null, new { @class = "btn btn-success" })
+    </div>
+    <div style="float:right">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</div>
+
+<table class="table table-hover">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDelete)
-        </th>
-        <th></th>
+        <th>車廠代碼</th>
+        <th>車廠名稱</th>
+        <th>是否刪除</th>
+        <th>管理</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -30,10 +59,21 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Ajax.ActionLink("Delete", "Delete", new { id = item.ID }, new AjaxOptions { HttpMethod = "Delete", Confirm = String.Format("確定刪除 ?"), OnSuccess = "deleteCompleted" })
         </td>
     </tr>
 }
 
 </table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+@section scripts{
+    <script>
+        /*刪除成功,重新Reload*/
+        function deleteCompleted() {
+            // Reload page
+            window.location.reload();
+        }
+    </script>
+}

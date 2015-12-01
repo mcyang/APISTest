@@ -1,7 +1,4 @@
-﻿@*@model fvmRDRManage*@
-@*@model IEnumerable<APIS.ViewModels.RDRMainIndexViewModel>*@
-
-@using PagedList;
+﻿@using PagedList;
 @using PagedList.Mvc
 @model IPagedList<APIS.ViewModels.RDRMainIndexViewModel>
 
@@ -46,7 +43,7 @@
         <tr>
             <td>
                 @Html.Label("lab_CustomerTeam", "依客戶:")
-                @Html.DDL_CustomerTeam("search_CustomerTeam", 0, true)
+                @Html.DDL_CustomerTeam("search_CustomerTeam", 0, null,true)
             </td>
             <td>
                 @Html.Label("lab_Site", "依量產地:")
