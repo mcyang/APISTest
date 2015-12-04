@@ -17,7 +17,7 @@
     <AssemblyName>APIS</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -245,6 +245,7 @@
     <Compile Include="Controllers\RDRsController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\UploadFilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -313,6 +314,9 @@
     <Compile Include="Models\Rule\RDRMain.cs" />
     <Compile Include="Models\Rule\RDRModule.cs" />
     <Compile Include="Models\Team.cs">
+      <DependentUpon>APISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UploadFile.cs">
       <DependentUpon>APISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\_IEntity.cs" />
@@ -547,6 +551,9 @@
     <Content Include="Views\RDRModules\ShowModuleList.cshtml" />
     <Content Include="Views\RDRModules\Edit.cshtml" />
     <Content Include="Views\CarMakers\Edit.cshtml" />
+    <Content Include="Views\Test\Uploads.cshtml" />
+    <Content Include="Views\Test\List.cshtml" />
+    <Content Include="Views\UploadFiles\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -589,7 +596,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56976</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56977/</IISUrl>
+          <IISUrl>http://localhost/APIS</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:56976/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

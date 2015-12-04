@@ -12,7 +12,7 @@ using APIS.ViewModels;
 
 namespace APIS.Controllers
 {
-    public class RDRModulesController : Controller
+    public class RDRModulesController : BaseController
     {
         private JohnTestEntities db = new JohnTestEntities();
         List<RDRModuleViewModel> AddModuleList = new List<RDRModuleViewModel>();
@@ -84,7 +84,7 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(RDRModuleViewModel viewModel, FormCollection fc)
+        public ActionResult Create(RDRModuleViewModel viewModel, FormCollection fc, HttpPostedFileBase file)
         {
             //現在做法是將Module新增到 db.RDRModuleTemp 裡
             //User確認清單內容無誤後，按儲存才全部打包存進 db.RDRModule
@@ -113,11 +113,69 @@ namespace APIS.Controllers
             rdrModuleTemp.CustomerName = customerName;
 
             rdrModuleTemp.EstimateProduct = fc["EstimateProduct"];
-            rdrModuleTemp.Attachment = fc["Attachment"];  //附件
+            //rdrModuleTemp.Attachment = fc["Attachment"];  //附件
             rdrModuleTemp.Remark = viewModel.Remark;  //Remark
             rdrModuleTemp.ModuleVersion = 0;    //版本號 預設值0
             rdrModuleTemp.CreateTime = System.DateTime.Now;
-           
+
+            //上傳
+            //從RDRNumber 取出資料夾結構: RFQFiles > 客戶群> ProjectName > 交貨地 > ModuleName > Version
+            string UploadFilesType = "RFQFiles";
+            string rdrNum = viewModel.MainCode; //ex. AL.15.0001
+            string team = rdrNum.Substring(0, rdrNum.IndexOf('.')); //取出客戶群
+            string projName = db.RDRMains.Find(viewModel.ParentID).ProjectName;      //專案名稱
+            string version = ".0"; //新增RDR表單的機種內容,預設版本號為0
+
+            //UP是IIS的虛擬目錄，於IIS設定指向Web Server上的實體資料夾
+            var target = "/UP/" + UploadFilesType + "/" + team + "/" + projName + "/" + customerName + "/" + viewModel.ModuleName + "/" + version;
+            string path = Server.MapPath(target);
+            bool IsUpload = GOUpload(file); //驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範
+
+            if (IsUpload)
+            {
+                var fileName = System.IO.Path.GetFileName(file.FileName); //完整檔名
+
+                try
+                {
+                    if (!System.IO.Directory.Exists(path))
+                    {
+                        System.IO.Directory.CreateDirectory(path); //檢查資料夾路徑是否存在, 不存在就自動建立
+                    }
+
+                    path = System.IO.Path.Combine(path, fileName);
+                    file.SaveAs(path); //檔案存放到儲存路徑上
+
+                    //寫入資料庫
+                    using (APIS.Models.JohnTestEntities db = new Models.JohnTestEntities())
+                    {
+                        APIS.Models.UploadFile uploadfile = new Models.UploadFile();
+                        uploadfile.RefID = viewModel.ParentID;
+                        uploadfile.Name = fileName;
+                        uploadfile.FileSize = file.ContentLength;
+                        uploadfile.UploadType = 1;
+                        uploadfile.ContentType = file.ContentType;
+                        uploadfile.Location = path;
+                        uploadfile.CreateDateTime = DateTime.Now;
+                        uploadfile.CreateUserID = 1;
+                        uploadfile.ModifyDateTime = DateTime.Now;
+                        uploadfile.ModifyUserID = 1;
+
+                        db.UploadFiles.Add(uploadfile);
+                        db.SaveChanges();
+                    }
+                    ModelState.Clear();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                rdrModuleTemp.Attachment = path; //附件位置
+            }
+            else
+            {
+                rdrModuleTemp.Attachment = ""; //無附件
+            }
 
             db.RDRModuleTemps.Add(rdrModuleTemp);
             db.SaveChanges();
@@ -171,7 +229,8 @@ namespace APIS.Controllers
             {
                 int pid = int.Parse(ViewData["ParentID"].ToString());
                 //日後有時間應該改成宗瑋的 ShowMsgThenRedirect(string Msg, string Url) 這樣共用比較好用
-                return Content("<script language='javascript' type='text/javascript'>alert('尚未新增機種資料!'); location.replace('" + Url.Action("Create", "RDRModules", new { id = parentID }) + "');</script>");
+                //return Content("<script language='javascript' type='text/javascript'>alert('尚未新增機種資料!'); location.replace('" + Url.Action("Create", "RDRModules", new { id = parentID }) + "');</script>");
+                return ShowMsgThenRedirect("尚未新增機種資料", Url.Action("Create", "RDRModules", new { id = parentID }));
             }
         }
 
@@ -364,6 +423,33 @@ namespace APIS.Controllers
 
             }
             return rdrNumber;
+        }
+
+        /// <summary>
+        /// 驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        protected bool GOUpload(HttpPostedFileBase file)
+        {
+            if (file.ContentLength > 0)
+            {
+                int MaxContentLength = 1024 * 1024 * 3; //上傳上限: 3 MB
+                string[] AllowedFileExtensions = new string[] { ".jpg", ".gif", ".png", ".pdf" }; //限定檔案格式
+                if (!AllowedFileExtensions.Contains(file.FileName.Substring(file.FileName.LastIndexOf('.'))))
+                {
+                    ModelState.AddModelError("File", "Please file of type: " + string.Join(", ", AllowedFileExtensions));
+                }
+                else if (file.ContentLength > MaxContentLength) //檔案大小超過上傳上限
+                {
+                    ModelState.AddModelError("File", "Your file is too large, maximum allowed size is: " + MaxContentLength + " MB");
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

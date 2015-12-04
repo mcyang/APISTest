@@ -138,9 +138,6 @@
                 @Html.DisplayFor(modelItem => item.rdrMain.ProjectName)
             </td>
             <td>
-                @if (item.rdrMain.Status == 1)
-                {   @Html.ActionLink("開案", "Kickoff", "AwardedCheck", new { id = item.rdrMain.ID }, null) } |
-
                 @Html.ActionLink("Details", "Details", new { id = item.rdrMain.ID }) |
                 
                 @Html.ActionLink("Delete", "Delete", new { id = item.rdrMain.ID }, new { @onclick = "return Confirm_Form()" })

@@ -15,7 +15,7 @@
 
 <h3>新增機種資料</h3>
 <div>
-    @using (Html.BeginForm("Create","RDRModules",FormMethod.Post, new { id = "ListForm" }))
+    @using (Html.BeginForm("Create","RDRModules",FormMethod.Post, new { id = "ListForm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -95,11 +95,15 @@
             <div class="form-group">
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
+                    @*燈箱*@
+                    <button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>
                     @* 上傳 *@
                     <input type="file" id="file" name="file" />
                     @Html.HiddenFor(model => model.Attachment)
-                    @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("file", new { @class = "text-danger" })
+                </div>
+                <div>@*文件上傳CheckList*@
+
                 </div>
             </div>
 

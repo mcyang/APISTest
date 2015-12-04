@@ -29,6 +29,22 @@ namespace APIS.Controllers
         public JsonResult Delete(int Id, int parentID)
         {
             RDRModuleTemp temp = db.RDRModuleTemps.Find(Id);
+
+            //1. 刪除已上傳的的檔案
+            if (!string.IsNullOrEmpty(temp.Attachment))
+            {
+                if (System.IO.File.Exists(temp.Attachment))
+                {
+                    System.IO.File.Delete(temp.Attachment);
+                }
+            }
+
+            //2. 刪除UploadFile資料表的資料
+            UploadFile upFile = db.UploadFiles.Where(m => m.RefID == Id).FirstOrDefault();
+            db.UploadFiles.Remove(upFile);
+            db.SaveChanges();
+
+            //3. 刪除RDRModuleTemp的資料
             db.RDRModuleTemps.Remove(temp);
             db.SaveChanges();
 

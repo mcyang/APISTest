@@ -1,4 +1,6 @@
 ﻿@model APIS.ViewModels.RDRModuleEditViewModel
+@*@Scripts.Render("~/bundles/fancybox");
+@Styles.Render("~/Content/fancybox");*@
 
 @{
     ViewBag.Title = "Edit";
@@ -84,10 +86,11 @@
             <div class="form-group">
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
+                    @*燈箱*@
+                    <button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>
                     @* 上傳 *@
                     <input type="file" id="file" name="file" />
                     @Html.HiddenFor(model => model.Attachment)
-                    @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })*@
                     @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -134,6 +137,8 @@
         });
 
         $(function () {
+            //$('.fancybox').fancybox();
+
             //須與form表單ID名稱相同
             //$("#ListForm").validate();
         });

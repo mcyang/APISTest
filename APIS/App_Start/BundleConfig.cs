@@ -17,7 +17,11 @@ namespace APIS
             bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
             "~/Scripts/jquery.unobtrusive-ajax*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+            "~/Scripts/jquery-ui-{version}.js"));
 
+            //bundles.Add(new ScriptBundle("~/bundles/fancybox").Include(
+            //"~/Scripts/jquery.fancybox*"));
 
             // 使用開發版本的 Modernizr 進行開發並學習。然後，當您
             // 準備好實際執行時，請使用 http://modernizr.com 上的建置工具，只選擇您需要的測試。
@@ -26,20 +30,17 @@ namespace APIS
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/jquery.fancybox.pack.js"
-                      ));
+                      "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      "~/Content/jquery.fancybox.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-            "~/Scripts/jquery-ui-{version}.js"));
-
+                      "~/Content/site.css"));
+            
             bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
             "~/Content/themes/base/all.css"));
+
+            //bundles.Add(new StyleBundle("~/Content/fancybox").Include(
+            //"~/Content/jquery.fancybox.css"));
 
 
         }

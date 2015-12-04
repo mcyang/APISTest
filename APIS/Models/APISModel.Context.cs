@@ -38,5 +38,6 @@ namespace APIS.Models
         public virtual DbSet<Kickoff> Kickoffs { get; set; }
         public virtual DbSet<KickoffDetail> KickoffDetails { get; set; }
         public virtual DbSet<RDRModuleTemp> RDRModuleTemps { get; set; }
+        public virtual DbSet<UploadFile> UploadFiles { get; set; }
     }
 }

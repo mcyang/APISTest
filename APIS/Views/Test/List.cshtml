@@ -1,0 +1,43 @@
+﻿@model IEnumerable<APIS.Models.UploadFile>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>檔案管理</h2>
+
+
+<div>
+    <table class="table">
+        <tr>
+            <th>Index</th>
+            <th>上傳類型</th>
+            <th>檔名</th>
+            <th>檔案大小</th>
+            <th>路徑</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UploadType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+
