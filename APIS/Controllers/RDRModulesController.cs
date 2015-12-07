@@ -18,7 +18,7 @@ namespace APIS.Controllers
         List<RDRModuleViewModel> AddModuleList = new List<RDRModuleViewModel>();
 
         #region 列表頁
-        // GET: RDRModules
+        //目前沒用到
         public ActionResult Index()
         {
             return View(db.RDRModules.ToList());
@@ -29,6 +29,7 @@ namespace APIS.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        //目前沒用到
         public ActionResult ShowModuleList(int id)
         {
             return View(db.RDRModules.Where(m => m.ParentID == id).ToList());
@@ -50,139 +51,343 @@ namespace APIS.Controllers
                 return HttpNotFound();
             }
             return View(rDRModule);
-        } 
+        }
         #endregion
 
 
         #region 新增頁
-        // GET: RDRModules/Create
         /// <summary>
-        /// 新增機種
+        /// GET: 新增機種
         /// </summary>
         /// <param name="id">RDRMain.ID (RDR主表ID)</param>
         /// <returns></returns>
         public ActionResult Create(int id)
         {
             //Search By RDRMain.ID
-            RDRMain main = db.RDRMains.Find(id);
+            RDRMain main = db.RDRMains.Where(m => m.ID == id).FirstOrDefault(); // .Find(id);
+            if (main != null)
+            {
+                RDRModuleCreateViewModel viewModel = new RDRModuleCreateViewModel();
+                viewModel.ParentID = id;
+                viewModel.MainCode = main.RDRNumber;
+                viewModel.StartYear = main.SOPDate.Year;
+                viewModel.EndYear = main.EOLDate.Year;
+                viewModel.CustomerTeamID = main.CustomerTeamID;
 
-            RDRModuleViewModel viewModel = new RDRModuleViewModel();
-            viewModel.ParentID = main.ID;
-            viewModel.MainCode = main.RDRNumber;
-            viewModel.StartYear = main.SOPDate.Year;
-            viewModel.EndYear = main.EOLDate.Year;
-            viewModel.CustomerID = main.CustomerTeamID;
+                viewModel.rdrModuleList = (from m in db.RDRModules.Where(m => m.ParentID == id)
+                                           join p in db.ProductGroups on m.ProductGroupID equals p.ID
+                                           join c in db.Customers on m.CustomerID equals c.ID
+                                           select new RDRModuleDetailsViewModel
+                                           {
+                                               ID = m.ID,
+                                               ParentID = m.ParentID,
+                                               RDRNumber = m.RDRNumber,
+                                               ModuleName = m.ModuleName,
+                                               CustomerBOM = m.CustomerBOM,
+                                               ProductGroupName = p.Name,
+                                               CustomerName = c.Name,
+                                               EstimateProduct = m.EstimateProduct,
+                                               Attachment = m.Attachment,
+                                               Remark = m.Remark,
+                                               CreateTime = m.CreateTime
+                                           }).ToList();
 
-            ViewData["ParentID"] = viewModel.ParentID;
-            viewModel.RDRModuleTempList = db.RDRModuleTemps.Where(m => m.ParentID == id).ToList();
+                return View(viewModel);
+            }
+            else
+            {
+                //拋出例外
+                return ShowMsgThenRedirect("找不到RDR表單", Url.Action("Details","RDRManage", new { id = id }));
+            }
 
-            return View(viewModel);
+
+            //RDRModuleViewModel viewModel = new RDRModuleViewModel();
+            //viewModel.ParentID = main.ID;
+            //viewModel.MainCode = main.RDRNumber;
+            //viewModel.StartYear = main.SOPDate.Year;
+            //viewModel.EndYear = main.EOLDate.Year;
+            //viewModel.CustomerID = main.CustomerTeamID;
+
+            //ViewData["ParentID"] = viewModel.ParentID;
+            //viewModel.RDRModuleTempList = db.RDRModuleTemps.Where(m => m.ParentID == id).ToList();
+
+            //return View(viewModel);
         }
 
         // POST: RDRModules/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
+        /// <summary>
+        /// POST: 新增機種
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <param name="fc"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(RDRModuleViewModel viewModel, FormCollection fc, HttpPostedFileBase file)
+        //{
+        //    //現在做法是將Module新增到 db.RDRModuleTemp 裡
+        //    //User確認清單內容無誤後，按儲存才全部打包存進 db.RDRModule
+        //    RDRModuleTemp rdrModuleTemp = new RDRModuleTemp();      //RDRModule的暫存表
+            
+        //    rdrModuleTemp.ParentID = viewModel.ParentID;
+        //    rdrModuleTemp.RDRNumber = viewModel.MainCode;
+        //    rdrModuleTemp.ModuleName = viewModel.ModuleName;
+        //    if (string.IsNullOrWhiteSpace(viewModel.CustomerBOM))
+        //    {
+        //        rdrModuleTemp.CustomerBOM = "N/A";  //客戶料號
+        //    }
+
+        //    int pid = 0;
+        //    int.TryParse(fc["ProductGroupsList"], out pid);
+        //    rdrModuleTemp.ProductGroupID = pid;                     //產品別ID
+        //    string productCode = db.ProductGroups.Find(pid).Code;   //產品別代碼(全碼)
+        //    string productName = db.ProductGroups.Find(pid).Name;   //產品別名稱
+        //    rdrModuleTemp.ProductGroupCode = productCode;
+        //    rdrModuleTemp.ProductGroupName = productName;
+
+        //    int cid = 0;
+        //    int.TryParse(fc["CustomersList"], out cid);
+        //    rdrModuleTemp.CustomerID = cid;                         //交貨地ID
+        //    string customerName = db.Customers.Find(cid).Name;      //交貨地名稱
+        //    rdrModuleTemp.CustomerName = customerName;
+
+        //    rdrModuleTemp.EstimateProduct = fc["EstimateProduct"];
+        //    //rdrModuleTemp.Attachment = fc["Attachment"];  //附件
+        //    rdrModuleTemp.Remark = viewModel.Remark;  //Remark
+        //    rdrModuleTemp.ModuleVersion = 0;    //版本號 預設值0
+        //    rdrModuleTemp.CreateTime = System.DateTime.Now;
+
+        //    //上傳
+        //    //從RDRNumber 取出資料夾結構: RFQFiles > 客戶群> ProjectName > 交貨地 > ModuleName > Version
+        //    string UploadFilesType = "RFQFiles";
+        //    string rdrNum = viewModel.MainCode; //ex. AL.15.0001
+        //    string team = rdrNum.Substring(0, rdrNum.IndexOf('.')); //取出客戶群
+        //    string projName = db.RDRMains.Find(viewModel.ParentID).ProjectName;      //專案名稱
+        //    string version = ".0"; //新增RDR表單的機種內容,預設版本號為0
+
+        //    //UP是IIS的虛擬目錄，於IIS設定指向Web Server上的實體資料夾
+        //    var target = "/UP/" + UploadFilesType + "/" + team + "/" + projName + "/" + customerName + "/" + viewModel.ModuleName + "/" + version;
+        //    string path = Server.MapPath(target);
+        //    bool IsUpload = GOUpload(file); //驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範
+
+        //    if (IsUpload)
+        //    {
+        //        var fileName = System.IO.Path.GetFileName(file.FileName); //完整檔名
+
+        //        try
+        //        {
+        //            if (!System.IO.Directory.Exists(path))
+        //            {
+        //                System.IO.Directory.CreateDirectory(path); //檢查資料夾路徑是否存在, 不存在就自動建立
+        //            }
+
+        //            path = System.IO.Path.Combine(path, fileName);
+        //            file.SaveAs(path); //檔案存放到儲存路徑上
+
+        //            //寫入資料庫
+        //            using (APIS.Models.JohnTestEntities db = new Models.JohnTestEntities())
+        //            {
+        //                APIS.Models.UploadFile uploadfile = new Models.UploadFile();
+        //                uploadfile.RefID = viewModel.ParentID;
+        //                uploadfile.Name = fileName;
+        //                uploadfile.FileSize = file.ContentLength;
+        //                uploadfile.UploadType = 1;
+        //                uploadfile.ContentType = file.ContentType;
+        //                uploadfile.Location = path;
+        //                uploadfile.CreateDateTime = DateTime.Now;
+        //                uploadfile.CreateUserID = 1;
+        //                uploadfile.ModifyDateTime = DateTime.Now;
+        //                uploadfile.ModifyUserID = 1;
+
+        //                db.UploadFiles.Add(uploadfile);
+        //                db.SaveChanges();
+        //            }
+        //            ModelState.Clear();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex;
+        //        }
+
+        //        rdrModuleTemp.Attachment = path; //附件位置
+        //    }
+        //    else
+        //    {
+        //        rdrModuleTemp.Attachment = ""; //無附件
+        //    }
+
+        //    db.RDRModuleTemps.Add(rdrModuleTemp);
+        //    db.SaveChanges();
+            
+        //    return RedirectToAction("Create", new { id = viewModel.ParentID });
+        //}
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(RDRModuleViewModel viewModel, FormCollection fc, HttpPostedFileBase file)
+        public ActionResult Create(RDRModuleCreateViewModel viewModel, HttpPostedFileBase file, FormCollection fc)
         {
-            //現在做法是將Module新增到 db.RDRModuleTemp 裡
-            //User確認清單內容無誤後，按儲存才全部打包存進 db.RDRModule
-            RDRModuleTemp rdrModuleTemp = new RDRModuleTemp();      //RDRModule的暫存表
-            
-            rdrModuleTemp.ParentID = viewModel.ParentID;
-            rdrModuleTemp.RDRNumber = viewModel.MainCode;
-            rdrModuleTemp.ModuleName = viewModel.ModuleName;
-            if (string.IsNullOrWhiteSpace(viewModel.CustomerBOM))
-            {
-                rdrModuleTemp.CustomerBOM = "N/A";  //客戶料號
-            }
+            string fileName = "";
+            string path = "";
+            bool IsUploadOK = false;
+            bool IsWriteToRDRModule = false;
+            int moduleID = 0;
 
             int pid = 0;
-            int.TryParse(fc["ProductGroupsList"], out pid);
-            rdrModuleTemp.ProductGroupID = pid;                     //產品別ID
-            string productCode = db.ProductGroups.Find(pid).Code;   //產品別代碼(全碼)
-            string productName = db.ProductGroups.Find(pid).Name;   //產品別名稱
-            rdrModuleTemp.ProductGroupCode = productCode;
-            rdrModuleTemp.ProductGroupName = productName;
+            int.TryParse(fc["ProductGroupsList"], out pid); //表單產品別ID
 
             int cid = 0;
-            int.TryParse(fc["CustomersList"], out cid);
-            rdrModuleTemp.CustomerID = cid;                         //交貨地ID
-            string customerName = db.Customers.Find(cid).Name;      //交貨地名稱
-            rdrModuleTemp.CustomerName = customerName;
+            int.TryParse(fc["CustomersList"], out cid); //表單客戶ID
 
-            rdrModuleTemp.EstimateProduct = fc["EstimateProduct"];
-            //rdrModuleTemp.Attachment = fc["Attachment"];  //附件
-            rdrModuleTemp.Remark = viewModel.Remark;  //Remark
-            rdrModuleTemp.ModuleVersion = 0;    //版本號 預設值0
-            rdrModuleTemp.CreateTime = System.DateTime.Now;
 
-            //上傳
-            //從RDRNumber 取出資料夾結構: RFQFiles > 客戶群> ProjectName > 交貨地 > ModuleName > Version
-            string UploadFilesType = "RFQFiles";
-            string rdrNum = viewModel.MainCode; //ex. AL.15.0001
-            string team = rdrNum.Substring(0, rdrNum.IndexOf('.')); //取出客戶群
-            string projName = db.RDRMains.Find(viewModel.ParentID).ProjectName;      //專案名稱
-            string version = ".0"; //新增RDR表單的機種內容,預設版本號為0
 
-            //UP是IIS的虛擬目錄，於IIS設定指向Web Server上的實體資料夾
-            var target = "/UP/" + UploadFilesType + "/" + team + "/" + projName + "/" + customerName + "/" + viewModel.ModuleName + "/" + version;
-            string path = Server.MapPath(target);
-            bool IsUpload = GOUpload(file); //驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範
-
-            if (IsUpload)
+            //1.若有上傳附件則執行上傳驗證,若無上傳略過此步驟
+            if (file != null)
             {
-                var fileName = System.IO.Path.GetFileName(file.FileName); //完整檔名
+                #region 上傳
+                //從RDRNumber 取出資料夾結構: RFQFiles > 客戶群> ProjectName > 交貨地 > ModuleName > Version
+                string UploadFilesType = "RFQFiles";
+                string team = viewModel.MainCode.Substring(0, viewModel.MainCode.IndexOf('.')); //取出客戶群,ex. AL.15.0001
+                string projName = db.RDRMains.Find(viewModel.ParentID).ProjectName;      //專案名稱
+                string customerName = db.Customers.Find(cid).Name;
+                string version = ".0"; //新增RDR表單的機種內容,預設版本號為0
 
+                //UP是IIS的虛擬目錄，於IIS設定指向Web Server上的實體資料夾
+                var target = "/UP/" + UploadFilesType + "/" + team + "/" + customerName + "/" + projName + "/" + viewModel.ModuleName + "/" + version;
+                path = Server.MapPath(target);
+
+                bool IsUpload = GOUpload(file); //驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範
+                if (IsUpload)
+                {
+                    fileName = System.IO.Path.GetFileName(file.FileName); //完整檔名
+
+                    try
+                    {
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //檢查資料夾路徑是否存在, 不存在就自動建立
+                        }
+
+                        path = System.IO.Path.Combine(path, fileName);
+                        file.SaveAs(path); //檔案存放到儲存路徑上
+
+                        IsUploadOK = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        path = "";
+                        return ShowMsgThenRedirect(ex.ToString(), Url.Action("Create", "RDRModule", new { id = viewModel.ParentID }));
+                    }
+                }
+                else
+                {
+                    path = "";
+                }
+                #endregion
+            }
+
+            //2.上傳驗證OK>>寫入db.RDRModule,若寫入db.RDRModule失敗則刪除附件&拋出例外
+            try
+            {
+                RDRModule rdrModule = new RDRModule();
+                rdrModule.ParentID = viewModel.ParentID;
+                rdrModule.RDRNumber = CreateRDRNumber(viewModel.MainCode, pid, cid);
+                rdrModule.ModuleName = viewModel.ModuleName;
+
+                if (string.IsNullOrWhiteSpace(viewModel.CustomerBOM))
+                {
+                    rdrModule.CustomerBOM = "N/A";  //客戶料號
+                }
+                else {
+                    rdrModule.CustomerBOM = viewModel.CustomerBOM;
+                }
+                
+                rdrModule.ProductGroupID = pid;                     //產品別ID
+                rdrModule.CustomerID = cid;                         //交貨地ID
+                rdrModule.EstimateProduct = viewModel.EstimateProduct;
+                rdrModule.Attachment = path;
+                rdrModule.Remark = viewModel.Remark;
+                rdrModule.ModuleVersion = 0;    //版本號 預設值0
+                rdrModule.IsDelete = false;
+                rdrModule.CreateTime = DateTime.Now;
+
+                db.RDRModules.Add(rdrModule);
+                db.SaveChanges();
+
+                IsWriteToRDRModule = true;
+                moduleID = rdrModule.ID;
+            }
+            catch(Exception ex)
+            {
+                //刪除已上傳的的檔案
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                return ShowMsgThenRedirect(ex.ToString(), Url.Action("Create", "RDRModule", new { id = viewModel.ParentID }));
+            }
+
+
+            //3.寫入db.RDRModule OK>>將附件資訊寫入db.UploadFile,若寫入db.UploadFile失敗則 delete db.RDRModule 與附件, 保持 RDRModule 與 UploadFile 資料一致
+            if (IsUploadOK && IsWriteToRDRModule)
+            {
                 try
                 {
-                    if (!System.IO.Directory.Exists(path))
-                    {
-                        System.IO.Directory.CreateDirectory(path); //檢查資料夾路徑是否存在, 不存在就自動建立
-                    }
+                    UploadFile uploadfile = new Models.UploadFile();
+                    uploadfile.RefID = viewModel.ParentID;
+                    uploadfile.Name = fileName;
+                    uploadfile.FileSize = file.ContentLength;
+                    uploadfile.UploadType = 1;
+                    uploadfile.ContentType = file.ContentType;
+                    uploadfile.Location = path;
+                    uploadfile.IsProductSpec = viewModel.IsProductSpec;
+                    uploadfile.IsTestInstruction = viewModel.IsTestInstruction;
+                    uploadfile.IsCustomerBOM = viewModel.IsCustomerBOM;
+                    uploadfile.IsBinResistorTable = viewModel.IsBinResistorTable;
+                    uploadfile.IsPCBA = viewModel.IsPCBA;
+                    uploadfile.IsPCB = viewModel.IsPCB;
+                    uploadfile.IsHarness = viewModel.IsHarness;
+                    uploadfile.IsGerber = viewModel.IsGerber;
+                    uploadfile.IsCoordinate = viewModel.IsCoordinate;
+                    uploadfile.IsSchematics = viewModel.IsSchematics;
+                    uploadfile.IsComp = viewModel.IsComp;
+                    uploadfile.IsPVTestPlan = viewModel.IsPVTestPlan;
+                    uploadfile.IsSVRF = viewModel.IsSVRF;
+                    uploadfile.CreateDateTime = DateTime.Now;
+                    uploadfile.CreateUserID = 1;
+                    uploadfile.ModifyDateTime = DateTime.Now;
+                    uploadfile.ModifyUserID = 1;
 
-                    path = System.IO.Path.Combine(path, fileName);
-                    file.SaveAs(path); //檔案存放到儲存路徑上
 
-                    //寫入資料庫
-                    using (APIS.Models.JohnTestEntities db = new Models.JohnTestEntities())
-                    {
-                        APIS.Models.UploadFile uploadfile = new Models.UploadFile();
-                        uploadfile.RefID = viewModel.ParentID;
-                        uploadfile.Name = fileName;
-                        uploadfile.FileSize = file.ContentLength;
-                        uploadfile.UploadType = 1;
-                        uploadfile.ContentType = file.ContentType;
-                        uploadfile.Location = path;
-                        uploadfile.CreateDateTime = DateTime.Now;
-                        uploadfile.CreateUserID = 1;
-                        uploadfile.ModifyDateTime = DateTime.Now;
-                        uploadfile.ModifyUserID = 1;
-
-                        db.UploadFiles.Add(uploadfile);
-                        db.SaveChanges();
-                    }
-                    ModelState.Clear();
+                    db.UploadFiles.Add(uploadfile);
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    //刪除附件
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+
+                    //刪除RDRModule記錄
+                    RDRModule mo = db.RDRModules.Where(m => m.ID == moduleID).FirstOrDefault();
+                    if (mo != null)
+                    {
+                        db.RDRModules.Remove(mo);
+                        db.SaveChanges();
+                    }
+
+                    return ShowMsgThenRedirect(ex.ToString(), Url.Action("Index", "RDRManage"));
                 }
-
-                rdrModuleTemp.Attachment = path; //附件位置
-            }
-            else
-            {
-                rdrModuleTemp.Attachment = ""; //無附件
             }
 
-            db.RDRModuleTemps.Add(rdrModuleTemp);
-            db.SaveChanges();
-            
+
             return RedirectToAction("Create", new { id = viewModel.ParentID });
         }
-
 
         /// <summary>
         /// 機種資料實際新增至RDRModule
@@ -356,6 +561,46 @@ namespace APIS.Controllers
             return RedirectToAction("Details", "RDRManage", new { id = rdrModule.ParentID });
         }
 
+
+        /// <summary>
+        /// RDRModules/Create的機種清單刪除
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="parentID"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult DeleteFromCreateList(int Id, int parentID)
+        {
+            RDRModule rdrModule = db.RDRModules.Where(m => m.ID == Id).FirstOrDefault();
+            if (rdrModule != null)
+            {
+                //1. 刪除已上傳的的檔案
+                if (!string.IsNullOrEmpty(rdrModule.Attachment))
+                {
+                    if (System.IO.File.Exists(rdrModule.Attachment))
+                    {
+                        System.IO.File.Delete(rdrModule.Attachment);
+                    }
+                }
+
+                //2. 刪除UploadFile資料表的資料
+                UploadFile upFile = db.UploadFiles.Where(m => m.RefID == Id).FirstOrDefault();
+                if (upFile != null)
+                {
+                    db.UploadFiles.Remove(upFile);
+                    db.SaveChanges();
+                }
+
+                //3. 刪除RDRModule的資料
+                db.RDRModules.Remove(rdrModule); //真刪
+                //rdrModule.IsDelete = true; //假刪
+                db.SaveChanges();
+
+                return Json(new { result = "Success", url = Url.Action("Create", "RDRModules", new { id = parentID }) });
+            }
+            return Json(new { result = "Fail", url = Url.Action("Create", "RDRModules", new { id = parentID }) });
+        }
+
         #endregion
 
 
@@ -418,7 +663,8 @@ namespace APIS.Controllers
                 }
                 else
                 {
-                    rdrNumber = MainCode + "-" + ProductShortCode + "." + "1" + "." + moduleCount + "." + "0";
+                    string customerCount = "1";
+                    rdrNumber = MainCode + "-" + ProductShortCode + "." + customerCount + "." + moduleCount + "." + "0";
                 }
 
             }
@@ -432,7 +678,7 @@ namespace APIS.Controllers
         /// <returns></returns>
         protected bool GOUpload(HttpPostedFileBase file)
         {
-            if (file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
             {
                 int MaxContentLength = 1024 * 1024 * 3; //上傳上限: 3 MB
                 string[] AllowedFileExtensions = new string[] { ".jpg", ".gif", ".png", ".pdf" }; //限定檔案格式

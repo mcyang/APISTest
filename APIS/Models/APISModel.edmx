@@ -305,6 +305,19 @@
           <Property Name="Location" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ContentType" Type="nvarchar" MaxLength="100" />
           <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="IsProductSpec" Type="bit" Nullable="false" />
+          <Property Name="IsTestInstruction" Type="bit" Nullable="false" />
+          <Property Name="IsCustomerBOM" Type="bit" Nullable="false" />
+          <Property Name="IsBinResistorTable" Type="bit" Nullable="false" />
+          <Property Name="IsPCBA" Type="bit" Nullable="false" />
+          <Property Name="IsPCB" Type="bit" Nullable="false" />
+          <Property Name="IsHarness" Type="bit" Nullable="false" />
+          <Property Name="IsGerber" Type="bit" Nullable="false" />
+          <Property Name="IsCoordinate" Type="bit" Nullable="false" />
+          <Property Name="IsSchematics" Type="bit" Nullable="false" />
+          <Property Name="IsComp" Type="bit" Nullable="false" />
+          <Property Name="IsPVTestPlan" Type="bit" Nullable="false" />
+          <Property Name="IsSVRF" Type="bit" Nullable="false" />
           <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
           <Property Name="CreateUserID" Type="int" Nullable="false" />
           <Property Name="ModifyDateTime" Type="datetime" Nullable="false" />
@@ -650,6 +663,19 @@
           <Property Name="CreateUserID" Type="Int32" Nullable="false" />
           <Property Name="ModifyDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifyUserID" Type="Int32" Nullable="false" />
+          <Property Name="IsProductSpec" Type="Boolean" Nullable="false" />
+          <Property Name="IsTestInstruction" Type="Boolean" Nullable="false" />
+          <Property Name="IsCustomerBOM" Type="Boolean" Nullable="false" />
+          <Property Name="IsBinResistorTable" Type="Boolean" Nullable="false" />
+          <Property Name="IsPCBA" Type="Boolean" Nullable="false" />
+          <Property Name="IsPCB" Type="Boolean" Nullable="false" />
+          <Property Name="IsHarness" Type="Boolean" Nullable="false" />
+          <Property Name="IsGerber" Type="Boolean" Nullable="false" />
+          <Property Name="IsCoordinate" Type="Boolean" Nullable="false" />
+          <Property Name="IsSchematics" Type="Boolean" Nullable="false" />
+          <Property Name="IsComp" Type="Boolean" Nullable="false" />
+          <Property Name="IsPVTestPlan" Type="Boolean" Nullable="false" />
+          <Property Name="IsSVRF" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -962,6 +988,19 @@
           <EntitySetMapping Name="UploadFiles">
             <EntityTypeMapping TypeName="JohnTestModel.UploadFile">
               <MappingFragment StoreEntitySet="UploadFile">
+                <ScalarProperty Name="IsSVRF" ColumnName="IsSVRF" />
+                <ScalarProperty Name="IsPVTestPlan" ColumnName="IsPVTestPlan" />
+                <ScalarProperty Name="IsComp" ColumnName="IsComp" />
+                <ScalarProperty Name="IsSchematics" ColumnName="IsSchematics" />
+                <ScalarProperty Name="IsCoordinate" ColumnName="IsCoordinate" />
+                <ScalarProperty Name="IsGerber" ColumnName="IsGerber" />
+                <ScalarProperty Name="IsHarness" ColumnName="IsHarness" />
+                <ScalarProperty Name="IsPCB" ColumnName="IsPCB" />
+                <ScalarProperty Name="IsPCBA" ColumnName="IsPCBA" />
+                <ScalarProperty Name="IsBinResistorTable" ColumnName="IsBinResistorTable" />
+                <ScalarProperty Name="IsCustomerBOM" ColumnName="IsCustomerBOM" />
+                <ScalarProperty Name="IsTestInstruction" ColumnName="IsTestInstruction" />
+                <ScalarProperty Name="IsProductSpec" ColumnName="IsProductSpec" />
                 <ScalarProperty Name="ModifyUserID" ColumnName="ModifyUserID" />
                 <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
                 <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />

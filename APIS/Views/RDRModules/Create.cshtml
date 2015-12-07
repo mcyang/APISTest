@@ -1,4 +1,5 @@
-﻿@model APIS.ViewModels.RDRModuleViewModel
+﻿@*@model APIS.ViewModels.RDRModuleViewModel*@
+@model APIS.ViewModels.RDRModuleCreateViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -51,12 +52,10 @@
 
             <div class="form-group">
                 @Html.Label("產品別", htmlAttributes: new { @class = "control-label col-md-2" })
-                @*@Html.LabelFor(model => model.ProductGroupID, htmlAttributes: new { @class = "control-label col-md-2" })*@
                 <div class="col-md-3">
                     @* 下拉 *@
                     @Html.DDL_ProductGroup("ProductGroupsList", 0, false, new { @class = "control-label" })
-                    @*@Html.EditorFor(model => model.ProductGroupID, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.ValidationMessageFor(model => model.ProductGroupID, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m=>m.ProductGroupID)
                 </div>
             </div>
 
@@ -64,8 +63,8 @@
                 @Html.Label("交貨地", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-3">
                     @* 下拉 *@
-                    @Html.DDL_Customers("CustomersList", Model.CustomerID, 0, false, new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                    @Html.DDL_Customers("CustomersList", Model.CustomerTeamID, 0, false, new { @class = "control-label" })
+                    @Html.HiddenFor(m=>m.CustomerID)
                 </div>
             </div>
 
@@ -96,15 +95,74 @@
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
                     @*燈箱*@
-                    <button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>
+                    @*<button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>*@
                     @* 上傳 *@
                     <input type="file" id="file" name="file" />
-                    @Html.HiddenFor(model => model.Attachment)
                     @Html.ValidationMessage("file", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Attachment)
                 </div>
-                <div>@*文件上傳CheckList*@
-
-                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("附件內容(請勾選)", htmlAttributes: new { @class = "control-label col-md-2" })
+                <table>
+                    @*文件上傳CheckList*@
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsProductSpec)
+                            @Html.DisplayNameFor(m => m.IsProductSpec)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsTestInstruction)
+                            @Html.DisplayNameFor(m => m.IsTestInstruction)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsCustomerBOM)
+                            @Html.DisplayNameFor(m => m.IsCustomerBOM)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsBinResistorTable)
+                            @Html.DisplayNameFor(m => m.IsBinResistorTable)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsPCBA)
+                            @Html.DisplayNameFor(m => m.IsPCBA)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsPCB)
+                            @Html.DisplayNameFor(m => m.IsPCB)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsHarness)
+                            @Html.DisplayNameFor(m => m.IsHarness)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsGerber)
+                            @Html.DisplayNameFor(m => m.IsGerber)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsCoordinate)
+                            @Html.DisplayNameFor(m => m.IsCoordinate)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsSchematics)
+                            @Html.DisplayNameFor(m => m.IsSchematics)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsComp)
+                            @Html.DisplayNameFor(m => m.IsComp)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsPVTestPlan)
+                            @Html.DisplayNameFor(m => m.IsPVTestPlan)
+                        </td>
+                        <td colspan="2">
+                            @Html.CheckBoxFor(m => m.IsSVRF)
+                            @Html.DisplayNameFor(m => m.IsSVRF)
+                        </td>
+                    </tr>
+                </table>
             </div>
 
             <div class="form-group">
@@ -117,7 +175,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-1">
+            @*<div class="col-md-1">
                 @Html.ActionLink("返 回", "DeleteAll", "RDRModulesTemp", new { parentID = Model.ParentID}, new { @class = "btn btn-info", @onclick = "return Confirm_Form()" })
             </div>
 
@@ -125,19 +183,28 @@
                 <div class="col-md-2">
                     <input type="submit" value="加入機種清單" class="btn btn-success" />
                 </div>
+            </div>*@
+            <div class="col-md-1">
+                @Html.ActionLink("返 回", "Details", "RDRManage", new { id = Model.ParentID }, new { @class = "btn btn-info" })
+            </div>
+            <div>
+                <div class="col-md-2">
+                    <input type="submit" value="儲存" class="btn btn-success" />
+                </div>
             </div>
         </div>
     }
 </div>
 <hr style="width: 100%; color:lightsteelblue; height: 2px; background-color:lightsteelblue;" />
 <div id="PartialModuleTemp">
-    @{ Html.RenderPartial("_MyPartialView", Model.RDRModuleTempList); }
+    @{ Html.RenderPartial("_MyPartialView", Model.rdrModuleList.Where(m=>m.ParentID == Model.ParentID).ToList()); }  @*Model.RDRModuleTempList*@
 </div>
 
 
 @section scripts
 {
     <script>
+
         function Confirm_Form() {
             if (!confirm("機種清單尚未儲存，若返回即刪除資料，您確定要刪除嗎?")) {
                 return false;
@@ -161,17 +228,25 @@
 
 
         //機種清單-刪除項目
+        $('.BtnEdit').click(function () {
+            //alert('fuck');
+
+
+        });
+
+        //機種清單-刪除項目
         $('.BtnMinus').click(function () {
 
             var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
-            var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModuleTemp.ID
+            var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
             //alert("parentID:" + pid);
 
-            //以ajax方式,跑RDRModulesTemp/Delete
+            //以ajax方式,跑RDRModules/DeleteFromCreateList
             $.ajax({
-                url: '@Url.Action("Delete", "RDRModulesTemp")',  // 用Url.Action 轉出的 URI字串比較正確 , 降低404 Not Find 的機會
+                @*url: '@Url.Action("Delete", "RDRModulesTemp")',*@  
+                url: '@Url.Action("DeleteFromCreateList", "RDRModules")', // 用Url.Action 轉出的 URI字串比較正確 , 降低404 Not Find 的機會
                 type: "POST",
-                data: JSON.stringify({ Id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModulesTemp/Delete 的傳入參數名稱相同, JSON.stringify是將參數序列化為 json格式
+                data: JSON.stringify({ Id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModules/DeleteFromCreateList 的傳入參數名稱相同, JSON.stringify是將參數序列化為 json格式
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 async: true,
@@ -183,11 +258,15 @@
                     //後端刪除成功，隨後回到前端success這邊做Url 導向
                     //後端return  Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) })
                     //data即包含result & url
-                    if (data.result == 'Redirect')
+                    if (data.result == 'Success') {
+                        alert("刪除成功");
                         window.location = data.url;
+                    }
+                        
                 },
                 error: function (xhr, status, error) {
                     alert(xhr.responseText);
+                    //alert("刪除失敗");
                 }
             });
 

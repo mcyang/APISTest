@@ -25,5 +25,18 @@ namespace APIS.Models
         public int CreateUserID { get; set; }
         public System.DateTime ModifyDateTime { get; set; }
         public int ModifyUserID { get; set; }
+        public bool IsProductSpec { get; set; }
+        public bool IsTestInstruction { get; set; }
+        public bool IsCustomerBOM { get; set; }
+        public bool IsBinResistorTable { get; set; }
+        public bool IsPCBA { get; set; }
+        public bool IsPCB { get; set; }
+        public bool IsHarness { get; set; }
+        public bool IsGerber { get; set; }
+        public bool IsCoordinate { get; set; }
+        public bool IsSchematics { get; set; }
+        public bool IsComp { get; set; }
+        public bool IsPVTestPlan { get; set; }
+        public bool IsSVRF { get; set; }
     }
 }
