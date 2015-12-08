@@ -35,6 +35,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.LobID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-lg-5">
+                @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", "", false, new { @class = "form-control" }))
+                @Html.ValidationMessageFor(model => model.LobID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.IsDelete, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-lg-5">
                 <div class="checkbox">

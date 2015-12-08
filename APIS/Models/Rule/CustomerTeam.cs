@@ -23,6 +23,10 @@ namespace APIS.Models
             [Required(ErrorMessage = "不可為空")]
             public string Name { get; set; }
 
+            [DisplayName("所屬LOB")]
+            [Required(ErrorMessage = "不可為空")]
+            public string LobID { get; set; }
+
             [DisplayName("是否刪除")]
             public bool IsDelete { get; set; }
         }

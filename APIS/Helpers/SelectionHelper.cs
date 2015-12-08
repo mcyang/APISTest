@@ -61,18 +61,17 @@ namespace APIS.Helpers
         /// </summary>
         /// <param name="helper">第1個參數一定要填「this HtmlHelper helper」</param>
         /// <param name="Name">下拉選單名稱</param>
-        /// <param name="LOBID">由LOB參數來決定撈對應的客戶群</param>
         /// <param name="selected">選取項目</param>
         /// <param name="hasAllSelection">是否加入「不拘」選項</param>
         /// <param name="htmlAttribute">CSS屬性</param>
         /// <returns></returns>
-        public static IHtmlString DDL_CustomerTeam(this HtmlHelper helper, string Name , int selected, int? LOBID, bool hasAllSelection = false, object htmlAttribute = null)
+        public static IHtmlString DDL_CustomerTeam(this HtmlHelper helper, string Name, int selected, bool hasAllSelection = false, object htmlAttribute = null)
         {
             #region 錯誤訊息
             if (String.IsNullOrEmpty(Name))
             {
                 throw new ArgumentException("必須給這個下拉選單 DDL_CustomerTeam 一個 Tag Name", "Name");
-            } 
+            }
             #endregion
 
             List<SelectListItem> list = new List<SelectListItem>(); //建立下拉選單
@@ -85,16 +84,44 @@ namespace APIS.Helpers
 
             using (JohnTestEntities ddl_db = new JohnTestEntities())
             {
-                if (LOBID != null && LOBID > 0)
+                foreach (var item in ddl_db.CustomerTeams.Where(p => p.IsDelete == false))
                 {
-                    list.Add(new SelectListItem { Text = "請選擇", Value = "" });
-
-                    //LOBID Value 對應 EnumLOB
-                    switch (LOBID)
+                    list.Add(new SelectListItem()
                     {
-                        case 1:
-                            //VLS
-                            foreach (var item in ddl_db.CustomerTeams.Where(p => p.IsDelete == false))
+                        Text = item.Code,
+                        Value = item.ID.ToString(),
+                        Selected = selected == item.ID ? true : false
+                    });
+                }
+
+            }
+
+            return helper.DropDownList(Name, list, htmlAttribute);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="Name"></param>
+        /// <param name="selected"></param>
+        /// <param name="LOBID">由LOB參數來決定撈對應的客戶群</param>
+        /// <param name="htmlAttribute"></param>
+        /// <returns></returns>
+        public static IHtmlString DDL_CustomerTeam(this HtmlHelper helper, string Name, int selected, int? LobID, object htmlAttribute = null)
+        {
+            List<SelectListItem> list = new List<SelectListItem>(); //建立下拉選單
+            list.Add(new SelectListItem { Text = "請選擇", Value = "" });
+
+            if (LobID != null && LobID > 0)
+            {
+                switch (LobID)
+                {
+                    case 1:
+                        //VLS
+                        using (JohnTestEntities db = new JohnTestEntities())
+                        {
+                            foreach (var item in db.CustomerTeams.Where(p => p.IsDelete == false))
                             {
                                 list.Add(new SelectListItem()
                                 {
@@ -103,28 +130,20 @@ namespace APIS.Helpers
                                     Selected = selected == item.ID ? true : false
                                 });
                             }
-                            break;
-                        case 2:
-                            //VSA
-                            break;
-                        case 3:
-                            //MCM
-                            break;
-                    }
-                }
-                else
-                {
-                    foreach (var item in ddl_db.CustomerTeams.Where(p => p.IsDelete == false))
-                    {
-                        list.Add(new SelectListItem()
-                        {
-                            Text = item.Code,
-                            Value = item.ID.ToString(),
-                            Selected = selected == item.ID ? true : false
-                        });
-                    }
+                        }
+                        break;
+                    case 2:
+                        //VSA
+                        //暫無資料
+                        break;
+                    case 3:
+                        //MCM
+                        //暫無資料
+                        break;
                 }
             }
+
+
             return helper.DropDownList(Name, list, htmlAttribute);
         }
 
@@ -156,7 +175,7 @@ namespace APIS.Helpers
 
             using (JohnTestEntities ddl_db = new JohnTestEntities())
             {
-                foreach (var item in ddl_db.CarMakers.Where(p => p.IsDelete == false).OrderBy(p=>p.Name))
+                foreach (var item in ddl_db.CarMakers.Where(p => p.IsDelete == false).OrderBy(p => p.Name))
                 {
                     list.Add(new SelectListItem()
                     {
@@ -202,7 +221,7 @@ namespace APIS.Helpers
             return helper.DropDownList(Name, list, htmlAttribute);
         }
 
-        public static IHtmlString DDL_Customers(this HtmlHelper helper, string Name,int TeamID , int selected, bool hasAllSelection = false, object htmlAttribute = null)
+        public static IHtmlString DDL_Customers(this HtmlHelper helper, string Name, int TeamID, int selected, bool hasAllSelection = false, object htmlAttribute = null)
         {
             #region 錯誤訊息
             if (String.IsNullOrEmpty(Name))
@@ -257,5 +276,5 @@ namespace APIS.Helpers
         }
     }
 
-    
+
 }

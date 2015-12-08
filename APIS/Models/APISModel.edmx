@@ -29,8 +29,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Code" Type="nchar" MaxLength="5" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="LobID" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Kickoff">
@@ -366,7 +367,6 @@
         <EntityContainer Name="JohnTestEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Logs" EntityType="Self.Log" />
           <EntitySet Name="Teams" EntityType="JohnTestModel.Team" />
-          <EntitySet Name="CustomerTeams" EntityType="JohnTestModel.CustomerTeam" />
           <EntitySet Name="Customers" EntityType="JohnTestModel.Customer" />
           <EntitySet Name="ProductGroups" EntityType="JohnTestModel.ProductGroup" />
           <EntitySet Name="RDRs" EntityType="JohnTestModel.RDR" />
@@ -378,6 +378,7 @@
           <EntitySet Name="KickoffDetails" EntityType="JohnTestModel.KickoffDetail" />
           <EntitySet Name="RDRModuleTemps" EntityType="JohnTestModel.RDRModuleTemp" />
           <EntitySet Name="UploadFiles" EntityType="JohnTestModel.UploadFile" />
+          <EntitySet Name="CustomerTeams" EntityType="JohnTestModel.CustomerTeam" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -386,15 +387,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="City" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CustomerTeam">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
@@ -677,6 +669,16 @@
           <Property Name="IsPVTestPlan" Type="Boolean" Nullable="false" />
           <Property Name="IsSVRF" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="CustomerTeam">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LobID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -710,16 +712,6 @@
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CustomerTeams">
-            <EntityTypeMapping TypeName="JohnTestModel.CustomerTeam">
-              <MappingFragment StoreEntitySet="CustomerTeam">
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1011,6 +1003,17 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UploadType" ColumnName="UploadType" />
                 <ScalarProperty Name="RefID" ColumnName="RefID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerTeams">
+            <EntityTypeMapping TypeName="JohnTestModel.CustomerTeam">
+              <MappingFragment StoreEntitySet="CustomerTeam">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="LobID" ColumnName="LobID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

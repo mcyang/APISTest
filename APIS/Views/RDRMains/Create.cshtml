@@ -38,7 +38,10 @@
 
                     <th class="col-md-2"><span style="color:red">*</span>客戶群</th>
                     <td class="col-md-2">
-                        @Html.DDL_CustomerTeam("CustomerTeamList" , 0, null, false, new { @class = "form-control" })
+                        <select id="CustomerTeamList", name="CustomerTeamList" class="form-control">
+                            <option>-----</option>
+                        </select>
+                        @*@Html.DDL_CustomerTeam("CustomerTeamList" , 0, null, new { @class = "form-control" })*@
                         @Html.Hidden("ddl_CustomerTeamText")
                     </td>
 
@@ -245,7 +248,6 @@
                 }
             }
 
-            var chooseLOBId = $('#EnumLOBList option:selected').val();
 
             //CustomerTeamList init Text
             var team_selectedText = $('#CustomerTeamList option:selected').text();
@@ -290,11 +292,50 @@
             $('#ddl_CustomerTeamText').val(team_selectedText);
         });
 
-        //EnumLOBList choose Text
+        //LOB下拉選單Change事件
         $('#EnumLOBList').change(function () {
-            var Lob_selectedText = $('#EnumLOBList option:selected').text();
-            $('#ddl_LOBText').val(Lob_selectedText);
+            ChangeLOB();
         });
+
+        /*LOB下拉選單選取事件*/
+        function ChangeLOB() {
+            //寫入Hidden標籤,用來傳到後端
+            var selectedText = $('#EnumLOBList option:selected').text();
+            $('#ddl_LOBText').val(selectedText);
+
+            //選擇LOB後再產生CustomerTeam List
+            var selectedValue = $('#EnumLOBList option:selected').val();
+            if ($.trim(selectedValue).length > 0) {
+                debugger
+                GetCustomerTeamList(selectedValue);
+            }
+        }
+
+        /*ajax取得CustomerTeam*/
+        function GetCustomerTeamList(LOBID) {
+            $.ajax({
+                url: '@Url.Action("GetTeamsByLOB","CustomerTeams")',
+                data: { LobID: LOBID },
+                type: 'post',
+                cache: false,
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0)
+                    {
+                        $('#CustomerTeamList').empty();
+                        $('#CustomerTeamList').append($('<option></option>').val('').text('請選擇客戶群'));
+                        $.each(data, function (i, item) {
+                            $('#CustomerTeamList').append($('<option></option>').val(item.Key).text(item.Value));
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+
 
         //EnumSiteList choose Text
         $('#EnumSiteList').change(function () {

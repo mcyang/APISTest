@@ -22,7 +22,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-lg-5">
                 @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
             </div>
@@ -30,15 +30,23 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-lg-5">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.LobID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-lg-5">
+                @(Html.DDL_FromEnum<EnumLOB>("EnumLOBList", Model.LobID, false, new { @class = "form-control" }))
+                @Html.ValidationMessageFor(model => model.LobID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.IsDelete, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-lg-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsDelete)
                     @Html.ValidationMessageFor(model => model.IsDelete, "", new { @class = "text-danger" })

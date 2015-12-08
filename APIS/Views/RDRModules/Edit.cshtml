@@ -38,7 +38,7 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("Module", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>Module</Label>
                 <div class="col-md-3">
                     @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
@@ -46,21 +46,29 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("產品別", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("客戶料號", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.CustomerBOM, new { htmlAttributes = new { @class = "form-control", placeHolder = "N/A" } })
+                    @Html.ValidationMessageFor(model => model.CustomerBOM, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>產品別</Label>
                 <div class="col-md-3">
                     @Html.DisplayFor(m => m.ProductGroupName)
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.Label("交貨地", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>交貨地</Label>
                 <div class="col-md-3">
                    @Html.DisplayFor(m => m.CustomerName)
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.Label("預估年產量", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>預估年產量</Label>
                 <div class="col-md-8">
                     <table class="table-bordered" id="mytable">
                         <tr>
@@ -87,11 +95,81 @@
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
                     @*燈箱*@
-                    <button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>
+                    @*<button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>*@
                     @* 上傳 *@
-                    <input type="file" id="file" name="file" />
+                    @Html.DisplayFor(m => m.Attachment)
+                    <label class="btn btn-primary" for="my-file-selector">
+                        <input type="file" id="file" name="file" />
+                    </label>
+
                     @Html.HiddenFor(model => model.Attachment)
-                    @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("file", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("附件內容(請勾選)", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <table class="table">
+                        @*文件上傳CheckList*@
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsProductSpec)
+                                @Html.DisplayNameFor(m => m.IsProductSpec)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsTestInstruction)
+                                @Html.DisplayNameFor(m => m.IsTestInstruction)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsCustomerBOM)
+                                @Html.DisplayNameFor(m => m.IsCustomerBOM)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsBinResistorTable)
+                                @Html.DisplayNameFor(m => m.IsBinResistorTable)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPCBA)
+                                @Html.DisplayNameFor(m => m.IsPCBA)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPCB)
+                                @Html.DisplayNameFor(m => m.IsPCB)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsHarness)
+                                @Html.DisplayNameFor(m => m.IsHarness)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsGerber)
+                                @Html.DisplayNameFor(m => m.IsGerber)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsCoordinate)
+                                @Html.DisplayNameFor(m => m.IsCoordinate)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsSchematics)
+                                @Html.DisplayNameFor(m => m.IsSchematics)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsComp)
+                                @Html.DisplayNameFor(m => m.IsComp)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPVTestPlan)
+                                @Html.DisplayNameFor(m => m.IsPVTestPlan)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsSVRF)
+                                @Html.DisplayNameFor(m => m.IsSVRF)
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 

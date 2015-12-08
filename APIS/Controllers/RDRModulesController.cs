@@ -337,7 +337,7 @@ namespace APIS.Controllers
                 try
                 {
                     UploadFile uploadfile = new Models.UploadFile();
-                    uploadfile.RefID = viewModel.ParentID;
+                    uploadfile.RefID = moduleID;  // UploadFile.RefID 參考 RDRModule.ID
                     uploadfile.Name = fileName;
                     uploadfile.FileSize = file.ContentLength;
                     uploadfile.UploadType = 1;
@@ -444,7 +444,7 @@ namespace APIS.Controllers
 
         #region 編輯頁
         /// <summary>
-        /// 
+        /// GET:編輯機種
         /// </summary>
         /// <param name="id">傳入RDRModule.ID</param>
         /// <returns></returns>
@@ -459,20 +459,34 @@ namespace APIS.Controllers
             RDRModuleEditViewModel viewModel = (from module in db.RDRModules
                                                 join product in db.ProductGroups on module.ProductGroupID equals product.ID
                                                 join customer in db.Customers on module.CustomerID equals customer.ID
+                                                join upload in db.UploadFiles on module.ID equals upload.RefID
                                                 where module.ID == id
                                                 select new RDRModuleEditViewModel {
                                                     ID = module.ID,
                                                     ParentID = module.ParentID,
                                                     RDRNumber = module.RDRNumber,
                                                     ModuleName = module.ModuleName,
+                                                    CustomerBOM = module.CustomerBOM,
                                                     ProductGroupID = module.ProductGroupID,
                                                     ProductGroupName = product.Name,
                                                     CustomerID = module.CustomerID,
                                                     CustomerName = customer.Name,
                                                     Attachment = module.Attachment,
                                                     Remark = module.Remark,
-                                                    EstimateProduct = module.EstimateProduct
-
+                                                    EstimateProduct = module.EstimateProduct,
+                                                    IsProductSpec = upload.IsProductSpec,
+                                                    IsTestInstruction = upload.IsTestInstruction,
+                                                    IsCustomerBOM = upload.IsCustomerBOM,
+                                                    IsBinResistorTable = upload.IsBinResistorTable,
+                                                    IsPCBA = upload.IsPCBA,
+                                                    IsPCB = upload.IsPCB,
+                                                    IsHarness = upload.IsHarness,
+                                                    IsGerber = upload.IsGerber,
+                                                    IsCoordinate = upload.IsCoordinate,
+                                                    IsSchematics = upload.IsSchematics,
+                                                    IsComp = upload.IsComp,
+                                                    IsPVTestPlan = upload.IsPVTestPlan,
+                                                    IsSVRF = upload.IsSVRF
                                                 }).FirstOrDefault();
 
             RDRMain main = db.RDRMains.Find(viewModel.ParentID);
@@ -493,8 +507,15 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(RDRModuleEditViewModel viewModel, FormCollection fc)
+        public ActionResult Edit(RDRModuleEditViewModel viewModel, HttpPostedFileBase file, FormCollection fc)
         {
+            //1.若有上傳附件則執行上傳驗證,若無上傳略過此步驟
+            //2.上傳驗證OK>>寫入db.RDRModule,若寫入db.RDRModule失敗則刪除附件&拋出例外
+            //3.寫入db.RDRModule OK>>將附件資訊寫入db.UploadFile,若寫入db.UploadFile失敗則 delete db.RDRModule 與附件, 保持 RDRModule 與 UploadFile 資料一致
+            //if (file != null)
+            //{
+            //}
+
             RDRModule rdrModule = db.RDRModules.Find(viewModel.ID);
             
             rdrModule.ModuleName = viewModel.ModuleName;

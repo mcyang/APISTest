@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("Module", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class = "control-label col-md-2"><span style="color:red;">*</span>Module</Label>
                 <div class="col-md-3">
                     @Html.EditorFor(model => model.ModuleName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ModuleName, "", new { @class = "text-danger" })
@@ -51,7 +51,7 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("產品別", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>產品別</Label>
                 <div class="col-md-3">
                     @* 下拉 *@
                     @Html.DDL_ProductGroup("ProductGroupsList", 0, false, new { @class = "control-label" })
@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("交貨地", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>交貨地</Label>
                 <div class="col-md-3">
                     @* 下拉 *@
                     @Html.DDL_Customers("CustomersList", Model.CustomerTeamID, 0, false, new { @class = "control-label" })
@@ -69,7 +69,7 @@
             </div>
 
             <div class="form-group">
-                @Html.Label("預估年產量", htmlAttributes: new { @class = "control-label col-md-2" })
+                <Label class="control-label col-md-2"><span style="color:red;">*</span>預估年產量</Label>
                 <div class="col-md-8">
                     <table class="table-bordered" id="mytable">
                         <tr>
@@ -104,65 +104,68 @@
             </div>
             <div class="form-group">
                 @Html.Label("附件內容(請勾選)", htmlAttributes: new { @class = "control-label col-md-2" })
-                <table>
-                    @*文件上傳CheckList*@
-                    <tr>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsProductSpec)
-                            @Html.DisplayNameFor(m => m.IsProductSpec)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsTestInstruction)
-                            @Html.DisplayNameFor(m => m.IsTestInstruction)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsCustomerBOM)
-                            @Html.DisplayNameFor(m => m.IsCustomerBOM)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsBinResistorTable)
-                            @Html.DisplayNameFor(m => m.IsBinResistorTable)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsPCBA)
-                            @Html.DisplayNameFor(m => m.IsPCBA)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsPCB)
-                            @Html.DisplayNameFor(m => m.IsPCB)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsHarness)
-                            @Html.DisplayNameFor(m => m.IsHarness)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsGerber)
-                            @Html.DisplayNameFor(m => m.IsGerber)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsCoordinate)
-                            @Html.DisplayNameFor(m => m.IsCoordinate)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsSchematics)
-                            @Html.DisplayNameFor(m => m.IsSchematics)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsComp)
-                            @Html.DisplayNameFor(m => m.IsComp)
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.IsPVTestPlan)
-                            @Html.DisplayNameFor(m => m.IsPVTestPlan)
-                        </td>
-                        <td colspan="2">
-                            @Html.CheckBoxFor(m => m.IsSVRF)
-                            @Html.DisplayNameFor(m => m.IsSVRF)
-                        </td>
-                    </tr>
-                </table>
+                <div class="col-md-8">
+                    <table class="table">
+                        @*文件上傳CheckList*@
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsProductSpec)
+                                @Html.DisplayNameFor(m => m.IsProductSpec)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsTestInstruction)
+                                @Html.DisplayNameFor(m => m.IsTestInstruction)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsCustomerBOM)
+                                @Html.DisplayNameFor(m => m.IsCustomerBOM)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsBinResistorTable)
+                                @Html.DisplayNameFor(m => m.IsBinResistorTable)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPCBA)
+                                @Html.DisplayNameFor(m => m.IsPCBA)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPCB)
+                                @Html.DisplayNameFor(m => m.IsPCB)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsHarness)
+                                @Html.DisplayNameFor(m => m.IsHarness)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsGerber)
+                                @Html.DisplayNameFor(m => m.IsGerber)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsCoordinate)
+                                @Html.DisplayNameFor(m => m.IsCoordinate)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsSchematics)
+                                @Html.DisplayNameFor(m => m.IsSchematics)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsComp)
+                                @Html.DisplayNameFor(m => m.IsComp)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPVTestPlan)
+                                @Html.DisplayNameFor(m => m.IsPVTestPlan)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsSVRF)
+                                @Html.DisplayNameFor(m => m.IsSVRF)
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
             <div class="form-group">
@@ -227,10 +230,14 @@
         });
 
 
-        //機種清單-刪除項目
+        //機種清單-編輯項目
         $('.BtnEdit').click(function () {
             //alert('fuck');
+            var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
+            var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
 
+            var url = '@Url.Action("Edit", "RDRModules", new { id = "ModuleID" })';
+            window.location.href = url.replace("ModuleID", idx);
 
         });
 
@@ -243,7 +250,7 @@
 
             //以ajax方式,跑RDRModules/DeleteFromCreateList
             $.ajax({
-                @*url: '@Url.Action("Delete", "RDRModulesTemp")',*@  
+                @*url: '@Url.Action("Delete", "RDRModulesTemp")',*@
                 url: '@Url.Action("DeleteFromCreateList", "RDRModules")', // 用Url.Action 轉出的 URI字串比較正確 , 降低404 Not Find 的機會
                 type: "POST",
                 data: JSON.stringify({ Id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModules/DeleteFromCreateList 的傳入參數名稱相同, JSON.stringify是將參數序列化為 json格式
@@ -262,7 +269,7 @@
                         alert("刪除成功");
                         window.location = data.url;
                     }
-                        
+
                 },
                 error: function (xhr, status, error) {
                     alert(xhr.responseText);

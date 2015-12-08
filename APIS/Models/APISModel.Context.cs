@@ -27,7 +27,6 @@ namespace APIS.Models
     
         public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
-        public virtual DbSet<CustomerTeam> CustomerTeams { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<ProductGroup> ProductGroups { get; set; }
         public virtual DbSet<RDR> RDRs { get; set; }
@@ -39,5 +38,6 @@ namespace APIS.Models
         public virtual DbSet<KickoffDetail> KickoffDetails { get; set; }
         public virtual DbSet<RDRModuleTemp> RDRModuleTemps { get; set; }
         public virtual DbSet<UploadFile> UploadFiles { get; set; }
+        public virtual DbSet<CustomerTeam> CustomerTeams { get; set; }
     }
 }

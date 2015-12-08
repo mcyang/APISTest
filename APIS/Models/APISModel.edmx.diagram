@@ -7,7 +7,6 @@
       <Diagram DiagramId="5dbdae19a78c4376a3c47503c487c49c" Name="Diagram1" ZoomLevel="90">
         <EntityTypeShape EntityType="JohnTestModel.Log" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="JohnTestModel.Team" Width="1.5" PointX="5.625" PointY="0.75" />
-        <EntityTypeShape EntityType="JohnTestModel.CustomerTeam" Width="1.5" PointX="2.25" PointY="0.75" />
         <EntityTypeShape EntityType="JohnTestModel.Customer" Width="1.5" PointX="4" PointY="0.75" />
         <EntityTypeShape EntityType="JohnTestModel.ProductGroup" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="JohnTestModel.RDR" Width="1.5" PointX="0.75" PointY="5.75" />
@@ -19,6 +18,7 @@
         <EntityTypeShape EntityType="JohnTestModel.KickoffDetail" Width="1.5" PointX="3.375" PointY="9.75" />
         <EntityTypeShape EntityType="JohnTestModel.RDRModuleTemp" Width="1.5" PointX="9.375" PointY="8.75" />
         <EntityTypeShape EntityType="JohnTestModel.UploadFile" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="JohnTestModel.CustomerTeam" Width="1.5" PointX="11.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

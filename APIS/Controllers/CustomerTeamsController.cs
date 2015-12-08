@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using APIS.Models;
@@ -26,7 +27,7 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Code,Name,IsDelete")] CustomerTeam customerTeam)
+        public ActionResult Create(CustomerTeam customerTeam)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +59,7 @@ namespace APIS.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Code,Name,IsDelete")] CustomerTeam customerTeam)
+        public ActionResult Edit([Bind(Include = "ID,Code,Name,LobID,IsDelete")] CustomerTeam customerTeam)
         {
             if (ModelState.IsValid)
             {
@@ -93,6 +94,48 @@ namespace APIS.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// LOB下拉選單&客戶群下拉選單連動用
+        /// </summary>
+        /// <param name="LobID">EnumLOB索引值</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetTeamsByLOB(string LobID)
+        {
+            List<KeyValuePair<string, string>> items = new List<KeyValuePair<string, string>>();
+
+            if (!string.IsNullOrWhiteSpace(LobID))
+            {
+                var teams = this.GetTeams(LobID);
+                if (teams.Count() > 0)
+                {
+                    foreach (var team in teams)
+                    {
+                        items.Add(new KeyValuePair<string, string>(
+                            team.ID.ToString(),
+                            team.Code));
+                    }
+                }
+            }
+
+            return this.Json(items);
+        }
+
+        /// <summary>
+        /// 依LOB索引值取得對應的客戶群
+        /// </summary>
+        /// <param name="LobID">EnumLOB索引值</param>
+        /// <returns></returns>
+        private IEnumerable<CustomerTeam> GetTeams(string LobID)
+        {
+            using (JohnTestEntities db = new JohnTestEntities())
+            {
+                // 到時VSA、MCM 所對應的客戶群資料若有了, 再到這邊作變更
+                var query = db.CustomerTeams.Where(m=>m.LobID == LobID).OrderBy(m => m.ID);
+                return query.ToList();
+            }
+        }
 
         #region 回收連線資源
         protected override void Dispose(bool disposing)

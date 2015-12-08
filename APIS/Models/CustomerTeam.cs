@@ -17,6 +17,7 @@ namespace APIS.Models
         public short ID { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public string LobID { get; set; }
         public bool IsDelete { get; set; }
     }
 }
