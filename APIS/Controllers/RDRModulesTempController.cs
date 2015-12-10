@@ -40,7 +40,7 @@ namespace APIS.Controllers
             }
 
             //2. 刪除UploadFile資料表的資料
-            UploadFile upFile = db.UploadFiles.Where(m => m.RefID == Id).FirstOrDefault();
+            UploadFile upFile = db.UploadFiles.Where(m => m.ModuleID == Id).FirstOrDefault();
             db.UploadFiles.Remove(upFile);
             db.SaveChanges();
 

@@ -137,7 +137,7 @@
                     <td>@item.Remark</td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", "RDRModules", new { id = item.ID }, null) |
-                        @Html.ActionLink("Delete", "DeleteFromRDRManageDetails", "RDRModules", new { id = item.ID }, new { @onclick = "return Confirm_Form()" })
+                        @Html.ActionLink("Delete", "DeleteFromRDRManageDetails", "RDRModules", new { id = item.ID, parentID = item.ParentID }, new { @onclick = "return Confirm_Form()" })
                     </td>
                 </tr>
             }
@@ -519,5 +519,7 @@
             if (!confirm("您確定要刪除嗎?"))
                 return false;
         }
+
+
     </script>    
 }

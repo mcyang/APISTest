@@ -1,0 +1,106 @@
+﻿@model APIS.Models.UploadFile
+@{
+    Layout = null;
+    ViewBag.Title = "Create";
+}
+<link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+<h3>新增附件</h3>
+
+<div>
+    @using (Html.BeginForm("Create", "UploadFiles", FormMethod.Post, new { id = "ListForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.MainID)
+            @Html.HiddenFor(m => m.ModuleID)
+            @Html.HiddenFor(m => m.UploadType)
+
+            <div class="form-group">
+                @Html.Label("上傳附件", htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="btn btn-default" >
+                    <input type="file" id="file" name="file" />
+                    @Html.ValidationMessage("file", new { @class = "text-danger" })
+                </label>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("附件內容(請勾選)", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-lg-10">
+                    <table class="table">
+                        @*文件上傳CheckList*@
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsProductSpec)
+                                @Html.DisplayNameFor(m => m.IsProductSpec)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsTestInstruction)
+                                @Html.DisplayNameFor(m => m.IsTestInstruction)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsCustomerBOM)
+                                @Html.DisplayNameFor(m => m.IsCustomerBOM)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsBinResistorTable)
+                                @Html.DisplayNameFor(m => m.IsBinResistorTable)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPCBA)
+                                @Html.DisplayNameFor(m => m.IsPCBA)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPCB)
+                                @Html.DisplayNameFor(m => m.IsPCB)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsHarness)
+                                @Html.DisplayNameFor(m => m.IsHarness)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsGerber)
+                                @Html.DisplayNameFor(m => m.IsGerber)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsCoordinate)
+                                @Html.DisplayNameFor(m => m.IsCoordinate)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsSchematics)
+                                @Html.DisplayNameFor(m => m.IsSchematics)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsComp)
+                                @Html.DisplayNameFor(m => m.IsComp)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsPVTestPlan)
+                                @Html.DisplayNameFor(m => m.IsPVTestPlan)
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.IsSVRF)
+                                @Html.DisplayNameFor(m => m.IsSVRF)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @*<div class="col-md-1">
+                @Html.ActionLink("返 回", "Details", "RDRManage", new { id = Model.ParentID }, new { @class = "btn btn-info" })
+            </div>*@
+            <div>
+                <div class="col-md-2">
+                    <input type="submit" value="儲存" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

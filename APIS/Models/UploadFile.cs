@@ -15,16 +15,13 @@ namespace APIS.Models
     public partial class UploadFile
     {
         public int ID { get; set; }
-        public int RefID { get; set; }
+        public int MainID { get; set; }
+        public int ModuleID { get; set; }
         public int UploadType { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
         public string ContentType { get; set; }
         public int FileSize { get; set; }
-        public System.DateTime CreateDateTime { get; set; }
-        public int CreateUserID { get; set; }
-        public System.DateTime ModifyDateTime { get; set; }
-        public int ModifyUserID { get; set; }
         public bool IsProductSpec { get; set; }
         public bool IsTestInstruction { get; set; }
         public bool IsCustomerBOM { get; set; }
@@ -38,5 +35,9 @@ namespace APIS.Models
         public bool IsComp { get; set; }
         public bool IsPVTestPlan { get; set; }
         public bool IsSVRF { get; set; }
+        public System.DateTime CreateDateTime { get; set; }
+        public int CreateUserID { get; set; }
+        public System.DateTime ModifyDateTime { get; set; }
+        public int ModifyUserID { get; set; }
     }
 }

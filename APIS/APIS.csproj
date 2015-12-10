@@ -242,7 +242,6 @@
     <Compile Include="Controllers\RDRModulesController.cs" />
     <Compile Include="Controllers\RDRInfosController.cs" />
     <Compile Include="Controllers\RDRModulesTempController.cs" />
-    <Compile Include="Controllers\RDRsController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UploadFilesController.cs" />
@@ -290,9 +289,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MvcPaging\IPagedList.cs" />
     <Compile Include="Models\ProductGroup.cs">
-      <DependentUpon>APISModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RDR.cs">
       <DependentUpon>APISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RDRInformation.cs">
@@ -343,6 +339,7 @@
     <Compile Include="Tools\EntityTool.cs" />
     <Compile Include="Tools\EnumMapTool.cs" />
     <Compile Include="Unity\ControlExtentions.cs" />
+    <Compile Include="ViewModels\UploadFileViewModel.cs" />
     <Compile Include="ViewModels\fvmRDRManage.cs" />
     <Compile Include="ViewModels\RDRInfoViewModel.cs" />
     <Compile Include="ViewModels\RDRModuleViewModel.cs" />
@@ -355,8 +352,12 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fancybox\blank.gif" />
+    <Content Include="Content\fancybox\fancybox_buttons.png" />
+    <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
     <Content Include="Content\fancybox\fancybox_loading.gif" />
     <Content Include="Content\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
     <Content Include="Content\fancybox\fancybox_sprite.png" />
     <Content Include="Content\images\api-evolution.png" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
@@ -546,12 +547,13 @@
     <Content Include="Views\AwardedCheck\Kickoff.cshtml" />
     <Content Include="Views\RDRModules\_AddModuleList.cshtml" />
     <Content Include="Views\RDRModules\_MyPartialView.cshtml" />
-    <Content Include="Views\RDRModules\CreateTemp.cshtml" />
     <Content Include="Views\RDRModules\Edit.cshtml" />
     <Content Include="Views\CarMakers\Edit.cshtml" />
     <Content Include="Views\Test\Uploads.cshtml" />
     <Content Include="Views\Test\List.cshtml" />
     <Content Include="Views\UploadFiles\Add.cshtml" />
+    <Content Include="Views\UploadFiles\List.cshtml" />
+    <Content Include="Views\UploadFiles\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -559,7 +561,6 @@
     <Folder Include="bin\" />
     <Folder Include="UploadFiles\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\RDRModulesTemp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

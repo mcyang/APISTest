@@ -113,10 +113,8 @@ namespace APIS.Controllers
 
             //return View(viewModel);
         }
+        
 
-        // POST: RDRModules/Create
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         /// <summary>
         /// POST: 新增機種
         /// </summary>
@@ -336,8 +334,8 @@ namespace APIS.Controllers
             {
                 try
                 {
-                    UploadFile uploadfile = new Models.UploadFile();
-                    uploadfile.RefID = moduleID;  // UploadFile.RefID 參考 RDRModule.ID
+                    UploadFile uploadfile = new UploadFile();
+                    uploadfile.ModuleID = moduleID;  // UploadFile.RefID 參考 RDRModule.ID
                     uploadfile.Name = fileName;
                     uploadfile.FileSize = file.ContentLength;
                     uploadfile.UploadType = 1;
@@ -459,7 +457,7 @@ namespace APIS.Controllers
             RDRModuleEditViewModel viewModel = (from module in db.RDRModules
                                                 join product in db.ProductGroups on module.ProductGroupID equals product.ID
                                                 join customer in db.Customers on module.CustomerID equals customer.ID
-                                                join upload in db.UploadFiles on module.ID equals upload.RefID
+                                                join upload in db.UploadFiles on module.ID equals upload.ModuleID
                                                 where module.ID == id
                                                 select new RDRModuleEditViewModel {
                                                     ID = module.ID,
@@ -502,33 +500,143 @@ namespace APIS.Controllers
             return View(viewModel);
         }
 
-        // POST: RDRModules/Edit/5
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <param name="file"></param>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(RDRModuleEditViewModel viewModel, HttpPostedFileBase file, FormCollection fc)
         {
+            string fileName = "";
+            string path = "";
+            bool IsUploadOK = false;
+            bool IsWriteToUploadFile = false;
+
             //1.若有上傳附件則執行上傳驗證,若無上傳略過此步驟
-            //2.上傳驗證OK>>寫入db.RDRModule,若寫入db.RDRModule失敗則刪除附件&拋出例外
-            //3.寫入db.RDRModule OK>>將附件資訊寫入db.UploadFile,若寫入db.UploadFile失敗則 delete db.RDRModule 與附件, 保持 RDRModule 與 UploadFile 資料一致
-            //if (file != null)
-            //{
-            //}
-
-            RDRModule rdrModule = db.RDRModules.Find(viewModel.ID);
-            
-            rdrModule.ModuleName = viewModel.ModuleName;
-            rdrModule.Remark = viewModel.Remark;
-            rdrModule.EstimateProduct = viewModel.EstimateProduct;
-
-            if (ModelState.IsValid)
+            if (file != null)
             {
-                db.Entry(rdrModule).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
+                #region 上傳
+                //從RDRNumber 取出資料夾結構: RFQFiles > 客戶群> ProjectName > 交貨地 > ModuleName > Version
+                string UploadFilesType = "RFQFiles";
+                string team = viewModel.RDRNumber.Substring(0, viewModel.RDRNumber.IndexOf('.')); //取出客戶群,ex. AL.15.0001
+                string projName = db.RDRMains.Find(viewModel.ParentID).ProjectName;      //專案名稱
+                string customerName = viewModel.CustomerName;
+                string version = viewModel.RDRNumber.Substring(viewModel.RDRNumber.LastIndexOf('.'), 2);
 
-                //儲存成功，導向RDRManage/Details
-                return RedirectToAction("Details","RDRManage", new { id = rdrModule.ParentID });
+                //UP是IIS的虛擬目錄，於IIS設定指向Web Server上的實體資料夾
+                var target = "/UP/" + UploadFilesType + "/" + team + "/" + customerName + "/" + projName + "/" + viewModel.ModuleName + "/" + version;
+                path = Server.MapPath(target);
+
+                bool IsUpload = GOUpload(file); //驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範
+                if (IsUpload)
+                {
+                    fileName = System.IO.Path.GetFileName(file.FileName); //完整檔名
+
+                    try
+                    {
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //檢查資料夾路徑是否存在, 不存在就自動建立
+                        }
+
+                        path = System.IO.Path.Combine(path, fileName);
+                        file.SaveAs(path); //檔案存放到儲存路徑上
+
+                        IsUploadOK = true; //回傳上傳成功
+                    }
+                    catch (Exception ex)
+                    {
+                        path = "";
+                        return ShowMsgThenRedirect(ex.ToString(), Url.Action("Edit", "RDRModule", new { id = viewModel.ID }));
+                    }
+                }
+                else
+                {
+                    path = "";
+                }
+                #endregion
+            }
+
+            //2.將附件資訊寫入db.UploadFile,若寫入db.UploadFile失敗則 delete 附件
+            if (IsUploadOK)
+            {
+                try
+                {
+                    UploadFile uploadfile = new UploadFile();
+                    uploadfile.ModuleID = viewModel.ID;  // UploadFile.RefID 參考 RDRModule.ID
+                    uploadfile.Name = fileName;
+                    uploadfile.FileSize = file.ContentLength;
+                    uploadfile.UploadType = 1;
+                    uploadfile.ContentType = file.ContentType;
+                    uploadfile.Location = path;
+                    uploadfile.IsProductSpec = viewModel.IsProductSpec;
+                    uploadfile.IsTestInstruction = viewModel.IsTestInstruction;
+                    uploadfile.IsCustomerBOM = viewModel.IsCustomerBOM;
+                    uploadfile.IsBinResistorTable = viewModel.IsBinResistorTable;
+                    uploadfile.IsPCBA = viewModel.IsPCBA;
+                    uploadfile.IsPCB = viewModel.IsPCB;
+                    uploadfile.IsHarness = viewModel.IsHarness;
+                    uploadfile.IsGerber = viewModel.IsGerber;
+                    uploadfile.IsCoordinate = viewModel.IsCoordinate;
+                    uploadfile.IsSchematics = viewModel.IsSchematics;
+                    uploadfile.IsComp = viewModel.IsComp;
+                    uploadfile.IsPVTestPlan = viewModel.IsPVTestPlan;
+                    uploadfile.IsSVRF = viewModel.IsSVRF;
+                    uploadfile.CreateDateTime = DateTime.Now;
+                    uploadfile.CreateUserID = 1;
+                    uploadfile.ModifyDateTime = DateTime.Now;
+                    uploadfile.ModifyUserID = 1;
+
+                    db.UploadFiles.Add(uploadfile);
+                    db.SaveChanges();
+
+                    IsWriteToUploadFile = true; //回傳寫入UploadFile資料表成功
+                }
+                catch (Exception ex)
+                {
+                    //刪除附件
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+
+                    return ShowMsgThenRedirect(ex.ToString(), Url.Action("Edit", "RDRModules", new { id = viewModel.ID }));
+                }
+            }
+
+            //3.更新db.RDRModule,若更新db.RDRModule失敗則刪除附件&拋出例外
+            try
+            {
+                RDRModule rdrModule = db.RDRModules.Where(m => m.ID == viewModel.ID).FirstOrDefault();
+                if (rdrModule != null)
+                {
+                    rdrModule.ModuleName = viewModel.ModuleName;
+                    rdrModule.CustomerBOM = viewModel.CustomerBOM;
+                    rdrModule.EstimateProduct = viewModel.EstimateProduct;
+                    rdrModule.Remark = viewModel.Remark;
+
+                    if (ModelState.IsValid)
+                    {
+                        db.Entry(rdrModule).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        return ShowMsgThenRedirect("更新成功!", Url.Action("Details", "RDRManage", new { id = viewModel.ParentID }));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //刪除已上傳的的檔案
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                return ShowMsgThenRedirect(ex.ToString(), Url.Action("Edit", "RDRModule", new { id = viewModel.ID }));
             }
             return View(viewModel);
         }
@@ -557,31 +665,52 @@ namespace APIS.Controllers
 
             return RedirectToAction("ShowModuleList","RDRModules", new { id = rdrModule.ParentID });
         }
-        
+
         /// <summary>
-        /// 
+        /// RDRManage/Details 的機種刪除
         /// </summary>
         /// <param name="id">RDRModules.ID</param>
         /// <returns></returns>
-        public ActionResult DeleteFromRDRManageDetails(int? id)
+        public ActionResult DeleteFromRDRManageDetails(int? id, int? parentID)
         {
-            if (id == null)
+            if (id == null || parentID ==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RDRModule rdrModule = db.RDRModules.Find(id);
-            if (rdrModule == null)
+
+            //找出要刪除的機種資料
+            RDRModule rdrModule = db.RDRModules.Where(m => m.ID == id).FirstOrDefault();
+
+            if (rdrModule != null)
             {
-                return HttpNotFound();
+                //1.刪除已上傳的的檔案
+                if (!string.IsNullOrEmpty(rdrModule.Attachment))
+                {
+                    if (System.IO.File.Exists(rdrModule.Attachment))
+                    {
+                        System.IO.File.Delete(rdrModule.Attachment);
+                    }
+                }
+
+                //2. 刪除UploadFile資料表的資料
+                UploadFile upFile = db.UploadFiles.Where(m => m.ModuleID == id).FirstOrDefault();
+                if (upFile != null)
+                {
+                    db.UploadFiles.Remove(upFile);
+                    db.SaveChanges();
+                }
+
+                //3. 刪除RDRModule的資料
+                //rdrModule.IsDelete = true; //假刪
+                db.RDRModules.Remove(rdrModule); //真刪
+                db.SaveChanges();
+
+                return ShowMsgThenRedirect("刪除成功!", Url.Action("Details","RDRManage",new { id = parentID }));
             }
-
-            //rdrModule.IsDelete = true; //假刪
-            db.RDRModules.Remove(rdrModule); //真刪
-            db.SaveChanges();
-
-            return RedirectToAction("Details", "RDRManage", new { id = rdrModule.ParentID });
+            
+            return RedirectToAction("Details", "RDRManage", new { id = parentID });
         }
-
+        
 
         /// <summary>
         /// RDRModules/Create的機種清單刪除
@@ -605,7 +734,7 @@ namespace APIS.Controllers
                 }
 
                 //2. 刪除UploadFile資料表的資料
-                UploadFile upFile = db.UploadFiles.Where(m => m.RefID == Id).FirstOrDefault();
+                UploadFile upFile = db.UploadFiles.Where(m => m.ModuleID == Id).FirstOrDefault();
                 if (upFile != null)
                 {
                     db.UploadFiles.Remove(upFile);

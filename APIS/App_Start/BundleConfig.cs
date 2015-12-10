@@ -39,8 +39,18 @@ namespace APIS
             bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
             "~/Content/themes/base/all.css"));
 
-            //bundles.Add(new StyleBundle("~/Content/fancybox").Include(
-            //"~/Content/jquery.fancybox.css"));
+            bundles.Add(new ScriptBundle("~/bundles/fancybox").Include(
+               "~/Scripts/jquery.fancybox.js",
+               "~/Scripts/jquery.fancybox.pack.js",
+               "~/Scripts/jquery.fancybox-buttons.js",
+               "~/Scripts/jquery.fancybox-media.js",
+               "~/Scripts/jquery.fancybox-thumbs.js",
+               "~/Scripts/jquery.mousewheel-3.0.6.pack.js"));
+
+            bundles.Add(new StyleBundle("~/Content/fancybox").Include(
+                "~/Content/jquery.fancybox.css",
+                "~/Content/jquery.fancybox-buttons.css",
+                "~/Content/jquery.fancybox-thumbs.css"));
 
 
         }

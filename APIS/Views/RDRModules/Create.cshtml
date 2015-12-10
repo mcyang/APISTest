@@ -91,82 +91,12 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
-                    @*燈箱*@
-                    @*<button class="btn whiteGray fancybox" type="button" href="@Url.Action("Add", "UploadFiles")"><i class="icon-black i-pencil"></i>附件燈箱</button>*@
-                    @* 上傳 *@
-                    <input type="file" id="file" name="file" />
-                    @Html.ValidationMessage("file", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.Attachment)
+                    @Html.ActionLink("附件資訊", "List", "UploadFiles", new { mainID = Model.ParentID, moduleID = Model.ID }, null)
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("附件內容(請勾選)", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-8">
-                    <table class="table">
-                        @*文件上傳CheckList*@
-                        <tr>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsProductSpec)
-                                @Html.DisplayNameFor(m => m.IsProductSpec)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsTestInstruction)
-                                @Html.DisplayNameFor(m => m.IsTestInstruction)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsCustomerBOM)
-                                @Html.DisplayNameFor(m => m.IsCustomerBOM)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsBinResistorTable)
-                                @Html.DisplayNameFor(m => m.IsBinResistorTable)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsPCBA)
-                                @Html.DisplayNameFor(m => m.IsPCBA)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsPCB)
-                                @Html.DisplayNameFor(m => m.IsPCB)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsHarness)
-                                @Html.DisplayNameFor(m => m.IsHarness)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsGerber)
-                                @Html.DisplayNameFor(m => m.IsGerber)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsCoordinate)
-                                @Html.DisplayNameFor(m => m.IsCoordinate)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsSchematics)
-                                @Html.DisplayNameFor(m => m.IsSchematics)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsComp)
-                                @Html.DisplayNameFor(m => m.IsComp)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsPVTestPlan)
-                                @Html.DisplayNameFor(m => m.IsPVTestPlan)
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.IsSVRF)
-                                @Html.DisplayNameFor(m => m.IsSVRF)
-                            </td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+            </div>*@
 
             <div class="form-group">
                 @Html.Label("備註", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -203,6 +133,9 @@
     @{ Html.RenderPartial("_MyPartialView", Model.rdrModuleList.Where(m=>m.ParentID == Model.ParentID).ToList()); }  @*Model.RDRModuleTempList*@
 </div>
 
+<div class="form-horizontal">
+    @Html.ActionLink("下一步", "Details", "RDRManage", new { id = Model.ParentID }, new { @class = "btn btn-success" })
+</div>
 
 @section scripts
 {
@@ -215,7 +148,7 @@
         }
 
 
-        ///預估年產量 textbox 內容變更事件
+        /*預估年產量 textbox 內容變更事件*/
         var list = []; //預估年產量字串陣列
         $('.myestimate').change(function (e) {
             //Get ID & Value
@@ -229,10 +162,28 @@
             $('#EstimateProduct').val(list);    //寫入Html.Hidden中
         });
 
+        /*機種清單-瀏覽附件*/
+        $('.BtnUpload').on('click', function () {
 
-        //機種清單-編輯項目
+            var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
+            var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
+
+            //開啟燈箱
+            var url = '@Url.Action("List","UploadFiles", new { id = "idx" } )'.replace("idx", encodeURIComponent(idx));
+            $.fancybox({
+                'autoScale': true,
+                'href': url,
+                'type': 'iframe',
+                'padding': 0,
+                'closeClick': false,
+            });
+
+        });
+
+
+
+        /*機種清單-編輯項目*/
         $('.BtnEdit').click(function () {
-            //alert('fuck');
             var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
             var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
 
@@ -241,16 +192,14 @@
 
         });
 
-        //機種清單-刪除項目
+        /*機種清單-刪除項目*/
         $('.BtnMinus').click(function () {
 
             var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
             var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
-            //alert("parentID:" + pid);
 
             //以ajax方式,跑RDRModules/DeleteFromCreateList
             $.ajax({
-                @*url: '@Url.Action("Delete", "RDRModulesTemp")',*@
                 url: '@Url.Action("DeleteFromCreateList", "RDRModules")', // 用Url.Action 轉出的 URI字串比較正確 , 降低404 Not Find 的機會
                 type: "POST",
                 data: JSON.stringify({ Id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModules/DeleteFromCreateList 的傳入參數名稱相同, JSON.stringify是將參數序列化為 json格式
@@ -260,7 +209,6 @@
                 processData: false,
                 cache: false,
                 success: function (data, textStatus, xhr) {
-                    //alert(textStatus);
 
                     //後端刪除成功，隨後回到前端success這邊做Url 導向
                     //後端return  Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) })

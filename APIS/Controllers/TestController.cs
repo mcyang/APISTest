@@ -123,7 +123,7 @@ namespace APIS.Controllers
                             using (APIS.Models.JohnTestEntities db = new Models.JohnTestEntities())
                             {
                                 APIS.Models.UploadFile uploadfile = new Models.UploadFile();
-                                uploadfile.RefID = 1;
+                                uploadfile.ModuleID = 1;
                                 uploadfile.Name = fileName;
                                 uploadfile.FileSize = file.ContentLength;
                                 uploadfile.UploadType = 1;

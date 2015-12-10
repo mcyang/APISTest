@@ -1,0 +1,68 @@
+﻿@model IEnumerable<APIS.Models.UploadFile>
+@{
+    Layout = null;
+    ViewBag.Title = "List";
+    var moduleID = Request.RequestContext.RouteData.Values["id"].ToString();
+}
+<link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+
+<h2>檔案管理</h2>
+
+
+@Html.ActionLink("新 增", "Create", "UploadFiles", new { id = moduleID }, new { @class = "btn btn-success" })
+
+
+<form>
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>檔名</th>
+            <th>檔案格式</th>
+            <th>檔案大小</th>
+            <th>路徑</th>
+            <th>管理</th>
+        </tr>
+        @if (Model.FirstOrDefault() == null)
+        {
+            <tr>
+                <td colspan="6">此機種尚未附件資訊,請於上方新增</td>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContentType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @onclick = "return Confirm_Form()" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</form>
+
+
+@section scripts{
+    <script type="text/javascript">
+        function Confirm_Form() {
+            if (!confirm("您確定要刪除嗎?"))
+                return false;
+        }
+    </script>
+}

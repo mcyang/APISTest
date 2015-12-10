@@ -7,20 +7,19 @@
 }
 
 <h3>機種清單</h3>
-@*@using (Html.BeginForm("Add", "RDRModules", new { id = pid } , FormMethod.Post, new { id = "ListForm" }))
-{*@
+<form id="ListForm">
     <div>
         <table class="table-bordered">
             <tr>
                 <th style="width:5%">ID</th>
-                <th style="width:15%">Module</th>
+                <th style="width:12%">Module</th>
                 <th style="width:12%">客戶料號</th>
-                <th style="width:8%">產品別</th>
-                <th style="width:8%">交貨地</th>
-                <th style="width:15%">預估年產量</th>
-                <th style="width:10%">附件</th>
-                <th style="width:15%">備註</th>
-                <th style="width:12%">管理</th>
+                <th style="width:10%">產品別</th>
+                <th style="width:10%">交貨地</th>
+                <th style="width:12%">預估年產量</th>
+                <th style="width:12%">備註</th>
+                <th style="width:12%">附件</th>
+                <th style="width:15%">管理</th>
             </tr>
             @if (Model.Count > 0)
             {
@@ -36,8 +35,10 @@
                         <td>@item.ProductGroupName</td>
                         <td>@item.CustomerName</td>
                         <td>@Html.Raw(item._EstimateProduct)</td>
-                        <td>@item.Attachment</td>
                         <td>@item.Remark</td>
+                        <td>
+                            <input type="button" class="BtnUpload btn-primary" value="瀏覽" id="Attachment_Browse" />
+                        </td>
                         <td>
                             <input type="button" class="BtnEdit btn-warning" value="編 輯" id="RDRModuleTempEdit" />
                             <input type="button" class="BtnMinus btn-danger" value="刪 除" id="RDRModuleTempDelete" />
@@ -47,14 +48,10 @@
             }
             else
             {
-                <tr><td colspan="9"><span style="color:red; text-align:center">請於上方新增機種資料!!</span></td></tr>
+                <tr><td colspan="10"><span style="color:red; text-align:center">請於上方新增機種資料!!</span></td></tr>
             }
         </table>
     </div>
-
-    @*<div style="margin:10px 0">
-        <input type="submit" value="儲 存" class="btn btn-success" id="RDRModuleTempSave" />
-    </div>*@
-@*}*@
+</form>
 
 
