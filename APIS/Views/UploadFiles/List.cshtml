@@ -1,25 +1,30 @@
 ﻿@model IEnumerable<APIS.Models.UploadFile>
 @{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+
     Layout = null;
     ViewBag.Title = "List";
     var moduleID = Request.RequestContext.RouteData.Values["id"].ToString();
+    int idx = 0;
 }
-<link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+
+
 
 <h2>檔案管理</h2>
 
 
 @Html.ActionLink("新 增", "Create", "UploadFiles", new { id = moduleID }, new { @class = "btn btn-success" })
 
-
-<form>
     <table class="table table-hover">
         <tr>
-            <th>ID</th>
+            <th>項目</th>
             <th>檔名</th>
             <th>檔案格式</th>
             <th>檔案大小</th>
-            <th>路徑</th>
+            @*<th>路徑</th>*@
             <th>管理</th>
         </tr>
         @if (Model.FirstOrDefault() == null)
@@ -28,11 +33,14 @@
                 <td colspan="6">此機種尚未附件資訊,請於上方新增</td>
             </tr>
         }
+
+        
         @foreach (var item in Model)
         {
+            idx++;
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ID)
+                    @idx
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -41,28 +49,31 @@
                     @Html.DisplayFor(modelItem => item.ContentType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FileSize)
+                    @ControlsHelper.GetFileSize(item.FileSize)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Location)
-                </td>
+                </td>*@
                 <td>
                     @Html.ActionLink("Details", "Details", new { id = item.ID }) |
 
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @onclick = "return Confirm_Form()" })
+                    @Ajax.ActionLink("Delete", "Delete", new { id = item.ID }, new AjaxOptions { HttpMethod = "Delete", Confirm = String.Format("確定刪除 ?"), OnSuccess = "myCallback" }) 
                 </td>
             </tr>
         }
 
     </table>
-</form>
 
 
 @section scripts{
     <script type="text/javascript">
-        function Confirm_Form() {
-            if (!confirm("您確定要刪除嗎?"))
-                return false;
+        /*刪除成功,重新Reload*/
+        //$(function () {
+        //    parent.deleteCompleted();
+        //});
+        function myCallback() {
+            alert('hello i got a call!');
         }
+
     </script>
 }

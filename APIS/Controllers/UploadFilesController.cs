@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using APIS.Models;
@@ -17,11 +17,16 @@ namespace APIS.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult Add()
+        /// <summary>
+        /// 列出特定機種資料的所有附件資訊
+        /// </summary>
+        /// <param name="id">機種資料ID(RDRModule.ID)</param>
+        /// <returns></returns>
+        public ActionResult List(int id)
         {
-            ViewData["Message"] = "This is UploadFiles/Add in FancyBox";
-            return View();
+            var query = db.UploadFiles.Where(m => m.ModuleID == id).OrderBy(m => m.ID);
+
+            return View(query.ToList());
         }
 
         #region 新增頁
@@ -151,16 +156,69 @@ namespace APIS.Controllers
         #endregion
 
         /// <summary>
-        /// 列出特定機種資料的所有附件資訊
+        /// 檔案管理-明細頁
         /// </summary>
-        /// <param name="id">機種資料ID(RDRModule.ID)</param>
+        /// <param name="id">檔案ID</param>
         /// <returns></returns>
-        public ActionResult List(int id)
+        public ActionResult Details(int id)
         {
-            var query = db.UploadFiles.Where(m => m.ModuleID == id).OrderBy(m => m.ID);
+            APIS.ViewModels.UploadFileDetailsViewModel viewModel =
+                (from u in db.UploadFiles.Where(m => m.ID == id)
+                 join m in db.RDRModules on u.ModuleID equals m.ID
+                 select new APIS.ViewModels.UploadFileDetailsViewModel
+                 {
+                     uploadfile = u,
+                     RDRNumber = m.RDRNumber,
+                     ModuleName = m.ModuleName
+                 }).FirstOrDefault();
 
-            return View(query.ToList());
+            if (viewModel != null)
+            {
+                return View(viewModel);
+            }
+
+            return ShowMsgThenRedirect("檢視明細失敗", Url.Action("List","UploadFiles", new { id = viewModel.uploadfile.ModuleID}));
         }
+
+        #region 刪除頁
+        [AcceptVerbs(HttpVerbs.Delete)]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //找出要刪除的機種資料
+            UploadFile uploadfile = db.UploadFiles.Where(m => m.ID == id).FirstOrDefault();
+            int moduleID = uploadfile.ModuleID;
+
+            if (uploadfile != null) //先刪實體檔案,再刪除記錄
+            {
+                try
+                {
+                    //刪除已上傳的的檔案
+                    if (System.IO.File.Exists(uploadfile.Location))
+                    {
+                        System.IO.File.Delete(uploadfile.Location);
+                    }
+                }
+                catch(Exception ex)
+                {
+
+                }
+
+                //刪除UploadFile資料表的資料
+                db.UploadFiles.Remove(uploadfile);
+                db.SaveChanges();
+
+                return RedirectToAction("List", "UploadFiles", new { id = moduleID });
+                //return ShowMsgThenRedirect("刪除成功", Url.Action("List","UploadFiles",new { id = moduleID }));
+            }
+
+            return View(uploadfile);
+        }
+        #endregion
 
         /// <summary>
         /// 驗證是否真的有檔案上傳 & 驗證檔案大小、格式是否符合規範

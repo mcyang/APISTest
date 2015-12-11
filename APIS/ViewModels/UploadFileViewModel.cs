@@ -4,15 +4,13 @@ using APIS.Models;
 
 namespace APIS.ViewModels
 {
-    public class UploadFileViewModel
+    public class UploadFileDetailsViewModel
     {
         //附件資訊
-        //public int ID { get; set; }
-        //public int RefID { get; set; }
-        //public string Name { get; set; }
-        //public string Location { get; set; }
-        //public string ContentType { get; set; }
-        //public int FileSize { get; set; }
-        //public bool IsDelete { get; set; }
+        public UploadFile uploadfile { get; set; }
+        
+        //其他資訊
+        public string RDRNumber { get; set; }
+        public string ModuleName { get; set; }
     }
 }

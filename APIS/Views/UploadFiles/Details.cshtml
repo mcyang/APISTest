@@ -1,0 +1,104 @@
+﻿@model APIS.ViewModels.UploadFileDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+<link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+
+<h2>Details</h2>
+<hr />
+<form>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("RDR#:", htmlAttributes: new { @class = "control-label col-lg-3" })
+            <div class="col-lg-5">
+                @Html.DisplayFor(m => m.RDRNumber)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Module:", htmlAttributes: new { @class = "control-label col-lg-3" })
+            <div class="col-lg-5">
+                @Html.DisplayFor(m => m.ModuleName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("檔名:", htmlAttributes: new { @class = "control-label col-lg-3" })
+            <div class="col-lg-5">
+                @Html.DisplayFor(m => m.uploadfile.Name)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("檔案大小:", htmlAttributes: new { @class = "control-label col-lg-3" })
+            <div class="col-lg-5">
+                @ControlsHelper.GetFileSize(Model.uploadfile.FileSize)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("附件內容:", htmlAttributes: new { @class = "control-label col-lg-3" })
+            <div class="col-lg-5">
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsProductSpec, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsProductSpec)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsTestInstruction, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsTestInstruction)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsCustomerBOM, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsCustomerBOM)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsBinResistorTable, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsBinResistorTable)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsPCBA, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsPCBA)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsPCB, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsPCB)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsHarness, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsHarness)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsGerber, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsGerber)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsCoordinate, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsCoordinate)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsSchematics, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsSchematics)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsComp, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsComp)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsPVTestPlan, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsPVTestPlan)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.uploadfile.IsSVRF, new { @disabled = "disabled" })
+                            @Html.DisplayNameFor(m => m.uploadfile.IsSVRF)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+@*返回*@

@@ -194,37 +194,43 @@
 
         /*機種清單-刪除項目*/
         $('.BtnMinus').click(function () {
+            var IsDel = false;
+            if (confirm("系統即將刪除指定的紀錄檔及相關附件，您確定要刪除嗎?")) {
+                IsDel = true;
+            }
 
-            var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
-            var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
+            if (IsDel)
+            {
+                var pid = $('input[id^="ParentID"]').val(); //Get RDRModule.ParentID
+                var idx = $(this).parent().parent().find('td[id^="tempID"]').text(); //Get RDRModule.ID
 
-            //以ajax方式,跑RDRModules/DeleteFromCreateList
-            $.ajax({
-                url: '@Url.Action("DeleteFromCreateList", "RDRModules")', // 用Url.Action 轉出的 URI字串比較正確 , 降低404 Not Find 的機會
-                type: "POST",
-                data: JSON.stringify({ Id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModules/DeleteFromCreateList 的傳入參數名稱相同, JSON.stringify是將參數序列化為 json格式
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data, textStatus, xhr) {
+                //以ajax方式,跑RDRModules/DeleteFromCreateList
+                $.ajax({
+                    url: '@Url.Action("DeleteFromCreateList", "RDRModules")', // 用Url.Action 轉出的 URI字串比較正確 , 降低404 Not Find 的機會
+                    type: "POST",
+                    data: JSON.stringify({ Id: idx, parentID: pid }), //ajax傳遞參數 id、parentID，需與RDRModules/DeleteFromCreateList 的傳入參數名稱相同, JSON.stringify是將參數序列化為 json格式
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data, textStatus, xhr) {
 
-                    //後端刪除成功，隨後回到前端success這邊做Url 導向
-                    //後端return  Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) })
-                    //data即包含result & url
-                    if (data.result == 'Success') {
-                        alert("刪除成功");
-                        window.location = data.url;
+                        //後端刪除成功，隨後回到前端success這邊做Url 導向
+                        //後端return  Json(new { result = "Redirect", url = Url.Action("Create", "RDRModules",new { id = parentID}) })
+                        //data即包含result & url
+                        if (data.result == 'Success') {
+                            alert("刪除成功");
+                            window.location = data.url;
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                        //alert("刪除失敗");
                     }
-
-                },
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                    //alert("刪除失敗");
-                }
-            });
-
+                });
+            }
         });
 
     </script>

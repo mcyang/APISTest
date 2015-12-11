@@ -249,6 +249,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CommonHelps.cs" />
+    <Compile Include="Helpers\ControlsHelper.cs" />
     <Compile Include="Helpers\SelectionHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APISModel.Context.cs">
@@ -303,6 +304,7 @@
     <Compile Include="Models\RDRModuleTemp.cs">
       <DependentUpon>APISModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Rule\UploadFile.cs" />
     <Compile Include="Models\Rule\ProductGroup.cs" />
     <Compile Include="Models\Rule\CarMaker.cs" />
     <Compile Include="Models\Rule\Customer.cs" />
@@ -551,9 +553,9 @@
     <Content Include="Views\CarMakers\Edit.cshtml" />
     <Content Include="Views\Test\Uploads.cshtml" />
     <Content Include="Views\Test\List.cshtml" />
-    <Content Include="Views\UploadFiles\Add.cshtml" />
     <Content Include="Views\UploadFiles\List.cshtml" />
     <Content Include="Views\UploadFiles\Create.cshtml" />
+    <Content Include="Views\UploadFiles\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -94,7 +94,7 @@
             <div class="form-group">
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
-                    @Html.ActionLink("附件資訊","List","UploadFiles", new { id = Model.ID}, null)
+                    @Html.ActionLink("附件資訊","List","UploadFiles", new { id = Model.ID}, new {@class = "BtnUpload fancybox.iframe" })
                 </div>
             </div>
 
@@ -140,10 +140,17 @@
         });
 
         $(function () {
-            //$('.fancybox').fancybox();
+            /*瀏覽附件*/
+            $('.BtnUpload').fancybox({
+                'autoSize': true,
+            });
 
-            //須與form表單ID名稱相同
-            //$("#ListForm").validate();
+            function deleteCompleted() {
+                alert("幹");
+                // Reload page
+                window.location.reload();
+            }
+
         });
     </script>
 }
