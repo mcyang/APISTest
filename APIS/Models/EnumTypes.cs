@@ -183,13 +183,9 @@ namespace APIS.Models
         [Description("RFQ")]
         RFQ = 1,
 
-        /// <summary>Awarded</summary>
-        [Description("Awarded")]
-        Awarded = 2,
-
-        /// <summary>Fail</summary>
-        [Description("Fail")]
-        Fail = 3,
+        /// <summary>Kickoff</summary>
+        [Description("Kickoff")]
+        Kickoff = 2,
     }
 
     /// <summary>

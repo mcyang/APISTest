@@ -133,6 +133,7 @@
           <Property Name="IsProductHourCost" Type="bit" Nullable="false" />
           <Property Name="IsTestHourCost" Type="bit" Nullable="false" />
           <Property Name="IsSamplePrice" Type="bit" Nullable="false" />
+          <Property Name="Times" Type="decimal" Precision="4" Scale="2" />
           <Property Name="IsModuleFee" Type="bit" Nullable="false" />
           <Property Name="IsSampleFee" Type="bit" Nullable="false" />
           <Property Name="IsHandMoldingFee" Type="bit" Nullable="false" />
@@ -193,19 +194,18 @@
           <Property Name="ParentID" Type="int" Nullable="false" />
           <Property Name="RDRNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ModuleName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerBOM" Type="varchar" MaxLength="50" />
           <Property Name="ProductGroupID" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="EstimateProduct" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Attachment" Type="nvarchar" MaxLength="100" />
           <Property Name="Remark" Type="nvarchar" MaxLength="100" />
           <Property Name="ModuleVersion" Type="int" Nullable="false" />
-          <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsAwarded" Type="bit" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="IsFail" Type="bit" />
           <Property Name="Reason" Type="nvarchar" MaxLength="50" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
-          <Property Name="CustomerBOM" Type="varchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="RDRModuleTemp">
           <Key>
@@ -241,9 +241,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MainID" Type="int" Nullable="false" />
-          <Property Name="ModuleID" Type="int" Nullable="false" />
-          <Property Name="UploadType" Type="int" Nullable="false" />
+          <Property Name="MainID" Type="int" />
+          <Property Name="ModuleID" Type="int" />
+          <Property Name="UploadType" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Location" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ContentType" Type="nvarchar" MaxLength="100" />
@@ -310,8 +310,6 @@
           <EntitySet Name="Teams" EntityType="JohnTestModel.Team" />
           <EntitySet Name="Customers" EntityType="JohnTestModel.Customer" />
           <EntitySet Name="ProductGroups" EntityType="JohnTestModel.ProductGroup" />
-          <EntitySet Name="RDRModules" EntityType="JohnTestModel.RDRModule" />
-          <EntitySet Name="RDRInformations" EntityType="JohnTestModel.RDRInformation" />
           <EntitySet Name="CarMakers" EntityType="JohnTestModel.CarMaker" />
           <EntitySet Name="RDRMains" EntityType="JohnTestModel.RDRMain" />
           <EntitySet Name="Kickoffs" EntityType="JohnTestModel.Kickoff" />
@@ -319,6 +317,8 @@
           <EntitySet Name="RDRModuleTemps" EntityType="JohnTestModel.RDRModuleTemp" />
           <EntitySet Name="CustomerTeams" EntityType="JohnTestModel.CustomerTeam" />
           <EntitySet Name="UploadFiles" EntityType="JohnTestModel.UploadFile" />
+          <EntitySet Name="RDRInformations" EntityType="JohnTestModel.RDRInformation" />
+          <EntitySet Name="RDRModules" EntityType="JohnTestModel.RDRModule" />
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -346,90 +346,6 @@
           <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="RDRModule">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentID" Type="Int32" Nullable="false" />
-          <Property Name="RDRNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ModuleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductGroupID" Type="Int32" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="EstimateProduct" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ModuleVersion" Type="Int32" Nullable="false" />
-          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsAwarded" Type="Boolean" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="IsFail" Type="Boolean" />
-          <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-          <Property Name="CustomerBOM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="RDRInformation">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ParentID" Type="Int32" Nullable="false" />
-          <Property Name="IsElectronic" Type="Boolean" Nullable="false" />
-          <Property Name="IsSoftware" Type="Boolean" Nullable="false" />
-          <Property Name="IsMechanism" Type="Boolean" Nullable="false" />
-          <Property Name="IsOptic" Type="Boolean" Nullable="false" />
-          <Property Name="IsRF" Type="Boolean" Nullable="false" />
-          <Property Name="IsLAK" Type="Boolean" Nullable="false" />
-          <Property Name="IsLAW" Type="Boolean" Nullable="false" />
-          <Property Name="IsLGA" Type="Boolean" Nullable="false" />
-          <Property Name="IsLAT" Type="Boolean" Nullable="false" />
-          <Property Name="IsTCH" Type="Boolean" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="TxtOther_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsSpec" Type="Boolean" Nullable="false" />
-          <Property Name="IsGERBER" Type="Boolean" Nullable="false" />
-          <Property Name="IsWireDwg" Type="Boolean" Nullable="false" />
-          <Property Name="IsSample" Type="Boolean" Nullable="false" />
-          <Property Name="IsBOM" Type="Boolean" Nullable="false" />
-          <Property Name="IsAssemblyDwg" Type="Boolean" Nullable="false" />
-          <Property Name="IsDChart" Type="Boolean" Nullable="false" />
-          <Property Name="IsCKT" Type="Boolean" Nullable="false" />
-          <Property Name="Is2D" Type="Boolean" Nullable="false" />
-          <Property Name="Is3D" Type="Boolean" Nullable="false" />
-          <Property Name="IsROHS" Type="Boolean" Nullable="false" />
-          <Property Name="IsELV" Type="Boolean" Nullable="false" />
-          <Property Name="IsVLS" Type="Boolean" Nullable="false" />
-          <Property Name="TxtOthers_2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsMaterialCost" Type="Boolean" Nullable="false" />
-          <Property Name="IsPackageCost" Type="Boolean" Nullable="false" />
-          <Property Name="IsProcessCost" Type="Boolean" Nullable="false" />
-          <Property Name="IsProductHourCost" Type="Boolean" Nullable="false" />
-          <Property Name="IsTestHourCost" Type="Boolean" Nullable="false" />
-          <Property Name="IsSamplePrice" Type="Boolean" Nullable="false" />
-          <Property Name="IsModuleFee" Type="Boolean" Nullable="false" />
-          <Property Name="IsSampleFee" Type="Boolean" Nullable="false" />
-          <Property Name="IsHandMoldingFee" Type="Boolean" Nullable="false" />
-          <Property Name="IsTravelFee" Type="Boolean" Nullable="false" />
-          <Property Name="IsTestFee" Type="Boolean" Nullable="false" />
-          <Property Name="IsDevelopFee" Type="Boolean" Nullable="false" />
-          <Property Name="IsVerifyToolFee" Type="Boolean" Nullable="false" />
-          <Property Name="TxtOthers_3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsAssignForm" Type="Boolean" Nullable="false" />
-          <Property Name="IsProposal" Type="Boolean" Nullable="false" />
-          <Property Name="IsDevPlan" Type="Boolean" Nullable="false" />
-          <Property Name="IsStepPrice" Type="Boolean" Nullable="false" />
-          <Property Name="TxtOthers_4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsNewProductDev" Type="Boolean" Nullable="false" />
-          <Property Name="IsODM" Type="Boolean" Nullable="false" />
-          <Property Name="IsExtension" Type="Boolean" Nullable="false" />
-          <Property Name="IsSoftwareDev" Type="Boolean" Nullable="false" />
-          <Property Name="IsSoftwareParam" Type="Boolean" Nullable="false" />
-          <Property Name="IsInnerTechDev" Type="Boolean" Nullable="false" />
-          <Property Name="IsOEM" Type="Boolean" Nullable="false" />
-          <Property Name="IsProductionTrans" Type="Boolean" Nullable="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CarMaker">
@@ -536,9 +452,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MainID" Type="Int32" Nullable="false" />
-          <Property Name="ModuleID" Type="Int32" Nullable="false" />
-          <Property Name="UploadType" Type="Int32" Nullable="false" />
+          <Property Name="MainID" Type="Int32" />
+          <Property Name="ModuleID" Type="Int32" />
+          <Property Name="UploadType" Type="Int32" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Location" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ContentType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -560,6 +476,90 @@
           <Property Name="CreateUserID" Type="Int32" Nullable="false" />
           <Property Name="ModifyDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifyUserID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RDRInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="IsElectronic" Type="Boolean" Nullable="false" />
+          <Property Name="IsSoftware" Type="Boolean" Nullable="false" />
+          <Property Name="IsMechanism" Type="Boolean" Nullable="false" />
+          <Property Name="IsOptic" Type="Boolean" Nullable="false" />
+          <Property Name="IsRF" Type="Boolean" Nullable="false" />
+          <Property Name="IsLAK" Type="Boolean" Nullable="false" />
+          <Property Name="IsLAW" Type="Boolean" Nullable="false" />
+          <Property Name="IsLGA" Type="Boolean" Nullable="false" />
+          <Property Name="IsLAT" Type="Boolean" Nullable="false" />
+          <Property Name="IsTCH" Type="Boolean" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="TxtOther_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsSpec" Type="Boolean" Nullable="false" />
+          <Property Name="IsGERBER" Type="Boolean" Nullable="false" />
+          <Property Name="IsWireDwg" Type="Boolean" Nullable="false" />
+          <Property Name="IsSample" Type="Boolean" Nullable="false" />
+          <Property Name="IsBOM" Type="Boolean" Nullable="false" />
+          <Property Name="IsAssemblyDwg" Type="Boolean" Nullable="false" />
+          <Property Name="IsDChart" Type="Boolean" Nullable="false" />
+          <Property Name="IsCKT" Type="Boolean" Nullable="false" />
+          <Property Name="Is2D" Type="Boolean" Nullable="false" />
+          <Property Name="Is3D" Type="Boolean" Nullable="false" />
+          <Property Name="IsROHS" Type="Boolean" Nullable="false" />
+          <Property Name="IsELV" Type="Boolean" Nullable="false" />
+          <Property Name="IsVLS" Type="Boolean" Nullable="false" />
+          <Property Name="TxtOthers_2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsMaterialCost" Type="Boolean" Nullable="false" />
+          <Property Name="IsPackageCost" Type="Boolean" Nullable="false" />
+          <Property Name="IsProcessCost" Type="Boolean" Nullable="false" />
+          <Property Name="IsProductHourCost" Type="Boolean" Nullable="false" />
+          <Property Name="IsTestHourCost" Type="Boolean" Nullable="false" />
+          <Property Name="IsSamplePrice" Type="Boolean" Nullable="false" />
+          <Property Name="Times" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="IsModuleFee" Type="Boolean" Nullable="false" />
+          <Property Name="IsSampleFee" Type="Boolean" Nullable="false" />
+          <Property Name="IsHandMoldingFee" Type="Boolean" Nullable="false" />
+          <Property Name="IsTravelFee" Type="Boolean" Nullable="false" />
+          <Property Name="IsTestFee" Type="Boolean" Nullable="false" />
+          <Property Name="IsDevelopFee" Type="Boolean" Nullable="false" />
+          <Property Name="IsVerifyToolFee" Type="Boolean" Nullable="false" />
+          <Property Name="TxtOthers_3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsAssignForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsProposal" Type="Boolean" Nullable="false" />
+          <Property Name="IsDevPlan" Type="Boolean" Nullable="false" />
+          <Property Name="IsStepPrice" Type="Boolean" Nullable="false" />
+          <Property Name="TxtOthers_4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsNewProductDev" Type="Boolean" Nullable="false" />
+          <Property Name="IsODM" Type="Boolean" Nullable="false" />
+          <Property Name="IsExtension" Type="Boolean" Nullable="false" />
+          <Property Name="IsSoftwareDev" Type="Boolean" Nullable="false" />
+          <Property Name="IsSoftwareParam" Type="Boolean" Nullable="false" />
+          <Property Name="IsInnerTechDev" Type="Boolean" Nullable="false" />
+          <Property Name="IsOEM" Type="Boolean" Nullable="false" />
+          <Property Name="IsProductionTrans" Type="Boolean" Nullable="false" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RDRModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" Nullable="false" />
+          <Property Name="RDRNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModuleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerBOM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductGroupID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="EstimateProduct" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleVersion" Type="Int32" Nullable="false" />
+          <Property Name="IsAwarded" Type="Boolean" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -615,92 +615,6 @@
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RDRModules">
-            <EntityTypeMapping TypeName="JohnTestModel.RDRModule">
-              <MappingFragment StoreEntitySet="RDRModule">
-                <ScalarProperty Name="CustomerBOM" ColumnName="CustomerBOM" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="IsFail" ColumnName="IsFail" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="IsAwarded" ColumnName="IsAwarded" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="ModuleVersion" ColumnName="ModuleVersion" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
-                <ScalarProperty Name="EstimateProduct" ColumnName="EstimateProduct" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
-                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
-                <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RDRInformations">
-            <EntityTypeMapping TypeName="JohnTestModel.RDRInformation">
-              <MappingFragment StoreEntitySet="RDRInformation">
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="IsProductionTrans" ColumnName="IsProductionTrans" />
-                <ScalarProperty Name="IsOEM" ColumnName="IsOEM" />
-                <ScalarProperty Name="IsInnerTechDev" ColumnName="IsInnerTechDev" />
-                <ScalarProperty Name="IsSoftwareParam" ColumnName="IsSoftwareParam" />
-                <ScalarProperty Name="IsSoftwareDev" ColumnName="IsSoftwareDev" />
-                <ScalarProperty Name="IsExtension" ColumnName="IsExtension" />
-                <ScalarProperty Name="IsODM" ColumnName="IsODM" />
-                <ScalarProperty Name="IsNewProductDev" ColumnName="IsNewProductDev" />
-                <ScalarProperty Name="TxtOthers_4" ColumnName="TxtOthers_4" />
-                <ScalarProperty Name="IsStepPrice" ColumnName="IsStepPrice" />
-                <ScalarProperty Name="IsDevPlan" ColumnName="IsDevPlan" />
-                <ScalarProperty Name="IsProposal" ColumnName="IsProposal" />
-                <ScalarProperty Name="IsAssignForm" ColumnName="IsAssignForm" />
-                <ScalarProperty Name="TxtOthers_3" ColumnName="TxtOthers_3" />
-                <ScalarProperty Name="IsVerifyToolFee" ColumnName="IsVerifyToolFee" />
-                <ScalarProperty Name="IsDevelopFee" ColumnName="IsDevelopFee" />
-                <ScalarProperty Name="IsTestFee" ColumnName="IsTestFee" />
-                <ScalarProperty Name="IsTravelFee" ColumnName="IsTravelFee" />
-                <ScalarProperty Name="IsHandMoldingFee" ColumnName="IsHandMoldingFee" />
-                <ScalarProperty Name="IsSampleFee" ColumnName="IsSampleFee" />
-                <ScalarProperty Name="IsModuleFee" ColumnName="IsModuleFee" />
-                <ScalarProperty Name="IsSamplePrice" ColumnName="IsSamplePrice" />
-                <ScalarProperty Name="IsTestHourCost" ColumnName="IsTestHourCost" />
-                <ScalarProperty Name="IsProductHourCost" ColumnName="IsProductHourCost" />
-                <ScalarProperty Name="IsProcessCost" ColumnName="IsProcessCost" />
-                <ScalarProperty Name="IsPackageCost" ColumnName="IsPackageCost" />
-                <ScalarProperty Name="IsMaterialCost" ColumnName="IsMaterialCost" />
-                <ScalarProperty Name="TxtOthers_2" ColumnName="TxtOthers_2" />
-                <ScalarProperty Name="IsVLS" ColumnName="IsVLS" />
-                <ScalarProperty Name="IsELV" ColumnName="IsELV" />
-                <ScalarProperty Name="IsROHS" ColumnName="IsROHS" />
-                <ScalarProperty Name="Is3D" ColumnName="Is3D" />
-                <ScalarProperty Name="Is2D" ColumnName="Is2D" />
-                <ScalarProperty Name="IsCKT" ColumnName="IsCKT" />
-                <ScalarProperty Name="IsDChart" ColumnName="IsDChart" />
-                <ScalarProperty Name="IsAssemblyDwg" ColumnName="IsAssemblyDwg" />
-                <ScalarProperty Name="IsBOM" ColumnName="IsBOM" />
-                <ScalarProperty Name="IsSample" ColumnName="IsSample" />
-                <ScalarProperty Name="IsWireDwg" ColumnName="IsWireDwg" />
-                <ScalarProperty Name="IsGERBER" ColumnName="IsGERBER" />
-                <ScalarProperty Name="IsSpec" ColumnName="IsSpec" />
-                <ScalarProperty Name="TxtOther_1" ColumnName="TxtOther_1" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="IsTCH" ColumnName="IsTCH" />
-                <ScalarProperty Name="IsLAT" ColumnName="IsLAT" />
-                <ScalarProperty Name="IsLGA" ColumnName="IsLGA" />
-                <ScalarProperty Name="IsLAW" ColumnName="IsLAW" />
-                <ScalarProperty Name="IsLAK" ColumnName="IsLAK" />
-                <ScalarProperty Name="IsRF" ColumnName="IsRF" />
-                <ScalarProperty Name="IsOptic" ColumnName="IsOptic" />
-                <ScalarProperty Name="IsMechanism" ColumnName="IsMechanism" />
-                <ScalarProperty Name="IsSoftware" ColumnName="IsSoftware" />
-                <ScalarProperty Name="IsElectronic" ColumnName="IsElectronic" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -837,6 +751,92 @@
                 <ScalarProperty Name="UploadType" ColumnName="UploadType" />
                 <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
                 <ScalarProperty Name="MainID" ColumnName="MainID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RDRInformations">
+            <EntityTypeMapping TypeName="JohnTestModel.RDRInformation">
+              <MappingFragment StoreEntitySet="RDRInformation">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsProductionTrans" ColumnName="IsProductionTrans" />
+                <ScalarProperty Name="IsOEM" ColumnName="IsOEM" />
+                <ScalarProperty Name="IsInnerTechDev" ColumnName="IsInnerTechDev" />
+                <ScalarProperty Name="IsSoftwareParam" ColumnName="IsSoftwareParam" />
+                <ScalarProperty Name="IsSoftwareDev" ColumnName="IsSoftwareDev" />
+                <ScalarProperty Name="IsExtension" ColumnName="IsExtension" />
+                <ScalarProperty Name="IsODM" ColumnName="IsODM" />
+                <ScalarProperty Name="IsNewProductDev" ColumnName="IsNewProductDev" />
+                <ScalarProperty Name="TxtOthers_4" ColumnName="TxtOthers_4" />
+                <ScalarProperty Name="IsStepPrice" ColumnName="IsStepPrice" />
+                <ScalarProperty Name="IsDevPlan" ColumnName="IsDevPlan" />
+                <ScalarProperty Name="IsProposal" ColumnName="IsProposal" />
+                <ScalarProperty Name="IsAssignForm" ColumnName="IsAssignForm" />
+                <ScalarProperty Name="TxtOthers_3" ColumnName="TxtOthers_3" />
+                <ScalarProperty Name="IsVerifyToolFee" ColumnName="IsVerifyToolFee" />
+                <ScalarProperty Name="IsDevelopFee" ColumnName="IsDevelopFee" />
+                <ScalarProperty Name="IsTestFee" ColumnName="IsTestFee" />
+                <ScalarProperty Name="IsTravelFee" ColumnName="IsTravelFee" />
+                <ScalarProperty Name="IsHandMoldingFee" ColumnName="IsHandMoldingFee" />
+                <ScalarProperty Name="IsSampleFee" ColumnName="IsSampleFee" />
+                <ScalarProperty Name="IsModuleFee" ColumnName="IsModuleFee" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="IsSamplePrice" ColumnName="IsSamplePrice" />
+                <ScalarProperty Name="IsTestHourCost" ColumnName="IsTestHourCost" />
+                <ScalarProperty Name="IsProductHourCost" ColumnName="IsProductHourCost" />
+                <ScalarProperty Name="IsProcessCost" ColumnName="IsProcessCost" />
+                <ScalarProperty Name="IsPackageCost" ColumnName="IsPackageCost" />
+                <ScalarProperty Name="IsMaterialCost" ColumnName="IsMaterialCost" />
+                <ScalarProperty Name="TxtOthers_2" ColumnName="TxtOthers_2" />
+                <ScalarProperty Name="IsVLS" ColumnName="IsVLS" />
+                <ScalarProperty Name="IsELV" ColumnName="IsELV" />
+                <ScalarProperty Name="IsROHS" ColumnName="IsROHS" />
+                <ScalarProperty Name="Is3D" ColumnName="Is3D" />
+                <ScalarProperty Name="Is2D" ColumnName="Is2D" />
+                <ScalarProperty Name="IsCKT" ColumnName="IsCKT" />
+                <ScalarProperty Name="IsDChart" ColumnName="IsDChart" />
+                <ScalarProperty Name="IsAssemblyDwg" ColumnName="IsAssemblyDwg" />
+                <ScalarProperty Name="IsBOM" ColumnName="IsBOM" />
+                <ScalarProperty Name="IsSample" ColumnName="IsSample" />
+                <ScalarProperty Name="IsWireDwg" ColumnName="IsWireDwg" />
+                <ScalarProperty Name="IsGERBER" ColumnName="IsGERBER" />
+                <ScalarProperty Name="IsSpec" ColumnName="IsSpec" />
+                <ScalarProperty Name="TxtOther_1" ColumnName="TxtOther_1" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="IsTCH" ColumnName="IsTCH" />
+                <ScalarProperty Name="IsLAT" ColumnName="IsLAT" />
+                <ScalarProperty Name="IsLGA" ColumnName="IsLGA" />
+                <ScalarProperty Name="IsLAW" ColumnName="IsLAW" />
+                <ScalarProperty Name="IsLAK" ColumnName="IsLAK" />
+                <ScalarProperty Name="IsRF" ColumnName="IsRF" />
+                <ScalarProperty Name="IsOptic" ColumnName="IsOptic" />
+                <ScalarProperty Name="IsMechanism" ColumnName="IsMechanism" />
+                <ScalarProperty Name="IsSoftware" ColumnName="IsSoftware" />
+                <ScalarProperty Name="IsElectronic" ColumnName="IsElectronic" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RDRModules">
+            <EntityTypeMapping TypeName="JohnTestModel.RDRModule">
+              <MappingFragment StoreEntitySet="RDRModule">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsAwarded" ColumnName="IsAwarded" />
+                <ScalarProperty Name="ModuleVersion" ColumnName="ModuleVersion" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="EstimateProduct" ColumnName="EstimateProduct" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
+                <ScalarProperty Name="CustomerBOM" ColumnName="CustomerBOM" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="RDRNumber" ColumnName="RDRNumber" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

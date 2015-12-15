@@ -67,12 +67,12 @@
                 <tr>
                     <th>SOP Date</th>
                     <td>
-                        @Html.DisplayFor(model => model.SOPDate)
+                        @Html.DisplayFor(model => model._SOPDate)
                     </td>
 
                     <th>EOL Date</th>
                     <td>
-                        @Html.DisplayFor(model => model.EOLDate)
+                        @Html.DisplayFor(model => model._EOLDate)
                     </td>
                     <th>預估年營業額</th>
                     <td>@Html.DisplayFor(model => model.EstimateRevenueText)</td>
@@ -394,9 +394,7 @@
                 dateFormat: 'yy/mm/dd', // 如果是yyyy/mm 會產生20152015/11 的結果 , 會重複年 , 所以一組yy即可
             });
 
-            //$('.datepick').datepicker({
-            //    dateFormat: 'yy/mm/dd', // 如果是yyyy/mm 會產生20152015/11 的結果 , 會重複年 , 所以一組yy即可
-            //});
+           
 
         });//$(document).ready()結尾處,不要亂動!!
     </script>

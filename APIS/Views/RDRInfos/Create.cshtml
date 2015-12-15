@@ -111,9 +111,13 @@
                 <td>開發期間</td>
                 <td colspan="4">
                     <label class="control-label  col-md-2">開始時間:</label>
-                    <div class="col-md-3">@Html.EditorFor(model => model.rdrInfo.StartDate, new { htmlAttributes = new { @class= "form-control", type = "date", style = "width:200px" } })</div>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.rdrInfo.StartDate, new { @class = "jqueryui-datepicker-normal form-control", placeholder = "yyyy-MM-dd" })
+                    </div>
                     <label class="control-label  col-md-2">結束時間:</label>
-                    <div class="col-md-3">@Html.EditorFor(model => model.rdrInfo.EndDate, new { htmlAttributes = new { @class = "form-control", type = "date", style = "width:200px" } })</div>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.rdrInfo.EndDate, new { @class = "jqueryui-datepicker-normal form-control", placeholder = "yyyy-MM-dd" })
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -283,6 +287,7 @@
                     <label class="radio-inline">
                         @Html.RadioButtonFor(model => model.rdrInfo.IsSamplePrice, true, new { id = "IsSamplePrice_Y", name = "IsSamplePrice" }) YES
                     </label>
+                    <label class="radio-inline" style="display: none" id="lable_times">@Html.EditorFor(m=>m.rdrInfo.Times, new { size = "5"})倍數</label>
                 </td>
             </tr>
             <tr>
@@ -312,7 +317,7 @@
                 </td>
             </tr>
             <tr>
-                <th>報價排除項目</th>
+                <th>備註</th>
                 <td>@Html.TextAreaFor(model => model.rdrInfo.TxtOthers_3, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "報價排除項目" })</td>
             </tr>
         </table>
@@ -370,6 +375,37 @@
     <script>
         $(function () {
             $('#rdrInfo_ParentID').val(@parent_id);
+        });
+
+        $('#IsSamplePrice_Y').change(function(){
+            $('#lable_times').show();
+        });
+
+        $('#IsSamplePrice_N').change(function () {
+            $('#rdrInfo_Times').val('');
+            $('#lable_times').hide();
+        });
+
+        /* 日期選擇器(1): yy/mm/dd */
+        $('#rdrInfo_StartDate').datepicker({
+            dateFormat: "yy-mm-dd", //設定:日期格式
+            changeYear: true,    //設定:可變更年份
+            yearRange: '-5:+20', //設定:西元年範圍
+            changeMonth: true,   //設定:可變更月份
+            numberOfMonths: 2,
+            onSelect: function (selected) {
+                $("#rdrInfo_EndDate").datepicker("option", "minDate", selected)
+            }
+        });
+        $('#rdrInfo_EndDate').datepicker({
+            dateFormat: "yy-mm-dd", //設定:日期格式
+            changeYear: true,    //設定:可變更年份
+            yearRange: '-5:+20', //設定:西元年範圍
+            changeMonth: true,   //設定:可變更月份
+            numberOfMonths: 2,
+            onSelect: function (selected) {
+                $("#rdrInfo_StartDate").datepicker("option", "maxDate", selected)
+            }
         });
     </script>
     }

@@ -191,7 +191,7 @@ namespace APIS.Controllers
 
             //找出要刪除的機種資料
             UploadFile uploadfile = db.UploadFiles.Where(m => m.ID == id).FirstOrDefault();
-            int moduleID = uploadfile.ModuleID;
+            int moduleID = uploadfile.ModuleID ?? 0;
 
             if (uploadfile != null) //先刪實體檔案,再刪除記錄
             {
@@ -205,7 +205,7 @@ namespace APIS.Controllers
                 }
                 catch(Exception ex)
                 {
-
+                    throw ex;
                 }
 
                 //刪除UploadFile資料表的資料

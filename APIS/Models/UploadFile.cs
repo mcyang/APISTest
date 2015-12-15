@@ -15,9 +15,9 @@ namespace APIS.Models
     public partial class UploadFile
     {
         public int ID { get; set; }
-        public int MainID { get; set; }
-        public int ModuleID { get; set; }
-        public int UploadType { get; set; }
+        public Nullable<int> MainID { get; set; }
+        public Nullable<int> ModuleID { get; set; }
+        public Nullable<int> UploadType { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
         public string ContentType { get; set; }

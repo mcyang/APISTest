@@ -235,6 +235,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerTeamsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KickoffController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductGroupsController.cs" />
     <Compile Include="Controllers\RDRMainsController.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Tools\EntityTool.cs" />
     <Compile Include="Tools\EnumMapTool.cs" />
     <Compile Include="Unity\ControlExtentions.cs" />
+    <Compile Include="ViewModels\KickoffViewModel.cs" />
     <Compile Include="ViewModels\UploadFileViewModel.cs" />
     <Compile Include="ViewModels\fvmRDRManage.cs" />
     <Compile Include="ViewModels\RDRInfoViewModel.cs" />
@@ -556,6 +558,8 @@
     <Content Include="Views\UploadFiles\List.cshtml" />
     <Content Include="Views\UploadFiles\Create.cshtml" />
     <Content Include="Views\UploadFiles\Details.cshtml" />
+    <Content Include="Views\Kickoff\Create.cshtml" />
+    <Content Include="Views\Kickoff\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

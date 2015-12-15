@@ -1,0 +1,49 @@
+﻿@model APIS.ViewModels.KickoffIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">開案單維護</a></li>
+    <li class="active">列表頁</li>
+</ol>
+
+<h2>開案單維護</h2>
+
+@using (Html.BeginForm("Index", "Kickoff", FormMethod.Post, new { id = "searchForm" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label>輸入RDR#:</label>
+            @Html.TextBox("search_RDRNo")
+            <button type="submit" class="btn btn-primary">搜 尋</button>
+        </div>
+    </div>
+}
+
+
+<div>
+    <table class="table table-hover">
+        <tr>
+            <th>RDR#</th>
+            <th>專案名稱</th>
+            <th>客戶群</th>
+            <th>單據狀態</th>
+            <th>管理</th>
+        </tr>
+        @if (Model.ID != 0)
+        {
+            <tr>
+                <td>@Model.RDRNumber</td>
+                <td>@Model.ProjectName</td>
+                <td>@Model.CustomerTeam</td>
+                <td>@Model._Status</td>
+                <td>
+                    @Html.ActionLink("開案", "Create", new { id = Model.ID })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

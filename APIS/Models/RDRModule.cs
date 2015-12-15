@@ -18,18 +18,17 @@ namespace APIS.Models
         public int ParentID { get; set; }
         public string RDRNumber { get; set; }
         public string ModuleName { get; set; }
+        public string CustomerBOM { get; set; }
         public int ProductGroupID { get; set; }
         public int CustomerID { get; set; }
         public string EstimateProduct { get; set; }
         public string Attachment { get; set; }
         public string Remark { get; set; }
         public int ModuleVersion { get; set; }
-        public System.DateTime CreateTime { get; set; }
         public Nullable<bool> IsAwarded { get; set; }
         public Nullable<decimal> Price { get; set; }
-        public Nullable<bool> IsFail { get; set; }
         public string Reason { get; set; }
         public bool IsDelete { get; set; }
-        public string CustomerBOM { get; set; }
+        public System.DateTime CreateTime { get; set; }
     }
 }

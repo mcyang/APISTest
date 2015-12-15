@@ -9,8 +9,6 @@
         <EntityTypeShape EntityType="JohnTestModel.Team" Width="1.5" PointX="5.625" PointY="0.75" />
         <EntityTypeShape EntityType="JohnTestModel.Customer" Width="1.5" PointX="4" PointY="0.75" />
         <EntityTypeShape EntityType="JohnTestModel.ProductGroup" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="JohnTestModel.RDRModule" Width="1.5" PointX="7.375" PointY="3.75" />
-        <EntityTypeShape EntityType="JohnTestModel.RDRInformation" Width="1.5" PointX="5.125" PointY="8.25" IsExpanded="false" />
         <EntityTypeShape EntityType="JohnTestModel.CarMaker" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="JohnTestModel.RDRMain" Width="1.5" PointX="3.375" PointY="3.75" />
         <EntityTypeShape EntityType="JohnTestModel.Kickoff" Width="1.5" PointX="9.375" PointY="3.75" />
@@ -18,6 +16,8 @@
         <EntityTypeShape EntityType="JohnTestModel.RDRModuleTemp" Width="1.5" PointX="9.375" PointY="8.75" />
         <EntityTypeShape EntityType="JohnTestModel.CustomerTeam" Width="1.5" PointX="11.375" PointY="7.75" />
         <EntityTypeShape EntityType="JohnTestModel.UploadFile" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="JohnTestModel.RDRInformation" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="JohnTestModel.RDRModule" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -49,6 +49,7 @@ namespace APIS.Models
         public bool IsProductHourCost { get; set; }
         public bool IsTestHourCost { get; set; }
         public bool IsSamplePrice { get; set; }
+        public Nullable<decimal> Times { get; set; }
         public bool IsModuleFee { get; set; }
         public bool IsSampleFee { get; set; }
         public bool IsHandMoldingFee { get; set; }

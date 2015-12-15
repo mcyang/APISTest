@@ -284,6 +284,7 @@
                     <label class="radio-inline">
                         @Html.RadioButtonFor(model => model.rdrInfo.IsSamplePrice, true, new { id = "IsSamplePrice_Y", name = "IsSamplePrice" }) YES
                     </label>
+                    <label class="radio-inline" style="display: none" id="lable_times">@Html.EditorFor(m => m.rdrInfo.Times, new { htmlAttributes = new { style = "width: 50px" } })倍數</label>
                 </td>
             </tr>
             <tr>
@@ -313,7 +314,7 @@
                 </td>
             </tr>
             <tr>
-                <th>報價排除項目</th>
+                <th>備註</th>
                 <td>@Html.TextAreaFor(model => model.rdrInfo.TxtOthers_3, new { htmlAttributes = new { @class = "form-control" }, cols = 60, rows = 3, placeHolder = "報價排除項目" })</td>
             </tr>
         </table>
@@ -372,6 +373,23 @@
 @section scripts{
     <script>
         $('#rdrInfo_ID').val(@id);
-        @*$('#rdrInfo_ParentID').val(@parent_id);*@
+        
+        $(function () {
+            var times = $('#rdrInfo.Times').val();
+            if (times != '') {
+                $('#lable_times').show();
+            }
+        });
+
+
+        $('#IsSamplePrice_Y').change(function () {
+            $('#lable_times').show();
+        });
+
+        $('#IsSamplePrice_N').change(function () {
+            $('#rdrInfo_Times').val('');
+            $('#lable_times').hide();
+        });
+
     </script>
 }
