@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using APIS.Models;
 using APIS.ViewModels;
+using Microsoft.Reporting.WebForms;
 
 namespace APIS.Controllers
 {
@@ -48,7 +49,32 @@ namespace APIS.Controllers
                 {
                     return View(query);
                 }
+                else
+                {
+                    return ShowMsgThenRedirect("Error! 找不到此單號/RDR單據內容不完整，無法開案", Url.Action("Index"));
+                }
             }
+            return View(viewModel);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">開案單ID</param>
+        /// <returns></returns>
+        public ActionResult List(int id)
+        {
+            Kickoff kick = db.Kickoffs.FirstOrDefault(m => m.ID == id);
+
+            KickoffListViewModel viewModel = (from k in db.Kickoffs.Where(m => m.ID == id)
+                                              join main in db.RDRMains on kick.ParentID equals main.ID
+                                              select new KickoffListViewModel
+                                              {
+                                                  ID = k.ID,
+                                                  RDRNumber = k.KickoffNumber,
+                                                  ProjectName = main.ProjectName,
+                                              }).FirstOrDefault();
+            
             return View(viewModel);
         }
 
@@ -56,21 +82,32 @@ namespace APIS.Controllers
         [HttpGet]
         public ActionResult Create(int id)
         {
-            //撈RDR主表資料、RDR其他資訊(db.RDRMain join CarMaker join RDRInfomation)
-            KickoffCreateViewModel viewModel = (from main in db.RDRMains
-                                                join car in db.CarMakers on main.CarMakerID equals car.ID
-                                                join infos in db.RDRInformations on main.ID equals infos.ParentID
-                                                where main.ID == id
-                                                select new KickoffCreateViewModel
-                                                {
-                                                    rdrMain = main,
-                                                    rdrInfo = infos,
-                                                    CarMakerName = car.Name
-                                                }).SingleOrDefault();
+            KickoffCreateViewModel viewModel = new KickoffCreateViewModel();
 
-            //撈RDRModule
-            viewModel.rdrModuleList = db.RDRModules.Where(p => p.ParentID == id).ToList();
+            //判斷是否已開案
+            Kickoff ki = db.Kickoffs.FirstOrDefault(m => m.ParentID == id);
+            if (ki != null)
+            {
+                return ShowMsgThenRedirect("此單已開案", Url.Action("Index"));
+            }
 
+            if (ki == null)
+            {
+                //撈RDR主表資料、RDR其他資訊(db.RDRMain join CarMaker join RDRInfomation)
+                viewModel = (from main in db.RDRMains
+                             join car in db.CarMakers on main.CarMakerID equals car.ID
+                             join infos in db.RDRInformations on main.ID equals infos.ParentID
+                             where main.ID == id
+                             select new KickoffCreateViewModel
+                             {
+                                 rdrMain = main,
+                                 rdrInfo = infos,
+                                 CarMakerName = car.Name
+                             }).SingleOrDefault();
+
+                //撈RDRModule
+                viewModel.rdrModuleList = db.RDRModules.Where(p => p.ParentID == id).ToList();
+            }
             return View(viewModel);
         }
 
@@ -164,7 +201,7 @@ namespace APIS.Controllers
             //最後如果全都完成,記得回RDRMain修改 Status=2 (Kickoff)
             if (IsModuleOK && IsInfoOK && IsKickoffOK && IsKickoffDetailsOK)
             {
-                return ShowMsgThenRedirect("新增成功", Url.Action("List", "Kickoff"));
+                return ShowMsgThenRedirect("新增成功", Url.Action("List", "Kickoff", new { id = kickoffID }));
             }
 
             return View(viewModel);
@@ -173,7 +210,11 @@ namespace APIS.Controllers
         #endregion
 
         #region 檢視開案單
+        public ActionResult Details()
+        {
 
+            return View();
+        }
         #endregion
 
         #region 修改開案單
@@ -189,9 +230,90 @@ namespace APIS.Controllers
         /// 列印開案單
         /// </summary>
         /// <returns></returns>
-        public ActionResult Print()
+        public ActionResult Print(int id, string format = "pdf")
         {
-            return View();
+            Kickoff ki = db.Kickoffs.FirstOrDefault(m => m.ID == id);
+
+            #region 報表資料來源
+            //1.RDRMain
+            List<RDRMainReportViewModel> mainReport = (from main in db.RDRMains.Where(m => m.ID == ki.ParentID)
+                                                join car in db.CarMakers on main.CarMakerID equals car.ID
+                                                select new RDRMainReportViewModel { rdrMain = main, CarMakerName = car.Name }).ToList();
+
+            //2.RDRModule
+            List<RDRModuleReportViewModel> modulesList = (from module in db.RDRModules.Where(m => m.ParentID == ki.ParentID)
+                                                          join customer in db.Customers on module.CustomerID equals customer.ID
+                                                          join productGroup in db.ProductGroups on module.ProductGroupID equals productGroup.ID
+                                                          join main in db.RDRMains on module.ParentID equals main.ID
+                                                          select new RDRModuleReportViewModel { rdrModule = module, CustomerName = customer.Name, ProductGroupName = productGroup.Name }).ToList();
+
+            //3.RDRInformation
+            List<RDRInfoReportViewModel> infoReport = (from info in db.RDRInformations.Where(x => x.ParentID == ki.ParentID)
+                                                     select new RDRInfoReportViewModel { rdrInfo = info }).ToList();
+
+
+            //4.Kickoff
+            List<KickoffReportViewModel> kickofReport = (from kick in db.Kickoffs.Where(m => m.ID == ki.ID)
+                                                   select new KickoffReportViewModel { kickoff = kick }).ToList();
+
+            //5.KickoffDetails
+            List<KickoffDetailsReportViewModel> kickoffDetailsList = (from detail in db.KickoffDetails.Where(m => m.ParentID == ki.ID)
+                                                                      select new KickoffDetailsReportViewModel { kickDetail = detail }).ToList();
+            #endregion
+
+            try
+            {
+                // Set report info
+                LocalReport localReport = new LocalReport();
+                localReport.ReportPath = Server.MapPath("~/Reports/AwardedReport/AwardedRpt.rdlc");
+                localReport.DataSources.Add(new ReportDataSource("DS_RDRMain", mainReport));
+                localReport.DataSources.Add(new ReportDataSource("DS_RDRModule", modulesList));
+                localReport.DataSources.Add(new ReportDataSource("DS_RDRInfo", infoReport));
+                localReport.DataSources.Add(new ReportDataSource("DS_Kickoff", kickofReport));
+                localReport.DataSources.Add(new ReportDataSource("DS_KickoffDetails", kickoffDetailsList));
+                //rw.ReportParameters.Add(new ReportParameter("param", list[0].EstimateProduct));
+
+                // 定義報表格式, ex.檔案類型、輸出格式(A4、邊界...)
+                string reportType = ReportType.PDF.ToString();
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                //The DeviceInfo settings should be changed based on the reportType
+                //http://msdn2.microsoft.com/en-us/library/ms155397.aspx
+                string deviceInfo =
+                "<DeviceInfo>" +
+                "  <OutputFormat>" + reportType + "</OutputFormat>" +
+                "  <PageWidth>8.27in</PageWidth>" +
+                "  <PageHeight>11.69in</PageHeight>" +
+                "  <MarginTop>0.3937in</MarginTop>" +
+                "  <MarginLeft>0.3937in</MarginLeft>" +
+                "  <MarginRight>0.3937in</MarginRight>" +
+                "  <MarginBottom>0.3937in</MarginBottom>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                //Render the report
+                renderedBytes = localReport.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                // 以匯出檔案串流方式輸出
+                return File(renderedBytes, mimeType, string.Format("{0}.{1}", Server.UrlPathEncode("Kickoff"), fileNameExtension));
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+                return Content("下載失敗!");
+            }
         }
         #endregion
 

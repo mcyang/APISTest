@@ -535,7 +535,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>鄭海土</Value>
+                    <Value>=First(Fields!CreateUserID.Value, "DS_RDRMain")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -2135,7 +2135,6 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox248</rd:DefaultName>
-            <Left>0cm</Left>
             <Height>0.6cm</Height>
             <Width>18.9cm</Width>
             <Style>
@@ -2169,7 +2168,6 @@
             </Paragraphs>
             <rd:DefaultName>Textbox260</rd:DefaultName>
             <Top>0.6cm</Top>
-            <Left>0cm</Left>
             <Height>1.2cm</Height>
             <Width>3cm</Width>
             <ZIndex>1</ZIndex>
@@ -2191,8 +2189,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>不需要</Value>
-                    <Style />
+                    <Value>=IIf(First(Fields!IsReliabilityTest.Value = False, "DS_Kickoff"), ChrW(9745)+"不需要", ChrW(9744)+"不需要")</Value>
+                    <Style>
+                      <FontFamily>Arial Unicode MS</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -2221,8 +2221,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>需要</Value>
-                    <Style />
+                    <Value>=IIf(First(Fields!IsReliabilityTest.Value = true, "DS_Kickoff"), ChrW(9745)+"需要", ChrW(9744)+"需要")</Value>
+                    <Style>
+                      <FontFamily>Arial Unicode MS</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -2342,7 +2344,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value />
+                        <Value>=First(Fields!Level.Value, "DS_Kickoff")</Value>
                         <Style />
                       </TextRun>
                     </TextRuns>
@@ -2371,8 +2373,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>客戶版文件表單</Value>
-                        <Style />
+                        <Value>=IIf(First(Fields!IsCustomerDocForm.Value, "DS_Kickoff"), ChrW(&amp;H2611) ,ChrW(&amp;H2610)) + "客戶版文件表單"</Value>
+                        <Style>
+                          <FontFamily>Arial Unicode MS</FontFamily>
+                        </Style>
                       </TextRun>
                     </TextRuns>
                     <Style />
@@ -2400,8 +2404,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>LiteOn版文件表單</Value>
-                        <Style />
+                        <Value>=IIf(First(Fields!IsLiteonDocForm.Value, "DS_Kickoff"), ChrW(&amp;H2611) ,ChrW(&amp;H2610)) + "LiteOn版文件表單"</Value>
+                        <Style>
+                          <FontFamily>Arial Unicode MS</FontFamily>
+                        </Style>
                       </TextRun>
                     </TextRuns>
                     <Style />
@@ -2429,8 +2435,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>PPAP</Value>
-                        <Style />
+                        <Value>=IIf(First(Fields!IsPPAP.Value, "DS_Kickoff"), ChrW(&amp;H2611) ,ChrW(&amp;H2610)) + "PPAP"</Value>
+                        <Style>
+                          <FontFamily>Arial Unicode MS</FontFamily>
+                        </Style>
                       </TextRun>
                     </TextRuns>
                     <Style />
@@ -2458,8 +2466,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>LiteOn版文件表單</Value>
-                        <Style />
+                        <Value>=IIf(First(Fields!IsLiteonConFirm.Value, "DS_Kickoff"), ChrW(&amp;H2611) ,ChrW(&amp;H2610)) + "Liteon認可單客戶簽回"</Value>
+                        <Style>
+                          <FontFamily>Arial Unicode MS</FontFamily>
+                        </Style>
                       </TextRun>
                     </TextRuns>
                     <Style />
@@ -2488,8 +2498,10 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>客戶 Email / 文件通知認可</Value>
-                        <Style />
+                        <Value>=IIf(First(Fields!IsCustomerConFirm.Value, "DS_Kickoff"), ChrW(&amp;H2611) ,ChrW(&amp;H2610)) + "客戶Email/文件通知認可"</Value>
+                        <Style>
+                          <FontFamily>Arial Unicode MS</FontFamily>
+                        </Style>
                       </TextRun>
                     </TextRuns>
                     <Style />
@@ -2514,7 +2526,6 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Top>1.8cm</Top>
-            <Left>0cm</Left>
             <Height>1.8cm</Height>
             <Width>18.9cm</Width>
             <ZIndex>5</ZIndex>
@@ -2573,7 +2584,7 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Tablix Name="Tablix3">
+          <Tablix Name="Tablix5">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
@@ -2589,16 +2600,16 @@
                   <Width>3.78066cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>6.33066cm</Width>
+                  <Width>6.33083cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.57517cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox249">
+                        <Textbox Name="Textbox104">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2612,7 +2623,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox249</rd:DefaultName>
+                          <rd:DefaultName>Textbox104</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2627,21 +2638,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox251">
+                        <Textbox Name="Textbox106">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Stage</Value>
+                                  <Value>階段</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox251</rd:DefaultName>
+                          <rd:DefaultName>Textbox106</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2656,7 +2667,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox253">
+                        <Textbox Name="Textbox112">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -2670,7 +2681,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox253</rd:DefaultName>
+                          <rd:DefaultName>Textbox112</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2685,21 +2696,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox255">
+                        <Textbox Name="Textbox108">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>數量(pcs)</Value>
+                                  <Value>數量(K Pcs/Y)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox255</rd:DefaultName>
+                          <rd:DefaultName>Textbox108</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2714,21 +2725,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox257">
+                        <Textbox Name="Textbox110">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>用途</Value>
+                                  <Value>用途描述</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox257</rd:DefaultName>
+                          <rd:DefaultName>Textbox110</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2744,29 +2755,32 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.57517cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID7">
+                        <Textbox Name="Textbox105">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=RowNumber("DS_KickoffDetails")</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID7</rd:DefaultName>
+                          <rd:DefaultName>Textbox105</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -2777,25 +2791,28 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID8">
+                        <Textbox Name="Stage">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!Stage.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID8</rd:DefaultName>
+                          <rd:DefaultName>Stage</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -2806,25 +2823,28 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID9">
+                        <Textbox Name="RequireDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!RequireDate.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID9</rd:DefaultName>
+                          <rd:DefaultName>RequireDate</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -2835,25 +2855,28 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID10">
+                        <Textbox Name="Quantity">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!Quantity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID10</rd:DefaultName>
+                          <rd:DefaultName>Quantity</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -2864,25 +2887,28 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID11">
+                        <Textbox Name="Description">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!Description.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID11</rd:DefaultName>
+                          <rd:DefaultName>Description</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -2910,18 +2936,18 @@
                   <KeepWithGroup>After</KeepWithGroup>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="詳細資料1" />
+                  <Group Name="詳細資料" />
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>DS_RDRMain</DataSetName>
+            <DataSetName>DS_KickoffDetails</DataSetName>
             <Top>0.6cm</Top>
-            <Height>1.2cm</Height>
-            <Width>18.9cm</Width>
+            <Height>1.15034cm</Height>
+            <Width>18.90019cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
-                <Style>None</Style>
+                <Style>Solid</Style>
               </Border>
             </Style>
           </Tablix>
@@ -2929,7 +2955,7 @@
         <KeepTogether>true</KeepTogether>
         <Top>11.16439cm</Top>
         <Height>1.8cm</Height>
-        <Width>18.9cm</Width>
+        <Width>18.90019cm</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -4239,8 +4265,6 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox57</rd:DefaultName>
-            <Top>0cm</Top>
-            <Left>0.00019cm</Left>
             <Height>0.6cm</Height>
             <Width>18.9cm</Width>
             <Style>
@@ -4256,29 +4280,29 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Tablix Name="Tablix2">
+          <Tablix Name="Tablix4">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.22719cm</Width>
+                  <Width>3.39958cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.10766cm</Width>
+                  <Width>3.32cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.03011cm</Width>
+                  <Width>3.40019cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.56506cm</Width>
+                  <Width>1.72375cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.74719cm</Width>
+                  <Width>2.02042cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.25469cm</Width>
+                  <Width>1.28cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>5.96811cm</Width>
+                  <Width>3.75606cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4287,25 +4311,38 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox234">
+                        <Textbox Name="Textbox7">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Index</Value>
+                                  <Value>RDR＃</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox234</rd:DefaultName>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4316,7 +4353,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox236">
+                        <Textbox Name="Textbox45">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4330,11 +4367,24 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox236</rd:DefaultName>
+                          <rd:DefaultName>Textbox45</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4345,7 +4395,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox238">
+                        <Textbox Name="Textbox56">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4359,11 +4409,24 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox238</rd:DefaultName>
+                          <rd:DefaultName>Textbox56</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4374,7 +4437,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox240">
+                        <Textbox Name="Textbox96">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4388,11 +4451,24 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox240</rd:DefaultName>
+                          <rd:DefaultName>Textbox96</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4403,7 +4479,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox242">
+                        <Textbox Name="Textbox98">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4417,11 +4493,24 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox242</rd:DefaultName>
+                          <rd:DefaultName>Textbox98</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4432,7 +4521,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox244">
+                        <Textbox Name="Textbox100">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4446,11 +4535,24 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox244</rd:DefaultName>
+                          <rd:DefaultName>Textbox100</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4461,7 +4563,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox246">
+                        <Textbox Name="Textbox102">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4475,11 +4577,24 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox246</rd:DefaultName>
+                          <rd:DefaultName>Textbox102</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4495,21 +4610,146 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID">
+                        <Textbox Name="RDRModuleNo">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!RDRModuleNo.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID</rd:DefaultName>
+                          <rd:DefaultName>RDRModuleNo</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ModuleName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ModuleName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ModuleName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="EstimateProduct">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!EstimateProduct.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>EstimateProduct</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="IsAwarded">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(Fields!IsAwarded.Value = true, ChrW(9745), ChrW(9744))</Value>
+                                  <Style>
+                                    <FontFamily>Arial Unicode MS</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>IsAwarded</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -4524,21 +4764,64 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID1">
+                        <Textbox Name="Price">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!Price.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID1</rd:DefaultName>
+                          <rd:DefaultName>Price</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>Solid</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="IsAwarded1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf(Fields!IsAwarded.Value = False, ChrW(9745), ChrW(9744))</Value>
+                                  <Style>
+                                    <FontFamily>Arial Unicode MS</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>IsAwarded1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -4553,141 +4836,37 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="ID2">
+                        <Textbox Name="Reason">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
+                                  <Value>=Fields!Reason.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>ID2</rd:DefaultName>
+                          <rd:DefaultName>Reason</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ID3">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ID3</rd:DefaultName>
-                          <Style>
-                            <Border>
+                            <TopBorder>
                               <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ID4">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ID4</rd:DefaultName>
-                          <Style>
-                            <Border>
+                            </TopBorder>
+                            <BottomBorder>
                               <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ID5">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ID5</rd:DefaultName>
-                          <Style>
-                            <Border>
+                            </BottomBorder>
+                            <LeftBorder>
                               <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="ID6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ID.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>ID6</rd:DefaultName>
-                          <Style>
-                            <Border>
+                            </LeftBorder>
+                            <RightBorder>
                               <Style>Solid</Style>
-                            </Border>
+                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4717,13 +4896,12 @@
                   <KeepWithGroup>After</KeepWithGroup>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="詳細資料" />
+                  <Group Name="詳細資料2" />
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>DS_RDRMain</DataSetName>
+            <DataSetName>DS_RDRModule</DataSetName>
             <Top>0.6cm</Top>
-            <Left>0.00019cm</Left>
             <Height>1.2cm</Height>
             <Width>18.9cm</Width>
             <ZIndex>1</ZIndex>
@@ -4737,7 +4915,7 @@
         <KeepTogether>true</KeepTogether>
         <Top>5.82973cm</Top>
         <Height>1.8cm</Height>
-        <Width>18.9cm</Width>
+        <Width>18.92722cm</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -4792,7 +4970,6 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox47</rd:DefaultName>
-            <Top>0cm</Top>
             <Left>2cm</Left>
             <Height>0.6cm</Height>
             <Width>5.65722cm</Width>
@@ -4888,7 +5065,6 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox47</rd:DefaultName>
-            <Top>0cm</Top>
             <Left>7.65722cm</Left>
             <Height>0.6cm</Height>
             <Width>5.63cm</Width>
@@ -4952,7 +5128,6 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox47</rd:DefaultName>
-            <Top>0cm</Top>
             <Left>13.28722cm</Left>
             <Height>0.6cm</Height>
             <Width>5.61278cm</Width>
@@ -5213,7 +5388,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>PKO-15K0501</Value>
+                  <Value>=First(Fields!KickoffNumber.Value, "DS_Kickoff")</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -5273,7 +5448,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>2015-12-02</Value>
+                  <Value>=First(Fields!KickoffDate.Value, "DS_Kickoff")</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
@@ -5355,25 +5530,18 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="RDRDS">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>c2901cea-408f-45b4-9e1a-178d6f03951e</rd:DataSourceID>
-    </DataSource>
     <DataSource Name="KickoffDS">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>69f0df9f-0695-4db2-a04b-de940f0d6646</rd:DataSourceID>
+      <rd:DataSourceID>6d47572e-52ec-43f4-9636-afb2fadfb5e1</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DS_RDRMain">
       <Query>
-        <DataSourceName>RDRDS</DataSourceName>
+        <DataSourceName>KickoffDS</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -5453,11 +5621,71 @@
           <DataField>CreateDate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CreateUserID">
+          <DataField>CreateUserID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>RDRDS</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\johnjyyang\Documents\Visual Studio 2015\Projects\APIS\APIS\Reports\RdrReport\RDRDS.xsd</rd:SchemaPath>
+        <rd:DataSetName>KickoffDS</rd:DataSetName>
+        <rd:SchemaPath>D:\CodeProject\APIS\開發區\03系統實作\PJ1501\APIS\APIS\Reports\AwardedReport\KickoffDS.xsd</rd:SchemaPath>
         <rd:TableName>RDRMain</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DS_RDRModule">
+      <Query>
+        <DataSourceName>KickoffDS</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RDRModuleNo">
+          <DataField>RDRModuleNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ModuleName">
+          <DataField>ModuleName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProductGroupName">
+          <DataField>ProductGroupName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerName">
+          <DataField>CustomerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Remark">
+          <DataField>Remark</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IsAwarded">
+          <DataField>IsAwarded</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Price">
+          <DataField>Price</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Reason">
+          <DataField>Reason</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EstimateProduct">
+          <DataField>EstimateProduct</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KickoffDS</rd:DataSetName>
+        <rd:SchemaPath>D:\CodeProject\APIS\開發區\03系統實作\PJ1501\APIS\APIS\Reports\AwardedReport\KickoffDS.xsd</rd:SchemaPath>
+        <rd:TableName>RDRModule</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />
@@ -5688,8 +5916,100 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>KickoffDS</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\johnjyyang\Documents\Visual Studio 2015\Projects\APIS\APIS\Reports\AwardedReport\KickoffDS.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\CodeProject\APIS\開發區\03系統實作\PJ1501\APIS\APIS\Reports\AwardedReport\KickoffDS.xsd</rd:SchemaPath>
         <rd:TableName>RDRInfo</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DS_Kickoff">
+      <Query>
+        <DataSourceName>KickoffDS</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="KickoffNumber">
+          <DataField>KickoffNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IsReliabilityTest">
+          <DataField>IsReliabilityTest</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsPPAP">
+          <DataField>IsPPAP</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsCustomerDocForm">
+          <DataField>IsCustomerDocForm</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsLiteonDocForm">
+          <DataField>IsLiteonDocForm</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsLiteonConFirm">
+          <DataField>IsLiteonConFirm</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsCustomerConFirm">
+          <DataField>IsCustomerConFirm</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Level">
+          <DataField>Level</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="KickoffDate">
+          <DataField>KickoffDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ModifyTime">
+          <DataField>ModifyTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KickoffDS</rd:DataSetName>
+        <rd:SchemaPath>D:\CodeProject\APIS\開發區\03系統實作\PJ1501\APIS\APIS\Reports\AwardedReport\KickoffDS.xsd</rd:SchemaPath>
+        <rd:TableName>Kickoff</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DS_KickoffDetails">
+      <Query>
+        <DataSourceName>KickoffDS</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Stage">
+          <DataField>Stage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequireDate">
+          <DataField>RequireDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>KickoffDS</rd:DataSetName>
+        <rd:SchemaPath>D:\CodeProject\APIS\開發區\03系統實作\PJ1501\APIS\APIS\Reports\AwardedReport\KickoffDS.xsd</rd:SchemaPath>
+        <rd:TableName>KickoffDetail</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
         <rd:TableAdapterName />

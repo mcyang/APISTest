@@ -115,29 +115,34 @@
                 <td colspan="8" style="background-color:greenyellow; font-size:larger; font-weight:bold; ">Module 明細</td>
             </tr>
             <tr>
+                <th>項目</th>
                 <th>RDR#</th>
                 <th>Module</th>
                 <th>產品別</th>
                 <th>交貨地</th>
                 <th>預估年產量</th>
-                <th>附件</th>
+                @*<th>附件</th>*@
                 <th>備註</th>
-                <th></th>
+                <th style="width:140px;text-align:center">管理</th>
             </tr>
 
             @foreach (var item in Model.rdrModuleList)
             {
+                var index = Model.rdrModuleList.IndexOf(item);
+                index++;
                 <tr>
+                    <td>@index</td>
                     <td>@item.RDRNumber</td>
                     <td>@item.ModuleName</td>
                     <td>@item.ProductGroupName</td>
                     <td>@item.CustomerName</td>
                     <td>@Html.Raw(item._EstimateProduct)</td>
-                    <td>@item.Attachment</td>
+                    @*<td>@item.Attachment</td>*@
                     <td>@item.Remark</td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", "RDRModules", new { id = item.ID }, null) |
-                        @Html.ActionLink("Delete", "DeleteFromRDRManageDetails", "RDRModules", new { id = item.ID, parentID = item.ParentID }, new { @onclick = "return Confirm_Form()" })
+                        @Html.ActionLink("Delete", "DeleteFromRDRManageDetails", "RDRModules", new { id = item.ID, parentID = item.ParentID }, new { @onclick = "return Confirm_Form()" }) |
+                        @Html.ActionLink("進版","Upgrade", "RDRModules", new { id = item.ID }, null)
                     </td>
                 </tr>
             }

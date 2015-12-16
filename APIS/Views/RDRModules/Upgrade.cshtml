@@ -1,7 +1,7 @@
 ﻿@model APIS.ViewModels.RDRModuleEditViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Upgrade";
 
     int StartYear = int.Parse(ViewData["StartYear"].ToString());
     int EndYear = int.Parse(ViewData["EndYear"].ToString());
@@ -15,9 +15,9 @@
 </ol>
 
 
-<h3>編輯機種資料</h3>
+<h3>機種進版資料</h3>
 <div>
-    @using (Html.BeginForm("Edit","RDRModules", FormMethod.Post, new { id = "ListForm", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Edit", "RDRModules", FormMethod.Post, new { id = "ListForm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -25,13 +25,11 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(m => m.ID)
             @Html.HiddenFor(m => m.ParentID)
-            @*@Html.HiddenFor(m => m.StartYear)
-            @Html.HiddenFor(m => m.EndYear)*@
 
             <div class="form-group">
                 @Html.Label("RDR#", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-3">
-                    @Html.DisplayFor(m=>m.RDRNumber)
+                    @Html.DisplayFor(m => m.RDRNumber)
                 </div>
             </div>
 
@@ -61,7 +59,7 @@
             <div class="form-group">
                 <Label class="control-label col-md-2"><span style="color:red;">*</span>交貨地</Label>
                 <div class="col-md-3">
-                   @Html.DisplayFor(m => m.CustomerName)
+                    @Html.DisplayFor(m => m.CustomerName)
                 </div>
             </div>
 
@@ -79,7 +77,7 @@
                             <tr>
                                 <td style="text-align:center" class="myyears">@idx.ToString()</td>
                                 <td style="text-align:center">
-                                    @Html.TextBox("Index_" + idx.ToString(), Model.Estimate[i] , new { id = "Index_" + idx.ToString(), @class = "myestimate" }) K Pcs/Y
+                                    @Html.TextBox("Index_" + idx.ToString(), Model.Estimate[i], new { id = "Index_" + idx.ToString(), @class = "myestimate" }) K Pcs/Y
                                     @Html.ValidationMessageFor(model => model.Estimate[i], "", new { @class = "text-danger" })
                                 </td>
                             </tr>
@@ -92,7 +90,7 @@
             <div class="form-group">
                 @Html.Label("附件", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
-                    @Html.ActionLink("附件資訊","List","UploadFiles", new { id = Model.ID}, new {@class = "BtnUpload fancybox.iframe" })
+                    @Html.ActionLink("附件資訊", "List", "UploadFiles", new { id = Model.ID }, new { @class = "BtnUpload fancybox.iframe" })
                 </div>
             </div>
 
@@ -107,7 +105,7 @@
 
         <div class="row">
             <div class="col-md-1">
-                @Html.ActionLink("返 回", "Details", "RDRManage", new {  id = Model.ParentID }, new { @class = "btn btn-info" })
+                @Html.ActionLink("返 回", "Details", "RDRManage", new { id = Model.ParentID }, new { @class = "btn btn-info" })
             </div>
             <div class="col-md-1">
                 <div>
@@ -117,6 +115,7 @@
         </div>
     }
 </div>
+
 
 @section scripts
 {
@@ -144,7 +143,7 @@
             });
 
             function deleteCompleted() {
-                alert("幹");
+                //alert("幹");
                 // Reload page
                 window.location.reload();
             }

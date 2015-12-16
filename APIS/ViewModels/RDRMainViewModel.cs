@@ -284,5 +284,9 @@ namespace APIS.ViewModels
         {
             get { return string.Format("{0:yyyy-MM-dd}", rdrMain.CreateTime); }
         }
+        public string CreateUserID
+        {
+            get { return rdrMain.CreateUserID; }
+        }
     }
 }

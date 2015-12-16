@@ -19,21 +19,10 @@ namespace APIS.Controllers
 
         #region 列表頁
         //目前沒用到
-        public ActionResult Index()
-        {
-            return View(db.RDRModules.ToList());
-        }
-
-        /// <summary>
-        /// 顯示新增的機種資料
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        //目前沒用到
-        public ActionResult ShowModuleList(int id)
-        {
-            return View(db.RDRModules.Where(m => m.ParentID == id).ToList());
-        } 
+        //public ActionResult Index()
+        //{
+        //    return View(db.RDRModules.ToList());
+        //}
         #endregion
 
 
@@ -486,7 +475,7 @@ namespace APIS.Controllers
         }
 
         /// <summary>
-        /// 
+        /// POST:編輯機種
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="file"></param>
@@ -657,6 +646,73 @@ namespace APIS.Controllers
         #endregion
 
 
+        #region 進版
+
+        /// <summary>
+        /// 進版
+        /// </summary>
+        /// <param name="id">RDRModule.ID</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Upgrade(int id)
+        {
+            RDRModule rdrmodule = db.RDRModules.FirstOrDefault(m => m.ID == id);
+
+            //搜尋DB相似的RDRNumber & 取出目前尾碼最大碼
+            var lastChar = rdrmodule.RDRNumber.Substring(rdrmodule.RDRNumber.Length - 1, 1); //取RDRNumber最後一碼
+            var partString = rdrmodule.RDRNumber.Substring(0, rdrmodule.RDRNumber.Length - 2); //移除RDRNumber最後一碼
+
+            var allChar = (from c in db.RDRModules
+                           where c.RDRNumber.Contains(partString)
+                           orderby c.RDRNumber
+                           select new
+                           {
+                               c.RDRNumber,
+                           }).ToList();
+            
+            List<int> LastCodeList = new List<int>();
+            foreach (var item in allChar)
+            {
+                string str_last = item.RDRNumber.Substring(rdrmodule.RDRNumber.Length - 1, 1);
+                int i_last = int.Parse(str_last);
+                LastCodeList.Add(i_last);
+            }
+            int currentMax = LastCodeList.Max();
+            int futureMax = currentMax + 1;
+
+            //複製&新增
+            int newModuleID = 0;
+            try
+            {
+                RDRModule newModule = new RDRModule();
+                newModule.ParentID = rdrmodule.ParentID;
+                newModule.RDRNumber = partString + "." + futureMax.ToString();
+                newModule.ModuleName = rdrmodule.ModuleName;
+                newModule.CustomerBOM = rdrmodule.CustomerBOM;
+                newModule.ProductGroupID = rdrmodule.ProductGroupID;
+                newModule.CustomerID = rdrmodule.CustomerID;
+                newModule.EstimateProduct = rdrmodule.EstimateProduct;
+                newModule.Remark = rdrmodule.Remark;
+                newModule.CreateTime = DateTime.Now;
+
+                db.RDRModules.Add(newModule);
+                db.SaveChanges();
+
+                newModuleID = newModule.ID;
+                return RedirectToAction("Edit", new { id = newModuleID });
+
+            }
+            catch (Exception ex)
+            {
+                
+            }
+           
+            return View();
+        }
+        
+        #endregion
+
+
         #region 回收連線資源
         protected override void Dispose(bool disposing)
         {
@@ -667,11 +723,6 @@ namespace APIS.Controllers
             base.Dispose(disposing);
         }
         #endregion
-
-        public ActionResult Main()
-        {
-            return View();
-        }
 
         /// <summary>
         /// RDRNumber 編碼方法
@@ -734,7 +785,7 @@ namespace APIS.Controllers
             if (file != null && file.ContentLength > 0)
             {
                 int MaxContentLength = 1024 * 1024 * 3; //上傳上限: 3 MB
-                string[] AllowedFileExtensions = new string[] { ".jpg", ".gif", ".png", ".pdf" }; //限定檔案格式
+                string[] AllowedFileExtensions = new string[] { ".jpg", ".gif", ".png", ".pdf", ".zip", ".rar" }; //限定檔案格式
                 if (!AllowedFileExtensions.Contains(file.FileName.Substring(file.FileName.LastIndexOf('.'))))
                 {
                     ModelState.AddModelError("File", "Please file of type: " + string.Join(", ", AllowedFileExtensions));

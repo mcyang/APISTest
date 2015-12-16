@@ -129,10 +129,10 @@
     }
 </div>
 <hr style="width: 100%; color:lightsteelblue; height: 2px; background-color:lightsteelblue;" />
+
 <div id="PartialModuleTemp">
     @{ Html.RenderPartial("_MyPartialView", Model.rdrModuleList.Where(m=>m.ParentID == Model.ParentID).ToList()); }  @*Model.RDRModuleTempList*@
 </div>
-
 <div class="form-horizontal">
     @Html.ActionLink("下一步", "Details", "RDRManage", new { id = Model.ParentID }, new { @class = "btn btn-success" })
 </div>

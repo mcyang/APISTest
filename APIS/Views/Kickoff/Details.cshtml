@@ -1,0 +1,264 @@
+﻿@model APIS.ViewModels.KickoffCreateViewModel
+
+@{
+    ViewBag.Title = "Details";
+    var idx = ViewContext.RouteData.Values["id"];
+}
+
+<ol class="breadcrumb">
+    <li><a href="#">MKT管理</a></li>
+    <li><a href="#">開案單維護</a></li>
+    <li class="active">明細頁</li>
+</ol>
+
+<h2>開案單明細</h2>
+
+<p>@Html.ActionLink("列 印", "BrowseReport", "Kickoff", new { id = idx }, new { @class = "btn btn-primary", target = "_blank" })</p>
+<dl class="dl-horizontal">
+    <dt style="background:#5f9be3; color:#fff; float:left; font-weight:bold; margin-right:10px; padding:5px; width:150px; ">Kickoff 召開日期：</dt>
+    <dd style="margin:2px 0; padding:5px 0;">@Html.EditorFor(m => m.kickoff.KickoffDate)</dd>
+</dl>
+
+<table class="table table-bordered">
+    <tr>
+        <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案基本資料</td>
+    </tr>
+    <tr>
+        <th class="col-md-2">RDR#</th>
+        <td class="col-md-3">
+            @Html.DisplayFor(m => m.rdrMain.RDRNumber)
+            @Html.HiddenFor(m => m.rdrMain.ID)
+            @Html.HiddenFor(m => m.rdrMain.RDRNumber)
+        </td>
+
+        <th class="col-md-1">客戶群</th>
+        <td class="col-md-2">
+            @Html.DisplayFor(m => m.rdrMain.CustomerTeamCode)
+            @Html.HiddenFor(m => m.rdrMain.CustomerTeamID)
+            @Html.HiddenFor(m => m.rdrMain.CustomerTeamCode)
+        </td>
+
+        <th class="col-md-2">業務</th>
+        <td class="col-md-3">
+            @Html.DisplayFor(m => m.rdrMain.CreateUserID)
+            @Html.HiddenFor(m => m.rdrMain.CreateUserID)
+        </td>
+    </tr>
+    <tr>
+        <th>專案名稱</th>
+        <td>
+            @Html.DisplayFor(m => m.rdrMain.ProjectName)
+            @Html.HiddenFor(m => m.rdrMain.ProjectName)
+        </td>
+        <th>LOB</th>
+        <td>
+            @Html.DisplayFor(m => m.rdrMain.LOB)
+            @Html.HiddenFor(m => m.rdrMain.LOB)
+        </td>
+        <th>量產地</th>
+        <td>
+            @Html.DisplayFor(m => m.rdrMain.Site)
+            @Html.HiddenFor(m => m.rdrMain.Site)
+        </td>
+    </tr>
+    <tr>
+        <th>車廠</th>
+        <td>
+            @Html.DisplayFor(m => m.CarMakerName)
+            @Html.HiddenFor(m => m.rdrMain.CarMakerID)
+        </td>
+
+        <th>車型</th>
+        <td>
+            @Html.DisplayFor(m => m.rdrMain.CarModel)
+            @Html.HiddenFor(m => m.rdrMain.CarModel)
+        </td>
+
+        <th>車型預估年銷售量</th>
+        <td>
+            @Html.DisplayFor(m => m.rdrMain.EstimateSales)
+            @Html.HiddenFor(m => m.rdrMain.EstimateSales)
+        </td>
+    </tr>
+    <tr>
+        <th>SOP Date</th>
+        <td>
+            @Html.DisplayFor(m => m._SOPDate)
+            @Html.HiddenFor(m => m.rdrMain.SOPDate)
+        </td>
+
+        <th>EOL Date</th>
+        <td>
+            @Html.DisplayFor(m => m._EOLDate)
+            @Html.HiddenFor(m => m.rdrMain.EOLDate)
+        </td>
+        <th>預估年營業額</th>
+        <td>
+            @Html.DisplayFor(m => m.EstimateRevenueText)
+            @Html.HiddenFor(m => m.rdrMain.EstimateRevenue)
+        </td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    @Html.HiddenFor(m => m.rdrInfo.ID)
+    @Html.HiddenFor(m => m.rdrInfo.ParentID)
+    <tr>
+        <td colspan="4" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">專案其他資訊</td>
+    </tr>
+    <tr>
+        <th rowspan="4" style="vertical-align:middle">專案類型</th>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsNewProductDev) 新產品開發案
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsODM) 既有平台開發案
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsExtension) 平台延伸機種
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsSoftwareDev) 純軟體開發案
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsSoftwareParam) 純軟體參數調教案
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsInnerTechDev) 內部技術開發案
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsOEM) OEM 代工案
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.rdrInfo.IsProductionTrans) 量產移轉案
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <td colspan="6" style="background-color:yellowgreen; font-size:larger; font-weight:bold; ">報價需求客戶輸入資料</td>
+    </tr>
+    <tr>
+        <th class="col-md-2">規格</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsSpec, true, new { id = "IsSpec_Y", name = "IsSpec", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsSpec, false, new { id = "IsSpec_N", name = "IsSpec", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">GERBER</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsGERBER, true, new { id = "IsGERBER_Y", name = "IsGERBER", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsGERBER, false, new { id = "IsGERBER_N", name = "IsGERBER", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">線材圖面</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsWireDwg, true, new { id = "IsWireDwg_Y", name = "IsWireDwg", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsWireDwg, false, new { id = "IsWireDwg_N", name = "IsWireDwg", disabled = "disabled" }) 無
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <th class="col-md-2">SAMPLE</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsSample, true, new { id = "IsSample_Y", name = "IsSample", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsSample, false, new { id = "IsSample_N", name = "IsSample", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">BOM</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsBOM, true, new { id = "IsBOM_Y", name = "IsBOM", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsBOM, false, new { id = "IsBOM_N", name = "IsBOM", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">組合圖</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsAssemblyDwg, true, new { id = "IsAssemblyDwg_Y", name = "IsAssemblyDwg", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsAssemblyDwg, false, new { id = "IsAssemblyDwg_N", name = "IsAssemblyDwg", disabled = "disabled" }) 無
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <th class="col-md-2">D CHART</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsDChart, true, new { id = "IsDChart_Y", name = "IsDChart", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsDChart, false, new { id = "IsDChart_N", name = "IsDChart", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">CKT</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsCKT, true, new { id = "IsCKT_Y", name = "IsCKT", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsCKT, false, new { id = "IsCKT_N", name = "IsCKT", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">2D圖面</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.Is2D, true, new { id = "Is2D_Y", name = "Is2D", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.Is2D, false, new { id = "Is2D_N", name = "Is2D", disabled = "disabled" }) 無
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <th class="col-md-2">製程要求</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsROHS, true, new { id = "IsROHS", name = "IsROHS", disabled = "disabled" }) ROHS
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsELV, true, new { id = "IsELV", name = "IsELV", disabled = "disabled" }) ELV
+            </label>
+        </td>
+        <th class="col-md-2">VLS配阻</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsVLS, true, new { id = "IsVLS_Y", name = "IsVLS", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.IsVLS, false, new { id = "IsVLS_N", name = "IsVLS", disabled = "disabled" }) 無
+            </label>
+        </td>
+        <th class="col-md-2">3D圖面</th>
+        <td class="col-md-2">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.Is3D, true, new { id = "Is3D_Y", name = "Is3D", disabled = "disabled" }) 有
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(model => model.rdrInfo.Is3D, false, new { id = "Is3D_N", name = "Is3D", disabled = "disabled" }) 無
+            </label>
+        </td>
+    </tr>
+</table>
+

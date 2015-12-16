@@ -320,6 +320,9 @@
     </Compile>
     <Compile Include="Models\_IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\AwardedReport\KickoffDS.cs">
+      <DependentUpon>KickoffDS.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reports\AwardedReport\KickoffDS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -560,6 +563,9 @@
     <Content Include="Views\UploadFiles\Details.cshtml" />
     <Content Include="Views\Kickoff\Create.cshtml" />
     <Content Include="Views\Kickoff\Index.cshtml" />
+    <Content Include="Views\RDRModules\Upgrade.cshtml" />
+    <Content Include="Views\Kickoff\List.cshtml" />
+    <Content Include="Views\Kickoff\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
